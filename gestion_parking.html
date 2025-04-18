@@ -1149,69 +1149,128 @@
 
         // --- Fin: Funciones para Proyección Compuesta ---
 
+//-------------------------------------------------
+//-------------------------------------------------
+     // Función auxiliar para obtener los datos de la previsión simple (Versión Mejorada)
+     function calculateSimpleForecastData() {
+        const incrementRate = (parseFloat(document.getElementById('forecastIncrementRate').value) || 0) / 100;
+        const expenseRate = (parseFloat(document.getElementById('forecastExpenseRate').value) || 0) / 100;
+        const occupancyRate = (parseFloat(document.getElementById('forecastOccupancyRate').value) || 0) / 100;
 
-         // --- Inicio: Funciones Previsión Simple (Usadas por Proyección Compuesta también) ---
-         function calculateSimpleForecastData() {
-            const incrementRate = (parseFloat(document.getElementById('forecastIncrementRate').value) || 0) / 100;
-            const expenseRate = (parseFloat(document.getElementById('forecastExpenseRate').value) || 0) / 100;
-            const occupancyRate = (parseFloat(document.getElementById('forecastOccupancyRate').value) || 0) / 100;
+        if (isNaN(incrementRate) || isNaN(expenseRate) || isNaN(occupancyRate)) {
+            throw new Error("Parámetros de previsión simple inválidos.");
+        }
+        if (parkings.length === 0) {
+            return []; // Devolver array vacío si no hay parkings
+        }
 
-             if (isNaN(incrementRate) || isNaN(expenseRate) || isNaN(occupancyRate)) {
-                 throw new Error("Parámetros de previsión simple inválidos.");
+        // --- Estimación de Gastos Anuales Base (Promedio por Parking Actual TTM) ---
+        const todayForExpenses = new Date();
+        const oneYearAgo = new Date(todayForExpenses);
+        oneYearAgo.setFullYear(todayForExpenses.getFullYear() - 1);
+        oneYearAgo.setHours(0, 0, 0, 0);
+
+        // Filtrar parkings actuales (comprados hoy o antes) para base de gastos
+        const currentParkings = parkings.filter(p => !p.purchaseDate || new Date(p.purchaseDate) <= todayForExpenses);
+        const currentParkingIds = currentParkings.map(p => p.id);
+
+        // Gastos TTM solo de parkings actuales
+        const expenseTransactions = finances.filter(f =>
+            f.type === 'expense' &&
+            f.date &&
+            currentParkingIds.includes(f.parkingId) // <-- Filtro por parkings actuales
+        );
+
+        // Encontrar fecha de inicio para el promedio (TTM o desde primera transacción de estos parkings)
+        const firstExpenseDate = expenseTransactions.length > 0
+            ? new Date(Math.min.apply(null, expenseTransactions.map(f => new Date(f.date))))
+            : null;
+        const startDateForAvg = firstExpenseDate && firstExpenseDate > oneYearAgo ? firstExpenseDate : oneYearAgo;
+
+        // Sumar gastos relevantes TTM de parkings actuales
+        const relevantExpenses = expenseTransactions.filter(f => { try { return new Date(f.date) >= startDateForAvg; } catch(e){ return false;} });
+        let totalRelevantExpenses = relevantExpenses.reduce((sum, f) => sum + (parseFloat(f.amount) || 0), 0);
+
+        let averageAnnualExpensePerCurrentParking = 0;
+        if (relevantExpenses.length > 0 && currentParkings.length > 0) {
+            const months = Math.max(1, (todayForExpenses - startDateForAvg) / (1000 * 60 * 60 * 24 * (365.25 / 12))); // Meses de historia
+            const totalAnnualizedExpenses = (totalRelevantExpenses / months) * 12;
+            averageAnnualExpensePerCurrentParking = totalAnnualizedExpenses / currentParkings.length; // Gasto promedio anual por parking actual
+        }
+         // Fallback si no hay gastos históricos pero sí ingresos
+         else if (currentParkings.length > 0) {
+             let estimatedIncomeCurrentParkings = currentParkings.reduce((sum, p) => sum + (parseFloat(p.price) || 0) * 12 * occupancyRate, 0);
+             if(estimatedIncomeCurrentParkings > 0) {
+                // Estimar gasto como un % del ingreso (ej. 20-30%) si no hay datos
+                averageAnnualExpensePerCurrentParking = (estimatedIncomeCurrentParkings / currentParkings.length) * 0.25; // Ej: 25%
+                showNotification("Estimando gasto anual por parking (25% de ingresos) por falta de historial.", "warning");
              }
-             if (parkings.length === 0) {
-                 //throw new Error("No hay parkings cargados para la previsión simple.");
-                 return []; // Devolver array vacío si no hay parkings
-             }
-
-
-            let potentialAnnualIncome = parkings.reduce((sum, p) => sum + (parseFloat(p.price) || 0) * 12, 0);
-            let currentAnnualIncome = potentialAnnualIncome * occupancyRate;
-
-            // Gastos anuales actuales (basado en promedio TTM del dashboard)
-            const oneYearAgo = new Date(); oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1); oneYearAgo.setHours(0,0,0,0);
-            const expenseTransactions = finances.filter(f => f.type === 'expense' && f.date);
-            const firstExpenseDate = expenseTransactions.length > 0 ? new Date(Math.min.apply(null, expenseTransactions.map(f => new Date(f.date)))) : null;
-            const startDateForAvg = firstExpenseDate && firstExpenseDate > oneYearAgo ? firstExpenseDate : oneYearAgo;
-            const relevantExpenses = expenseTransactions.filter(f => { try { return new Date(f.date) >= startDateForAvg; } catch(e){ return false;} });
-            let totalRelevantExpenses = relevantExpenses.reduce((sum, f) => sum + (parseFloat(f.amount) || 0), 0);
-            let currentAnnualExpenses = 0;
-            if (relevantExpenses.length > 0) {
-                const months = Math.max(1, (new Date() - startDateForAvg) / (1000 * 60 * 60 * 24 * (365.25 / 12))); // Evitar división por cero
-                currentAnnualExpenses = (totalRelevantExpenses / months) * 12;
-            }
-            if (currentAnnualExpenses === 0 && currentAnnualIncome > 0 && finances.length === 0) {
-                currentAnnualExpenses = currentAnnualIncome * 0.3; // Estimación fallback solo si NO hay finanzas
-            }
-
-            const forecastData = [];
-             // Usamos inversión actual para ROI simple, como estaba antes
-            const totalInvestment = parkings.reduce((sum, p) => sum + (parseFloat(p.purchasePrice) || 0), 0);
-
-            let predictedAnnualIncome = currentAnnualIncome;
-            let predictedAnnualExpenses = currentAnnualExpenses;
-            const startYear = new Date().getFullYear();
-
-
-            for (let year = 1; year <= 5; year++) {
-                if (year > 1) {
-                    predictedAnnualIncome *= (1 + incrementRate);
-                    predictedAnnualExpenses *= (1 + expenseRate);
-                }
-                const balance = predictedAnnualIncome - predictedAnnualExpenses;
-                let roi = (totalInvestment > 0) ? (balance / totalInvestment) * 100 : 0;
-
-                forecastData.push({
-                    year: startYear + year -1,
-                    income: predictedAnnualIncome,
-                    expenses: predictedAnnualExpenses,
-                    balance: balance,
-                    roi: isFinite(roi) ? roi : 0
-                });
-            }
-             return forecastData;
          }
+        // --- Fin Estimación Gastos Base ---
 
+
+        const forecastData = [];
+        // Usamos inversión total (incluyendo futuras) para el ROI simple, como antes. Podría ajustarse.
+        const totalInvestmentAllTime = parkings.reduce((sum, p) => sum + (parseFloat(p.purchasePrice) || 0), 0);
+
+        let currentAnnualExpenseEstimate = 0; // Gasto total estimado para el año actual del bucle
+        const startYear = new Date().getFullYear();
+
+        for (let year = 1; year <= 5; year++) {
+            const currentForecastYear = startYear + year - 1;
+            const endOfYear = new Date(currentForecastYear, 11, 31); // Fin del año de previsión
+
+            // a. Calcular Ingresos para el año X
+            let operationalPotentialIncome = 0;
+            let operationalParkingsCount = 0;
+            parkings.forEach(p => {
+                const purchaseDate = p.purchaseDate ? new Date(p.purchaseDate) : null;
+                // Considerar operativo si se compra en CUALQUIER momento del año
+                if (!purchaseDate || purchaseDate <= endOfYear) {
+                    operationalPotentialIncome += (parseFloat(p.price) || 0) * 12;
+                    operationalParkingsCount++;
+                }
+            });
+            let predictedAnnualIncome = operationalPotentialIncome * occupancyRate;
+
+            // b. Calcular Gastos para el año X
+            // Empezar con el gasto promedio por parking actual y multiplicar por los operativos este año
+            let baseExpenseForYear = averageAnnualExpensePerCurrentParking * operationalParkingsCount;
+            // Aplicar tasa de crecimiento de gastos a partir del segundo año
+            if (year === 1) {
+                currentAnnualExpenseEstimate = baseExpenseForYear;
+            } else {
+                currentAnnualExpenseEstimate *= (1 + expenseRate);
+                 // Ajuste potencial si el número de parkings operativos cambió drásticamente (más complejo)
+                 // Por ahora, solo aplicamos la tasa de crecimiento al total anterior.
+            }
+             // Asegurar que no sea negativo
+             currentAnnualExpenseEstimate = Math.max(0, currentAnnualExpenseEstimate);
+
+
+            // c. Aplicar tasa de crecimiento de ingresos a partir del segundo año
+            if (year > 1) {
+                 predictedAnnualIncome *= (1 + incrementRate);
+            }
+
+
+            // d. Calcular Balance y ROI Simple
+            const balance = predictedAnnualIncome - currentAnnualExpenseEstimate;
+            let roi = (totalInvestmentAllTime > 0) ? (balance / totalInvestmentAllTime) * 100 : 0;
+
+            forecastData.push({
+                year: currentForecastYear,
+                income: predictedAnnualIncome,
+                expenses: currentAnnualExpenseEstimate,
+                balance: balance,
+                roi: isFinite(roi) ? roi : 0
+            });
+        }
+        return forecastData;
+     }
+
+//-------------------------------------------------------------
+//-------------------------------------------------------------
          function updateForecastData() {
              try {
                  const forecastData = calculateSimpleForecastData();
