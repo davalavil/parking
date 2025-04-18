@@ -1483,40 +1483,39 @@
                 }
             });
             document.getElementById('monthlyIncome').textContent = formatCurrency(monthlyIncome);
+//----------------------------------------------------------------------------------------------
+// --- INICIO: Nuevo Cálculo para Gastos del Mes Actual ---
+            const today = new Date();
+            const currentYear = today.getFullYear();
+            const currentMonth = today.getMonth(); // 0 = Enero, 1 = Febrero, etc.
 
-             // Gastos mensuales (promedio del último año o desde la primera transacción)
-            const oneYearAgo = new Date();
-            oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
-            oneYearAgo.setHours(0,0,0,0);
-
-            const expenseTransactions = finances.filter(f => f.type === 'expense' && f.date);
-            const firstExpenseDate = expenseTransactions.length > 0
-                ? new Date(Math.min.apply(null, expenseTransactions.map(f => new Date(f.date))))
-                : null;
-
-            const startDateForAvg = firstExpenseDate && firstExpenseDate > oneYearAgo ? firstExpenseDate : oneYearAgo;
-
-            const relevantExpenses = expenseTransactions.filter(f => new Date(f.date) >= startDateForAvg);
-
-            let totalRelevantExpenses = 0;
-            relevantExpenses.forEach(expense => {
-                totalRelevantExpenses += parseFloat(expense.amount || 0);
+            // Filtra los gastos que ocurrieron en el año y mes actuales
+            const currentMonthExpenses = finances.filter(f => {
+                if (f.type !== 'expense' || !f.date) {
+                    return false; // Ignorar si no es gasto o no tiene fecha
+                }
+                try {
+                    const transactionDate = new Date(f.date);
+                    // Comprobar si la fecha es válida y pertenece al mes y año actuales
+                    return !isNaN(transactionDate) &&
+                           transactionDate.getFullYear() === currentYear &&
+                           transactionDate.getMonth() === currentMonth;
+                } catch (e) {
+                    console.warn("Fecha inválida encontrada en finanzas:", f.date);
+                    return false; // Ignorar fechas inválidas
+                }
             });
 
-            let monthlyExpenses = 0;
-            if (relevantExpenses.length > 0) {
-                const today = new Date();
-                const months = (today - startDateForAvg) / (1000 * 60 * 60 * 24 * (365.25 / 12)); // Meses con decimales
-                if (months >= 1) {
-                     monthlyExpenses = totalRelevantExpenses / months;
-                } else if (totalRelevantExpenses > 0) {
-                     monthlyExpenses = totalRelevantExpenses; // Si es menos de un mes, mostrar el total de ese período
-                }
-            }
+            // Sumar los importes de los gastos del mes actual
+            let totalCurrentMonthExpenses = 0;
+            currentMonthExpenses.forEach(expense => {
+                totalCurrentMonthExpenses += parseFloat(expense.amount || 0);
+            });
 
-            document.getElementById('monthlyExpenses').textContent = formatCurrency(monthlyExpenses);
-        }
-
+            // Actualizar el elemento del dashboard con la suma
+            document.getElementById('monthlyExpenses').textContent = formatCurrency(totalCurrentMonthExpenses);
+            // --- FIN: Nuevo Cálculo para Gastos del Mes Actual ---
+//----------------------------------------------------------------
         // Actualizar datos de previsión
         function updateForecastData() {
              if (parkings.length === 0) {
