@@ -744,6 +744,46 @@
                 finances = JSON.parse(localStorage.getItem('finances'));
             }
         }
+
+
+        function exportData() {
+            // Asegúrate de que los datos están cargados en las variables JS
+            // Si no lo están al momento de hacer clic, carga desde localStorage primero
+            if (parkings.length === 0 && tenants.length === 0 && finances.length === 0) {
+                loadData(); // Carga los datos en las variables parkings, tenants, finances
+            }
+        
+            // Crear un objeto que contenga todos los datos
+            const allData = {
+                parkings: parkings,
+                tenants: tenants,
+                finances: finances
+            };
+        
+            // Convertir el objeto a una cadena JSON formateada
+            const dataStr = JSON.stringify(allData, null, 2); // null, 2 para formatear con indentación
+        
+            // Crear un Blob (objeto binario) con los datos JSON
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
+        
+            // Crear una URL temporal para el Blob
+            const url = URL.createObjectURL(dataBlob);
+        
+            // Crear un enlace temporal para iniciar la descarga
+            const tempLink = document.createElement('a');
+            tempLink.href = url;
+            tempLink.setAttribute('download', 'gestion_parking_datos.json'); // Nombre del archivo
+            tempLink.click(); // Simular clic para descargar
+        
+            // Limpiar la URL temporal
+            URL.revokeObjectURL(url);
+        
+            showNotification('Datos exportados como gestion_parking_datos.json', 'success');
+        }
+        
+        // Añade el listener al nuevo botón dentro de initButtonEvents o similar
+        document.getElementById('exportDataBtn').addEventListener('click', exportData);        
+
         
         // Guardar datos en localStorage
         function saveData() {
