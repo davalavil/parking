@@ -1,0 +1,1913 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Parkings en Alquiler</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css">
+    <style>
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .chart-container {
+            width: 100%;
+            height: 300px;
+        }
+        body {
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .card {
+            transition: all 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        .modal {
+            transition: opacity 0.3s ease;
+        }
+        /* Estilos para añadir animación y mejorar la visualización */
+        .fade-in {
+            animation: fadeIn 0.5s;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        /* Estilo para mensajes de alerta */
+        .alert {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .alert-danger {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        /* Estilo para animación en hover de botones */
+        .btn-animated:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+        }
+        /* Estilos para tablas */
+        .table-hover tr:hover {
+            background-color: rgba(243, 244, 246, 0.8);
+        }
+        .grid-cols-stats {
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <!-- Navbar -->
+    <nav class="bg-blue-600 text-white p-4 shadow-md">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-bold flex items-center">
+                <i class="fas fa-parking mr-2"></i> 
+                Gestión de Parkings
+            </h1>
+            <div class="flex space-x-2">
+                <button id="darkModeToggle" class="p-2 rounded hover:bg-blue-700 transition">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <button id="saveDataBtn" class="p-2 rounded hover:bg-blue-700 transition">
+                    <i class="fas fa-save"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Tabs Navigation -->
+    <div class="container mx-auto mt-4">
+        <div class="bg-white shadow-md rounded-t-lg">
+            <ul class="flex border-b">
+                <li class="tab-btn mr-1" data-tab="dashboard">
+                    <a class="bg-white inline-block py-2 px-4 text-blue-600 hover:text-blue-800 font-semibold" href="#">
+                        <i class="fas fa-home mr-2"></i>Dashboard
+                    </a>
+                </li>
+                <li class="tab-btn mr-1" data-tab="parkings">
+                    <a class="bg-white inline-block py-2 px-4 text-blue-600 hover:text-blue-800 font-semibold" href="#">
+                        <i class="fas fa-car mr-2"></i>Parkings
+                    </a>
+                </li>
+                <li class="tab-btn mr-1" data-tab="tenants">
+                    <a class="bg-white inline-block py-2 px-4 text-blue-600 hover:text-blue-800 font-semibold" href="#">
+                        <i class="fas fa-users mr-2"></i>Inquilinos
+                    </a>
+                </li>
+                <li class="tab-btn mr-1" data-tab="finances">
+                    <a class="bg-white inline-block py-2 px-4 text-blue-600 hover:text-blue-800 font-semibold" href="#">
+                        <i class="fas fa-euro-sign mr-2"></i>Finanzas
+                    </a>
+                </li>
+                <li class="tab-btn" data-tab="forecast">
+                    <a class="bg-white inline-block py-2 px-4 text-blue-600 hover:text-blue-800 font-semibold" href="#">
+                        <i class="fas fa-chart-line mr-2"></i>Previsiones
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Tab Contents -->
+        <div class="bg-white shadow-md rounded-b-lg p-6">
+            <!-- Dashboard Tab -->
+            <div id="dashboard" class="tab-content active fade-in">
+                <h2 class="text-2xl font-bold mb-6 text-gray-800">Dashboard</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-stats gap-6 mb-6">
+                    <!-- Estadísticas generales -->
+                    <div class="bg-white rounded-lg shadow p-6 border-l-4 border-blue-500">
+                        <div class="flex items-center">
+                            <div class="p-3 rounded-full bg-blue-500 text-white mr-4">
+                                <i class="fas fa-car text-xl"></i>
+                            </div>
+                            <div>
+                                <p class="text-gray-500">Total Parkings</p>
+                                <p class="text-2xl font-bold" id="totalParkings">0</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg shadow p-6 border-l-4 border-green-500">
+                        <div class="flex items-center">
+                            <div class="p-3 rounded-full bg-green-500 text-white mr-4">
+                                <i class="fas fa-check-circle text-xl"></i>
+                            </div>
+                            <div>
+                                <p class="text-gray-500">Parkings Ocupados</p>
+                                <p class="text-2xl font-bold" id="occupiedParkings">0</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg shadow p-6 border-l-4 border-yellow-500">
+                        <div class="flex items-center">
+                            <div class="p-3 rounded-full bg-yellow-500 text-white mr-4">
+                                <i class="fas fa-euro-sign text-xl"></i>
+                            </div>
+                            <div>
+                                <p class="text-gray-500">Ingresos Mensuales</p>
+                                <p class="text-2xl font-bold" id="monthlyIncome">0 €</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg shadow p-6 border-l-4 border-red-500">
+                        <div class="flex items-center">
+                            <div class="p-3 rounded-full bg-red-500 text-white mr-4">
+                                <i class="fas fa-minus-circle text-xl"></i>
+                            </div>
+                            <div>
+                                <p class="text-gray-500">Gastos Mensuales</p>
+                                <p class="text-2xl font-bold" id="monthlyExpenses">0 €</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <!-- Parkings recientes -->
+                    <div class="bg-white rounded-lg shadow p-6">
+                        <h3 class="text-xl font-bold mb-4 text-gray-800">Parkings Recientes</h3>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full bg-white table-hover">
+                                <thead class="bg-gray-100">
+                                    <tr>
+                                        <th class="py-2 px-4 border-b text-left">Ubicación</th>
+                                        <th class="py-2 px-4 border-b text-left">Estado</th>
+                                        <th class="py-2 px-4 border-b text-left">Precio Alquiler</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="recentParkingsTable">
+                                    <tr>
+                                        <td colspan="3" class="py-4 px-4 text-center text-gray-500">No hay parkings registrados</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <!-- Acciones rápidas -->
+                    <div class="bg-white rounded-lg shadow p-6">
+                        <h3 class="text-xl font-bold mb-4 text-gray-800">Acciones Rápidas</h3>
+                        <div class="grid grid-cols-2 gap-4">
+                            <button id="quickAddParking" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-4 rounded flex items-center justify-center btn-animated transition">
+                                <i class="fas fa-plus-circle mr-2"></i> Añadir Parking
+                            </button>
+                            <button id="quickAddTenant" class="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-4 rounded flex items-center justify-center btn-animated transition">
+                                <i class="fas fa-user-plus mr-2"></i> Añadir Inquilino
+                            </button>
+                            <button id="quickAddExpense" class="bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-4 rounded flex items-center justify-center btn-animated transition">
+                                <i class="fas fa-minus-circle mr-2"></i> Registrar Gasto
+                            </button>
+                            <button id="quickAddIncome" class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-3 px-4 rounded flex items-center justify-center btn-animated transition">
+                                <i class="fas fa-plus-circle mr-2"></i> Registrar Ingreso
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Parkings Tab -->
+            <div id="parkings" class="tab-content fade-in">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold text-gray-800">Gestión de Parkings</h2>
+                    <button id="addParkingBtn" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded btn-animated transition">
+                        <i class="fas fa-plus-circle mr-2"></i> Nuevo Parking
+                    </button>
+                </div>
+
+                <!-- Filtros de búsqueda -->
+                <div class="bg-gray-50 p-4 rounded-lg shadow mb-6">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="searchParking">
+                                Buscar por ubicación:
+                            </label>
+                            <input id="searchParking" type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Ingrese ubicación...">
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="filterParkingStatus">
+                                Filtrar por estado:
+                            </label>
+                            <select id="filterParkingStatus" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                <option value="all">Todos</option>
+                                <option value="occupied">Ocupados</option>
+                                <option value="available">Disponibles</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="sortParkings">
+                                Ordenar por:
+                            </label>
+                            <select id="sortParkings" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                <option value="location">Ubicación</option>
+                                <option value="price">Precio de alquiler</option>
+                                <option value="size">Tamaño</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tabla de parkings -->
+                <div class="overflow-x-auto bg-white rounded-lg shadow">
+                    <table class="min-w-full bg-white table-hover">
+                        <thead class="bg-gray-100">
+                            <tr>
+                                <th class="py-3 px-4 border-b text-left">ID</th>
+                                <th class="py-3 px-4 border-b text-left">Ubicación</th>
+                                <th class="py-3 px-4 border-b text-left">Tamaño (m²)</th>
+                                <th class="py-3 px-4 border-b text-left">Características</th>
+                                <th class="py-3 px-4 border-b text-left">Precio Alquiler</th>
+                                <th class="py-3 px-4 border-b text-left">Estado</th>
+                                <th class="py-3 px-4 border-b text-left">Inquilino</th>
+                                <th class="py-3 px-4 border-b text-left">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="parkingsTable">
+                            <tr>
+                                <td colspan="8" class="py-4 px-4 text-center text-gray-500">No hay parkings registrados</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Tenants Tab -->
+            <div id="tenants" class="tab-content fade-in">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold text-gray-800">Gestión de Inquilinos</h2>
+                    <button id="addTenantBtn" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded btn-animated transition">
+                        <i class="fas fa-user-plus mr-2"></i> Nuevo Inquilino
+                    </button>
+                </div>
+
+                <!-- Filtros de búsqueda -->
+                <div class="bg-gray-50 p-4 rounded-lg shadow mb-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="searchTenant">
+                                Buscar por nombre:
+                            </label>
+                            <input id="searchTenant" type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Ingrese nombre...">
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="sortTenants">
+                                Ordenar por:
+                            </label>
+                            <select id="sortTenants" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                <option value="name">Nombre</option>
+                                <option value="startDate">Fecha de inicio</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tabla de inquilinos -->
+                <div class="overflow-x-auto bg-white rounded-lg shadow">
+                    <table class="min-w-full bg-white table-hover">
+                        <thead class="bg-gray-100">
+                            <tr>
+                                <th class="py-3 px-4 border-b text-left">ID</th>
+                                <th class="py-3 px-4 border-b text-left">Nombre</th>
+                                <th class="py-3 px-4 border-b text-left">Teléfono</th>
+                                <th class="py-3 px-4 border-b text-left">Email</th>
+                                <th class="py-3 px-4 border-b text-left">Parking Asignado</th>
+                                <th class="py-3 px-4 border-b text-left">Fecha Inicio</th>
+                                <th class="py-3 px-4 border-b text-left">Fecha Fin</th>
+                                <th class="py-3 px-4 border-b text-left">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tenantsTable">
+                            <tr>
+                                <td colspan="8" class="py-4 px-4 text-center text-gray-500">No hay inquilinos registrados</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Finances Tab -->
+            <div id="finances" class="tab-content fade-in">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold text-gray-800">Gestión Financiera</h2>
+                    <div class="flex space-x-2">
+                        <button id="addExpenseBtn" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded btn-animated transition">
+                            <i class="fas fa-minus-circle mr-2"></i> Registrar Gasto
+                        </button>
+                        <button id="addIncomeBtn" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded btn-animated transition">
+                            <i class="fas fa-plus-circle mr-2"></i> Registrar Ingreso
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Resumen financiero -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                    <div class="bg-white p-4 rounded-lg shadow border-l-4 border-green-500">
+                        <h3 class="text-gray-500 text-sm">Ingresos Totales</h3>
+                        <p class="text-2xl font-bold" id="totalIncome">0 €</p>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg shadow border-l-4 border-red-500">
+                        <h3 class="text-gray-500 text-sm">Gastos Totales</h3>
+                        <p class="text-2xl font-bold" id="totalExpenses">0 €</p>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg shadow border-l-4 border-blue-500">
+                        <h3 class="text-gray-500 text-sm">Balance</h3>
+                        <p class="text-2xl font-bold" id="totalBalance">0 €</p>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg shadow border-l-4 border-yellow-500">
+                        <h3 class="text-gray-500 text-sm">ROI Anual</h3>
+                        <p class="text-2xl font-bold" id="annualROI">0%</p>
+                    </div>
+                </div>
+
+                <!-- Filtros y período -->
+                <div class="bg-gray-50 p-4 rounded-lg shadow mb-6">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="financesPeriod">
+                                Período:
+                            </label>
+                            <select id="financesPeriod" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                <option value="month">Este mes</option>
+                                <option value="quarter">Este trimestre</option>
+                                <option value="year">Este año</option>
+                                <option value="all">Todo</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="financesParkingFilter">
+                                Filtrar por parking:
+                            </label>
+                            <select id="financesParkingFilter" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                <option value="all">Todos los parkings</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="financeType">
+                                Tipo:
+                            </label>
+                            <select id="financeType" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                <option value="all">Todos</option>
+                                <option value="income">Ingresos</option>
+                                <option value="expense">Gastos</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tabla de movimientos financieros -->
+                <div class="overflow-x-auto bg-white rounded-lg shadow">
+                    <table class="min-w-full bg-white table-hover">
+                        <thead class="bg-gray-100">
+                            <tr>
+                                <th class="py-3 px-4 border-b text-left">Fecha</th>
+                                <th class="py-3 px-4 border-b text-left">Tipo</th>
+                                <th class="py-3 px-4 border-b text-left">Concepto</th>
+                                <th class="py-3 px-4 border-b text-left">Parking</th>
+                                <th class="py-3 px-4 border-b text-left">Importe</th>
+                                <th class="py-3 px-4 border-b text-left">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="financesTable">
+                            <tr>
+                                <td colspan="6" class="py-4 px-4 text-center text-gray-500">No hay movimientos registrados</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Forecast Tab -->
+            <div id="forecast" class="tab-content fade-in">
+                <h2 class="text-2xl font-bold mb-6 text-gray-800">Previsiones Financieras</h2>
+                
+                <!-- Parámetros de previsión -->
+                <div class="bg-gray-50 p-4 rounded-lg shadow mb-6">
+                    <h3 class="text-lg font-semibold mb-4">Parámetros de Previsión</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="forecastIncrementRate">
+                                Incremento anual de alquiler (%):
+                            </label>
+                            <input id="forecastIncrementRate" type="number" min="0" max="100" step="0.5" value="2" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="forecastExpenseRate">
+                                Incremento anual de gastos (%):
+                            </label>
+                            <input id="forecastExpenseRate" type="number" min="0" max="100" step="0.5" value="3" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="forecastOccupancyRate">
+                                Tasa de ocupación (%):
+                            </label>
+                            <input id="forecastOccupancyRate" type="number" min="0" max="100" step="1" value="90" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <button id="calculateForecastBtn" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded btn-animated transition">
+                            <i class="fas fa-calculator mr-2"></i> Calcular Previsión
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Resultados de previsión -->
+                <div class="bg-white p-6 rounded-lg shadow mb-6">
+                    <h3 class="text-lg font-semibold mb-4">Previsión de Ingresos y Gastos - Próximos 5 años</h3>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full bg-white table-hover">
+                            <thead class="bg-gray-100">
+                                <tr>
+                                    <th class="py-3 px-4 border-b text-left">Año</th>
+                                    <th class="py-3 px-4 border-b text-right">Ingresos</th>
+                                    <th class="py-3 px-4 border-b text-right">Gastos</th>
+                                    <th class="py-3 px-4 border-b text-right">Balance</th>
+                                    <th class="py-3 px-4 border-b text-right">ROI</th>
+                                </tr>
+                            </thead>
+                            <tbody id="forecastTable">
+                                <tr>
+                                    <td colspan="5" class="py-4 px-4 text-center text-gray-500">Calcule la previsión para ver los resultados</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <!-- Gráfico de previsión -->
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="text-lg font-semibold mb-4">Gráfico de Previsión</h3>
+                    <div class="chart-container">
+                        <canvas id="forecastChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para añadir/editar parking -->
+    <div id="parkingModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden flex items-center justify-center modal">
+        <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-xl">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold" id="parkingModalTitle">Añadir Nuevo Parking</h3>
+                <button class="text-gray-500 hover:text-gray-700" id="closeParkingModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="parkingForm">
+                <input type="hidden" id="parkingId">
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="parkingLocation">
+                        Ubicación:
+                    </label>
+                    <input id="parkingLocation" type="text" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Dirección completa del parking">
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="parkingSize">
+                            Tamaño (m²):
+                        </label>
+                        <input id="parkingSize" type="number" min="1" step="0.1" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Tamaño en metros cuadrados">
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="parkingPrice">
+                            Precio Alquiler (€/mes):
+                        </label>
+                        <input id="parkingPrice" type="number" min="0" step="0.01" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Precio mensual">
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="parkingFeatures">
+                        Características:
+                    </label>
+                    <textarea id="parkingFeatures" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" rows="3" placeholder="Características del parking (seguridad, accesibilidad, etc.)"></textarea>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="parkingPurchasePrice">
+                        Precio de Compra (€):
+                    </label>
+                    <input id="parkingPurchasePrice" type="number" min="0" step="0.01" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Precio de adquisición del parking">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="parkingPurchaseDate">
+                        Fecha de Compra:
+                    </label>
+                    <input id="parkingPurchaseDate" type="date" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                </div>
+                <div class="flex justify-end">
+                    <button type="button" id="cancelParkingBtn" class="mr-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded btn-animated transition">
+                        Cancelar
+                    </button>
+                    <button type="submit" id="saveParkingBtn" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded btn-animated transition">
+                        Guardar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal para añadir/editar inquilino -->
+    <div id="tenantModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden flex items-center justify-center modal">
+        <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-xl">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold" id="tenantModalTitle">Añadir Nuevo Inquilino</h3>
+                <button class="text-gray-500 hover:text-gray-700" id="closeTenantModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="tenantForm">
+                <input type="hidden" id="tenantId">
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="tenantName">
+                        Nombre completo:
+                    </label>
+                    <input id="tenantName" type="text" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Nombre y apellidos">
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="tenantPhone">
+                            Teléfono:
+                        </label>
+                        <input id="tenantPhone" type="tel" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Número de teléfono">
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="tenantEmail">
+                            Email:
+                        </label>
+                        <input id="tenantEmail" type="email" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Correo electrónico">
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="tenantParking">
+                        Parking Asignado:
+                    </label>
+                    <select id="tenantParking" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                        <option value="">Seleccione un parking...</option>
+                    </select>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="tenantStartDate">
+                            Fecha de Inicio:
+                        </label>
+                        <input id="tenantStartDate" type="date" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="tenantEndDate">
+                            Fecha de Fin:
+                        </label>
+                        <input id="tenantEndDate" type="date" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="tenantNotes">
+                        Notas:
+                    </label>
+                    <textarea id="tenantNotes" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" rows="3" placeholder="Información adicional del inquilino"></textarea>
+                </div>
+                <div class="flex justify-end">
+                    <button type="button" id="cancelTenantBtn" class="mr-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded btn-animated transition">
+                        Cancelar
+                    </button>
+                    <button type="submit" id="saveTenantBtn" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded btn-animated transition">
+                        Guardar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal para añadir transacción financiera -->
+    <div id="financeModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden flex items-center justify-center modal">
+        <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-xl">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold" id="financeModalTitle">Registrar Ingreso</h3>
+                <button class="text-gray-500 hover:text-gray-700" id="closeFinanceModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="financeForm">
+                <input type="hidden" id="financeId">
+                <input type="hidden" id="financeTransactionType" value="income">
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="financeDate">
+                        Fecha:
+                    </label>
+                    <input id="financeDate" type="date" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="financeConcept">
+                        Concepto:
+                    </label>
+                    <input id="financeConcept" type="text" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Breve descripción de la transacción">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="financeParking">
+                        Parking relacionado:
+                    </label>
+                    <select id="financeParking" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                        <option value="">Ninguno (general)</option>
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="financeAmount">
+                        Importe (€):
+                    </label>
+                    <input id="financeAmount" type="number" min="0" step="0.01" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Importe de la transacción">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="financeNotes">
+                        Notas adicionales:
+                    </label>
+                    <textarea id="financeNotes" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" rows="3" placeholder="Detalles adicionales de la transacción"></textarea>
+                </div>
+                <div class="flex justify-end">
+                    <button type="button" id="cancelFinanceBtn" class="mr-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded btn-animated transition">
+                        Cancelar
+                    </button>
+                    <button type="submit" id="saveFinanceBtn" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded btn-animated transition">
+                        Guardar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Panel de notificaciones -->
+    <div id="notifications" class="fixed bottom-5 right-5 w-80 z-50">
+        <!-- Las notificaciones se añadirán aquí dinámicamente -->
+    </div>
+
+    <!-- Script para Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+    
+    <script>
+        // Modelo de datos
+        let parkings = [];
+        let tenants = [];
+        let finances = [];
+        
+        // Inicialización de la aplicación
+        document.addEventListener('DOMContentLoaded', function() {
+            // Cargar datos almacenados
+            loadData();
+            
+            // Inicializar pestañas
+            initTabs();
+            
+            // Inicializar modales
+            initModals();
+            
+            // Inicializar eventos de los botones
+            initButtonEvents();
+            
+            // Actualizar UI
+            updateUI();
+        });
+        
+        // Cargar datos desde localStorage
+        function loadData() {
+            if (localStorage.getItem('parkings')) {
+                parkings = JSON.parse(localStorage.getItem('parkings'));
+            }
+            if (localStorage.getItem('tenants')) {
+                tenants = JSON.parse(localStorage.getItem('tenants'));
+            }
+            if (localStorage.getItem('finances')) {
+                finances = JSON.parse(localStorage.getItem('finances'));
+            }
+        }
+        
+        // Guardar datos en localStorage
+        function saveData() {
+            localStorage.setItem('parkings', JSON.stringify(parkings));
+            localStorage.setItem('tenants', JSON.stringify(tenants));
+            localStorage.setItem('finances', JSON.stringify(finances));
+            
+            // Mostrar notificación de guardado exitoso
+            showNotification('Datos guardados correctamente', 'success');
+        }
+        
+        // Inicializar pestañas
+        function initTabs() {
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const tabId = this.getAttribute('data-tab');
+                    
+                    // Desactivar todas las pestañas
+                    tabBtns.forEach(b => b.querySelector('a').classList.remove('bg-blue-100', 'border-l', 'border-t', 'border-r', 'rounded-t'));
+                    tabContents.forEach(content => content.classList.remove('active'));
+                    
+                    // Activar la pestaña seleccionada
+                    this.querySelector('a').classList.add('bg-blue-100', 'border-l', 'border-t', 'border-r', 'rounded-t');
+                    document.getElementById(tabId).classList.add('active');
+                    
+                    // Actualizar contenido específico de la pestaña
+                    if (tabId === 'forecast') {
+                        updateForecastData();
+                    }
+                });
+            });
+        }
+        
+        // Inicializar modales
+        function initModals() {
+            // Modal de parking
+            document.getElementById('addParkingBtn').addEventListener('click', function() {
+                openParkingModal();
+            });
+            document.getElementById('quickAddParking').addEventListener('click', function() {
+                openParkingModal();
+            });
+            document.getElementById('closeParkingModal').addEventListener('click', function() {
+                document.getElementById('parkingModal').classList.add('hidden');
+            });
+            document.getElementById('cancelParkingBtn').addEventListener('click', function() {
+                document.getElementById('parkingModal').classList.add('hidden');
+            });
+            
+            // Modal de inquilino
+            document.getElementById('addTenantBtn').addEventListener('click', function() {
+                openTenantModal();
+            });
+            document.getElementById('quickAddTenant').addEventListener('click', function() {
+                openTenantModal();
+            });
+            document.getElementById('closeTenantModal').addEventListener('click', function() {
+                document.getElementById('tenantModal').classList.add('hidden');
+            });
+            document.getElementById('cancelTenantBtn').addEventListener('click', function() {
+                document.getElementById('tenantModal').classList.add('hidden');
+            });
+            
+            // Modal de finanzas
+            document.getElementById('addIncomeBtn').addEventListener('click', function() {
+                openFinanceModal('income');
+            });
+            document.getElementById('quickAddIncome').addEventListener('click', function() {
+                openFinanceModal('income');
+            });
+            document.getElementById('addExpenseBtn').addEventListener('click', function() {
+                openFinanceModal('expense');
+            });
+            document.getElementById('quickAddExpense').addEventListener('click', function() {
+                openFinanceModal('expense');
+            });
+            document.getElementById('closeFinanceModal').addEventListener('click', function() {
+                document.getElementById('financeModal').classList.add('hidden');
+            });
+            document.getElementById('cancelFinanceBtn').addEventListener('click', function() {
+                document.getElementById('financeModal').classList.add('hidden');
+            });
+            
+            // Inicializar formularios
+            initForms();
+        }
+        
+        // Inicializar formularios
+        function initForms() {
+            // Formulario de parking
+            document.getElementById('parkingForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                saveParking();
+            });
+            
+            // Formulario de inquilino
+            document.getElementById('tenantForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                saveTenant();
+            });
+            
+            // Formulario de finanzas
+            document.getElementById('financeForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                saveFinance();
+            });
+        }
+        
+        // Inicializar eventos de botones
+        function initButtonEvents() {
+            // Botón de cálculo de previsión
+            document.getElementById('calculateForecastBtn').addEventListener('click', function() {
+                updateForecastData();
+            });
+            
+            // Botón de guardar datos
+            document.getElementById('saveDataBtn').addEventListener('click', function() {
+                saveData();
+            });
+            
+            // Filtros de búsqueda de parkings
+            document.getElementById('searchParking').addEventListener('input', function() {
+                updateParkingsTable();
+            });
+            document.getElementById('filterParkingStatus').addEventListener('change', function() {
+                updateParkingsTable();
+            });
+            document.getElementById('sortParkings').addEventListener('change', function() {
+                updateParkingsTable();
+            });
+            
+            // Filtros de búsqueda de inquilinos
+            document.getElementById('searchTenant').addEventListener('input', function() {
+                updateTenantsTable();
+            });
+            document.getElementById('sortTenants').addEventListener('change', function() {
+                updateTenantsTable();
+            });
+            
+            // Filtros de finanzas
+            document.getElementById('financesPeriod').addEventListener('change', function() {
+                updateFinancesTable();
+            });
+            document.getElementById('financesParkingFilter').addEventListener('change', function() {
+                updateFinancesTable();
+            });
+            document.getElementById('financeType').addEventListener('change', function() {
+                updateFinancesTable();
+            });
+        }
+        
+        // Actualizar toda la UI
+        function updateUI() {
+            updateParkingsTable();
+            updateTenantsTable();
+            updateFinancesTable();
+            updateParkingDropdowns();
+            updateDashboardStats();
+        }
+        
+        // Actualizar tabla de parkings
+        function updateParkingsTable() {
+            const tableBody = document.getElementById('parkingsTable');
+            const searchTerm = document.getElementById('searchParking').value.toLowerCase();
+            const statusFilter = document.getElementById('filterParkingStatus').value;
+            const sortBy = document.getElementById('sortParkings').value;
+            
+            // Filtrar y ordenar parkings
+            let filteredParkings = [...parkings];
+            
+            // Aplicar filtro de búsqueda
+            if (searchTerm) {
+                filteredParkings = filteredParkings.filter(parking => 
+                    parking.location.toLowerCase().includes(searchTerm)
+                );
+            }
+            
+            // Aplicar filtro de estado
+            if (statusFilter !== 'all') {
+                const isOccupied = statusFilter === 'occupied';
+                filteredParkings = filteredParkings.filter(parking => {
+                    const tenant = tenants.find(t => t.parkingId === parking.id);
+                    return isOccupied ? tenant : !tenant;
+                });
+            }
+            
+            // Ordenar parkings
+            filteredParkings.sort((a, b) => {
+                switch (sortBy) {
+                    case 'location':
+                        return a.location.localeCompare(b.location);
+                    case 'price':
+                        return a.price - b.price;
+                    case 'size':
+                        return a.size - b.size;
+                    default:
+                        return 0;
+                }
+            });
+            
+            // Limpiar tabla
+            tableBody.innerHTML = '';
+            
+            // Si no hay parkings, mostrar mensaje
+            if (filteredParkings.length === 0) {
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="8" class="py-4 px-4 text-center text-gray-500">No hay parkings que coincidan con los criterios de búsqueda</td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            // Rellenar tabla con parkings
+            filteredParkings.forEach(parking => {
+                const tenant = tenants.find(t => t.parkingId === parking.id);
+                const status = tenant ? 'Ocupado' : 'Disponible';
+                const statusClass = tenant ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800';
+                
+                const row = document.createElement('tr');
+                row.className = 'hover:bg-gray-50';
+                row.innerHTML = `
+                    <td class="py-3 px-4 border-b">${parking.id}</td>
+                    <td class="py-3 px-4 border-b">${parking.location}</td>
+                    <td class="py-3 px-4 border-b">${parking.size} m²</td>
+                    <td class="py-3 px-4 border-b">${parking.features || '-'}</td>
+                    <td class="py-3 px-4 border-b">${parking.price}€/mes</td>
+                    <td class="py-3 px-4 border-b"><span class="px-2 py-1 rounded-full text-xs font-semibold ${statusClass}">${status}</span></td>
+                    <td class="py-3 px-4 border-b">${tenant ? tenant.name : '-'}</td>
+                    <td class="py-3 px-4 border-b">
+                        <div class="flex space-x-2">
+                            <button class="text-blue-500 hover:text-blue-700" onclick="editParking('${parking.id}')">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="text-red-500 hover:text-red-700" onclick="deleteParking('${parking.id}')">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                            ${!tenant ? `
+                            <button class="text-green-500 hover:text-green-700" onclick="assignTenant('${parking.id}')">
+                                <i class="fas fa-user-plus"></i>
+                            </button>
+                            ` : ''}
+                        </div>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+            
+            // Actualizar tabla de parkings recientes en el dashboard
+            updateRecentParkings();
+        }
+        
+        // Actualizar parkings recientes en el dashboard
+        function updateRecentParkings() {
+            const recentTable = document.getElementById('recentParkingsTable');
+            recentTable.innerHTML = '';
+            
+            // Obtener los 5 parkings más recientes (podría ordenarse por fecha de añadido)
+            const recentParkings = [...parkings].slice(-5);
+            
+            if (recentParkings.length === 0) {
+                recentTable.innerHTML = `
+                    <tr>
+                        <td colspan="3" class="py-4 px-4 text-center text-gray-500">No hay parkings registrados</td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            recentParkings.forEach(parking => {
+                const tenant = tenants.find(t => t.parkingId === parking.id);
+                const status = tenant ? 'Ocupado' : 'Disponible';
+                const statusClass = tenant ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800';
+                
+                const row = document.createElement('tr');
+                row.className = 'hover:bg-gray-50';
+                row.innerHTML = `
+                    <td class="py-2 px-4 border-b">${parking.location}</td>
+                    <td class="py-2 px-4 border-b"><span class="px-2 py-1 rounded-full text-xs font-semibold ${statusClass}">${status}</span></td>
+                    <td class="py-2 px-4 border-b">${parking.price}€/mes</td>
+                `;
+                recentTable.appendChild(row);
+            });
+        }
+        
+        // Actualizar tabla de inquilinos
+        function updateTenantsTable() {
+            const tableBody = document.getElementById('tenantsTable');
+            const searchTerm = document.getElementById('searchTenant').value.toLowerCase();
+            const sortBy = document.getElementById('sortTenants').value;
+            
+            // Filtrar y ordenar inquilinos
+            let filteredTenants = [...tenants];
+            
+            // Aplicar filtro de búsqueda
+            if (searchTerm) {
+                filteredTenants = filteredTenants.filter(tenant => 
+                    tenant.name.toLowerCase().includes(searchTerm)
+                );
+            }
+            
+            // Ordenar inquilinos
+            filteredTenants.sort((a, b) => {
+                switch (sortBy) {
+                    case 'name':
+                        return a.name.localeCompare(b.name);
+                    case 'startDate':
+                        return new Date(a.startDate) - new Date(b.startDate);
+                    default:
+                        return 0;
+                }
+            });
+            
+            // Limpiar tabla
+            tableBody.innerHTML = '';
+            
+            // Si no hay inquilinos, mostrar mensaje
+            if (filteredTenants.length === 0) {
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="8" class="py-4 px-4 text-center text-gray-500">No hay inquilinos que coincidan con los criterios de búsqueda</td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            // Rellenar tabla con inquilinos
+            filteredTenants.forEach(tenant => {
+                const parking = parkings.find(p => p.id === tenant.parkingId);
+                
+                const row = document.createElement('tr');
+                row.className = 'hover:bg-gray-50';
+                row.innerHTML = `
+                    <td class="py-3 px-4 border-b">${tenant.id}</td>
+                    <td class="py-3 px-4 border-b">${tenant.name}</td>
+                    <td class="py-3 px-4 border-b">${tenant.phone}</td>
+                    <td class="py-3 px-4 border-b">${tenant.email || '-'}</td>
+                    <td class="py-3 px-4 border-b">${parking ? parking.location : '-'}</td>
+                    <td class="py-3 px-4 border-b">${formatDate(tenant.startDate)}</td>
+                    <td class="py-3 px-4 border-b">${tenant.endDate ? formatDate(tenant.endDate) : '-'}</td>
+                    <td class="py-3 px-4 border-b">
+                        <div class="flex space-x-2">
+                            <button class="text-blue-500 hover:text-blue-700" onclick="editTenant('${tenant.id}')">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="text-red-500 hover:text-red-700" onclick="deleteTenant('${tenant.id}')">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </div>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+        
+        // Actualizar tabla de finanzas
+        function updateFinancesTable() {
+            const tableBody = document.getElementById('financesTable');
+            const periodFilter = document.getElementById('financesPeriod').value;
+            const parkingFilter = document.getElementById('financesParkingFilter').value;
+            const typeFilter = document.getElementById('financeType').value;
+            
+            // Filtrar transacciones
+            let filteredFinances = [...finances];
+            
+            // Aplicar filtro de período
+            if (periodFilter !== 'all') {
+                const today = new Date();
+                const startDate = new Date();
+                
+                switch (periodFilter) {
+                    case 'month':
+                        startDate.setMonth(today.getMonth() - 1);
+                        break;
+                    case 'quarter':
+                        startDate.setMonth(today.getMonth() - 3);
+                        break;
+                    case 'year':
+                        startDate.setFullYear(today.getFullYear() - 1);
+                        break;
+                }
+                
+                filteredFinances = filteredFinances.filter(finance => 
+                    new Date(finance.date) >= startDate
+                );
+            }
+            
+            // Aplicar filtro de parking
+            if (parkingFilter !== 'all') {
+                filteredFinances = filteredFinances.filter(finance => 
+                    finance.parkingId === parkingFilter
+                );
+            }
+            
+            // Aplicar filtro de tipo
+            if (typeFilter !== 'all') {
+                filteredFinances = filteredFinances.filter(finance => 
+                    finance.type === typeFilter
+                );
+            }
+            
+            // Ordenar por fecha (más reciente primero)
+            filteredFinances.sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            // Limpiar tabla
+            tableBody.innerHTML = '';
+            
+            // Si no hay transacciones, mostrar mensaje
+            if (filteredFinances.length === 0) {
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="6" class="py-4 px-4 text-center text-gray-500">No hay movimientos financieros que coincidan con los criterios de búsqueda</td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            // Calcular totales para resumen
+            let totalIncome = 0;
+            let totalExpenses = 0;
+            
+            finances.forEach(finance => {
+                if (finance.type === 'income') {
+                    totalIncome += parseFloat(finance.amount);
+                } else {
+                    totalExpenses += parseFloat(finance.amount);
+                }
+            });
+            
+            const totalBalance = totalIncome - totalExpenses;
+            let roi = 0;
+            
+            // Calcular ROI si hay parkings con precio de compra
+            const totalInvestment = parkings.reduce((sum, parking) => sum + (parseFloat(parking.purchasePrice) || 0), 0);
+            if (totalInvestment > 0) {
+                roi = (totalBalance / totalInvestment) * 100;
+            }
+            
+            // Actualizar resumen financiero
+            document.getElementById('totalIncome').textContent = formatCurrency(totalIncome);
+            document.getElementById('totalExpenses').textContent = formatCurrency(totalExpenses);
+            document.getElementById('totalBalance').textContent = formatCurrency(totalBalance);
+            document.getElementById('annualROI').textContent = `${roi.toFixed(2)}%`;
+            
+            // Rellenar tabla con transacciones
+            filteredFinances.forEach(finance => {
+                const parking = parkings.find(p => p.id === finance.parkingId);
+                const typeClass = finance.type === 'income' ? 'text-green-600' : 'text-red-600';
+                const typeIcon = finance.type === 'income' ? 'fa-plus-circle' : 'fa-minus-circle';
+                const typeText = finance.type === 'income' ? 'Ingreso' : 'Gasto';
+                
+                const row = document.createElement('tr');
+                row.className = 'hover:bg-gray-50';
+                row.innerHTML = `
+                    <td class="py-3 px-4 border-b">${formatDate(finance.date)}</td>
+                    <td class="py-3 px-4 border-b ${typeClass}">
+                        <i class="fas ${typeIcon} mr-1"></i> ${typeText}
+                    </td>
+                    <td class="py-3 px-4 border-b">${finance.concept}</td>
+                    <td class="py-3 px-4 border-b">${parking ? parking.location : '-'}</td>
+                    <td class="py-3 px-4 border-b ${typeClass} font-semibold">${formatCurrency(finance.amount)}</td>
+                    <td class="py-3 px-4 border-b">
+                        <div class="flex space-x-2">
+                            <button class="text-blue-500 hover:text-blue-700" onclick="editFinance('${finance.id}')">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="text-red-500 hover:text-red-700" onclick="deleteFinance('${finance.id}')">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </div>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+        
+        // Actualizar desplegables de parkings
+        function updateParkingDropdowns() {
+            // Para el formulario de inquilinos
+            const tenantParkingSelect = document.getElementById('tenantParking');
+            // Para el formulario de finanzas
+            const financeParkingSelect = document.getElementById('financeParking');
+            // Para el filtro de finanzas
+            const financesParkingFilter = document.getElementById('financesParkingFilter');
+            
+            // Limpiar y actualizar
+            [tenantParkingSelect, financeParkingSelect, financesParkingFilter].forEach(select => {
+                // Mantener la primera opción (valor vacío o "todos")
+                const firstOption = select.options[0];
+                select.innerHTML = '';
+                select.appendChild(firstOption);
+                
+                // Añadir opciones de parkings
+                parkings.forEach(parking => {
+                    // Para inquilinos, solo mostrar parkings disponibles
+                    if (select === tenantParkingSelect) {
+                        const isOccupied = tenants.some(t => t.parkingId === parking.id);
+                        if (!isOccupied || (document.getElementById('tenantId').value && tenants.find(t => t.id === document.getElementById('tenantId').value)?.parkingId === parking.id)) {
+                            const option = document.createElement('option');
+                            option.value = parking.id;
+                            option.textContent = `${parking.location} (${parking.price}€/mes)`;
+                            select.appendChild(option);
+                        }
+                    } else {
+                        const option = document.createElement('option');
+                        option.value = parking.id;
+                        option.textContent = parking.location;
+                        select.appendChild(option);
+                    }
+                });
+            });
+        }
+        
+        // Actualizar estadísticas del dashboard
+        function updateDashboardStats() {
+            // Total de parkings
+            document.getElementById('totalParkings').textContent = parkings.length;
+            
+            // Parkings ocupados
+            const occupiedCount = tenants.length;
+            document.getElementById('occupiedParkings').textContent = occupiedCount;
+            
+            // Ingresos mensuales (estimados según el precio de alquiler de los parkings ocupados)
+            let monthlyIncome = 0;
+            tenants.forEach(tenant => {
+                const parking = parkings.find(p => p.id === tenant.parkingId);
+                if (parking) {
+                    monthlyIncome += parseFloat(parking.price);
+                }
+            });
+            document.getElementById('monthlyIncome').textContent = formatCurrency(monthlyIncome);
+            
+            // Gastos mensuales (promedio de los últimos 3 meses)
+            const threeMonthsAgo = new Date();
+            threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
+            
+            const recentExpenses = finances.filter(f => 
+                f.type === 'expense' && new Date(f.date) >= threeMonthsAgo
+            );
+            
+            let totalExpenses = 0;
+            recentExpenses.forEach(expense => {
+                totalExpenses += parseFloat(expense.amount);
+            });
+            
+            // Calcular promedio mensual (dividir por 3 o por el número de meses disponibles)
+            const monthlyExpenses = recentExpenses.length > 0 ? totalExpenses / 3 : 0;
+            document.getElementById('monthlyExpenses').textContent = formatCurrency(monthlyExpenses);
+        }
+        
+        // Actualizar datos de previsión
+        function updateForecastData() {
+            const incrementRate = parseFloat(document.getElementById('forecastIncrementRate').value) / 100;
+            const expenseRate = parseFloat(document.getElementById('forecastExpenseRate').value) / 100;
+            const occupancyRate = parseFloat(document.getElementById('forecastOccupancyRate').value) / 100;
+            
+            // Calcular ingresos actuales mensuales
+            let currentMonthlyIncome = 0;
+            parkings.forEach(parking => {
+                currentMonthlyIncome += parseFloat(parking.price);
+            });
+            
+            // Ajustar por tasa de ocupación
+            currentMonthlyIncome = currentMonthlyIncome * occupancyRate;
+            
+            // Calcular gastos actuales mensuales
+            const threeMonthsAgo = new Date();
+            threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
+            
+            const recentExpenses = finances.filter(f => 
+                f.type === 'expense' && new Date(f.date) >= threeMonthsAgo
+            );
+            
+            let totalExpenses = 0;
+            recentExpenses.forEach(expense => {
+                totalExpenses += parseFloat(expense.amount);
+            });
+            
+            // Calcular promedio mensual (dividir por 3 o por el número de meses disponibles)
+            let currentMonthlyExpenses = recentExpenses.length > 0 ? totalExpenses / 3 : 0;
+            
+            // Si no hay gastos registrados, estimar un porcentaje de los ingresos
+            if (currentMonthlyExpenses === 0) {
+                currentMonthlyExpenses = currentMonthlyIncome * 0.3; // 30% de los ingresos como estimación
+            }
+            
+            // Calcular previsión para 5 años
+            const forecastYears = 5;
+            const forecastData = [];
+            
+            // Calcular inversión total (suma de precios de compra)
+            const totalInvestment = parkings.reduce((sum, parking) => sum + (parseFloat(parking.purchasePrice) || 0), 0);
+            
+            let annualIncome = currentMonthlyIncome * 12;
+            let annualExpenses = currentMonthlyExpenses * 12;
+            
+            for (let year = 1; year <= forecastYears; year++) {
+                // Para el primer año usamos valores actuales
+                if (year > 1) {
+                    // Incrementar ingresos y gastos según tasas definidas
+                    annualIncome = annualIncome * (1 + incrementRate);
+                    annualExpenses = annualExpenses * (1 + expenseRate);
+                }
+                
+                const balance = annualIncome - annualExpenses;
+                let roi = totalInvestment > 0 ? (balance / totalInvestment) * 100 : 0;
+                
+                forecastData.push({
+                    year: new Date().getFullYear() + year - 1,
+                    income: annualIncome,
+                    expenses: annualExpenses,
+                    balance: balance,
+                    roi: roi
+                });
+            }
+            
+            // Actualizar tabla de previsión
+            updateForecastTable(forecastData);
+            
+            // Actualizar gráfico de previsión
+            updateForecastChart(forecastData);
+        }
+        
+        // Actualizar tabla de previsión
+        function updateForecastTable(forecastData) {
+            const tableBody = document.getElementById('forecastTable');
+            tableBody.innerHTML = '';
+            
+            forecastData.forEach(yearData => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td class="py-3 px-4 border-b">${yearData.year}</td>
+                    <td class="py-3 px-4 border-b text-right text-green-600 font-semibold">${formatCurrency(yearData.income)}</td>
+                    <td class="py-3 px-4 border-b text-right text-red-600 font-semibold">${formatCurrency(yearData.expenses)}</td>
+                    <td class="py-3 px-4 border-b text-right font-bold">${formatCurrency(yearData.balance)}</td>
+                    <td class="py-3 px-4 border-b text-right font-semibold">${yearData.roi.toFixed(2)}%</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+        
+        // Actualizar gráfico de previsión
+        function updateForecastChart(forecastData) {
+            const canvas = document.getElementById('forecastChart');
+            
+            // Destruir gráfico anterior si existe
+            if (window.forecastChartInstance) {
+                window.forecastChartInstance.destroy();
+            }
+            
+            // Preparar datos para el gráfico
+            const labels = forecastData.map(data => data.year);
+            const incomeData = forecastData.map(data => data.income);
+            const expensesData = forecastData.map(data => data.expenses);
+            const balanceData = forecastData.map(data => data.balance);
+            
+            // Crear nuevo gráfico
+            window.forecastChartInstance = new Chart(canvas, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'Ingresos',
+                            data: incomeData,
+                            backgroundColor: 'rgba(72, 187, 120, 0.5)',
+                            borderColor: 'rgb(72, 187, 120)',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Gastos',
+                            data: expensesData,
+                            backgroundColor: 'rgba(245, 101, 101, 0.5)',
+                            borderColor: 'rgb(245, 101, 101)',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Balance',
+                            data: balanceData,
+                            type: 'line',
+                            fill: false,
+                            backgroundColor: 'rgba(66, 153, 225, 0.5)',
+                            borderColor: 'rgb(66, 153, 225)',
+                            borderWidth: 2,
+                            tension: 0.1
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return value.toLocaleString('es-ES', { style: 'currency', currency: 'EUR' });
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed.y !== null) {
+                                        label += new Intl.NumberFormat('es-ES', {
+                                            style: 'currency',
+                                            currency: 'EUR'
+                                        }).format(context.parsed.y);
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Abrir modal para añadir/editar parking
+        function openParkingModal(parkingId = null) {
+            const modal = document.getElementById('parkingModal');
+            const modalTitle = document.getElementById('parkingModalTitle');
+            const form = document.getElementById('parkingForm');
+            
+            // Limpiar formulario
+            form.reset();
+            
+            if (parkingId) {
+                // Modo edición
+                const parking = parkings.find(p => p.id === parkingId);
+                if (parking) {
+                    modalTitle.textContent = 'Editar Parking';
+                    document.getElementById('parkingId').value = parking.id;
+                    document.getElementById('parkingLocation').value = parking.location;
+                    document.getElementById('parkingSize').value = parking.size;
+                    document.getElementById('parkingPrice').value = parking.price;
+                    document.getElementById('parkingFeatures').value = parking.features || '';
+                    document.getElementById('parkingPurchasePrice').value = parking.purchasePrice || '';
+                    document.getElementById('parkingPurchaseDate').value = parking.purchaseDate || '';
+                }
+            } else {
+                // Modo añadir
+                modalTitle.textContent = 'Añadir Nuevo Parking';
+                document.getElementById('parkingId').value = '';
+            }
+            
+            // Mostrar modal
+            modal.classList.remove('hidden');
+            document.getElementById('parkingLocation').focus();
+        }
+        
+        // Guardar parking
+        function saveParking() {
+            const id = document.getElementById('parkingId').value || 'p_' + Date.now();
+            const location = document.getElementById('parkingLocation').value;
+            const size = document.getElementById('parkingSize').value;
+            const price = document.getElementById('parkingPrice').value;
+            const features = document.getElementById('parkingFeatures').value;
+            const purchasePrice = document.getElementById('parkingPurchasePrice').value;
+            const purchaseDate = document.getElementById('parkingPurchaseDate').value;
+            
+            const parkingData = {
+                id,
+                location,
+                size,
+                price,
+                features,
+                purchasePrice,
+                purchaseDate,
+                createdAt: new Date().toISOString()
+            };
+            
+            // Comprobar si es edición o nuevo
+            const existingIndex = parkings.findIndex(p => p.id === id);
+            if (existingIndex >= 0) {
+                // Preservar fecha de creación original
+                parkingData.createdAt = parkings[existingIndex].createdAt;
+                parkings[existingIndex] = parkingData;
+                showNotification('Parking actualizado correctamente', 'success');
+            } else {
+                parkings.push(parkingData);
+                showNotification('Nuevo parking añadido', 'success');
+            }
+            
+            // Guardar datos
+            saveData();
+            
+            // Actualizar UI
+            updateUI();
+            
+            // Cerrar modal
+            document.getElementById('parkingModal').classList.add('hidden');
+        }
+        
+        // Editar parking
+        function editParking(parkingId) {
+            openParkingModal(parkingId);
+        }
+        
+        // Asignar inquilino a parking
+        function assignTenant(parkingId) {
+            // Abrir modal de inquilino con el parking preseleccionado
+            const modal = document.getElementById('tenantModal');
+            const modalTitle = document.getElementById('tenantModalTitle');
+            const form = document.getElementById('tenantForm');
+            
+            // Limpiar formulario
+            form.reset();
+            
+            // Preseleccionar el parking
+            document.getElementById('tenantParking').value = parkingId;
+            
+            // Actualizar título y mostrar modal
+            modalTitle.textContent = 'Añadir Nuevo Inquilino';
+            modal.classList.remove('hidden');
+            document.getElementById('tenantName').focus();
+        }
+        
+        // Eliminar parking
+        function deleteParking(parkingId) {
+            if (confirm('¿Estás seguro de que deseas eliminar este parking? Esta acción no se puede deshacer.')) {
+                // Comprobar si hay inquilinos asociados
+                const hasTenants = tenants.some(t => t.parkingId === parkingId);
+                if (hasTenants) {
+                    if (confirm('Este parking tiene inquilinos asociados. ¿Deseas eliminar también estos inquilinos?')) {
+                        // Eliminar inquilinos asociados
+                        tenants = tenants.filter(t => t.parkingId !== parkingId);
+                    } else {
+                        return; // Cancelar eliminación
+                    }
+                }
+                
+                // Eliminar parking
+                parkings = parkings.filter(p => p.id !== parkingId);
+                
+                // Guardar datos
+                saveData();
+                
+                // Actualizar UI
+                updateUI();
+                
+                showNotification('Parking eliminado correctamente', 'success');
+            }
+        }
+        
+        // Abrir modal para añadir/editar inquilino
+        function openTenantModal(tenantId = null) {
+            const modal = document.getElementById('tenantModal');
+            const modalTitle = document.getElementById('tenantModalTitle');
+            const form = document.getElementById('tenantForm');
+            
+            // Actualizar lista de parkings disponibles
+            updateParkingDropdowns();
+            
+            // Limpiar formulario
+            form.reset();
+            
+            // Establecer fecha actual como predeterminada
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('tenantStartDate').value = today;
+            
+            if (tenantId) {
+                // Modo edición
+                const tenant = tenants.find(t => t.id === tenantId);
+                if (tenant) {
+                    modalTitle.textContent = 'Editar Inquilino';
+                    document.getElementById('tenantId').value = tenant.id;
+                    document.getElementById('tenantName').value = tenant.name;
+                    document.getElementById('tenantPhone').value = tenant.phone;
+                    document.getElementById('tenantEmail').value = tenant.email || '';
+                    document.getElementById('tenantParking').value = tenant.parkingId;
+                    document.getElementById('tenantStartDate').value = tenant.startDate;
+                    document.getElementById('tenantEndDate').value = tenant.endDate || '';
+                    document.getElementById('tenantNotes').value = tenant.notes || '';
+                }
+            } else {
+                // Modo añadir
+                modalTitle.textContent = 'Añadir Nuevo Inquilino';
+                document.getElementById('tenantId').value = '';
+            }
+            
+            // Mostrar modal
+            modal.classList.remove('hidden');
+            document.getElementById('tenantName').focus();
+        }
+        
+        // Guardar inquilino
+        function saveTenant() {
+            const id = document.getElementById('tenantId').value || 't_' + Date.now();
+            const name = document.getElementById('tenantName').value;
+            const phone = document.getElementById('tenantPhone').value;
+            const email = document.getElementById('tenantEmail').value;
+            const parkingId = document.getElementById('tenantParking').value;
+            const startDate = document.getElementById('tenantStartDate').value;
+            const endDate = document.getElementById('tenantEndDate').value;
+            const notes = document.getElementById('tenantNotes').value;
+            
+            // Validar que el parking no esté ocupado por otro inquilino (excepto en caso de edición)
+            const existingTenant = tenants.find(t => t.parkingId === parkingId && t.id !== id);
+            if (existingTenant) {
+                alert('Este parking ya está asignado a otro inquilino. Por favor, seleccione otro parking.');
+                return;
+            }
+            
+            const tenantData = {
+                id,
+                name,
+                phone,
+                email,
+                parkingId,
+                startDate,
+                endDate,
+                notes,
+                createdAt: new Date().toISOString()
+            };
+            
+            // Comprobar si es edición o nuevo
+            const existingIndex = tenants.findIndex(t => t.id === id);
+            if (existingIndex >= 0) {
+                // Preservar fecha de creación original
+                tenantData.createdAt = tenants[existingIndex].createdAt;
+                tenants[existingIndex] = tenantData;
+                showNotification('Inquilino actualizado correctamente', 'success');
+            } else {
+                tenants.push(tenantData);
+                showNotification('Nuevo inquilino añadido', 'success');
+                
+                // Registrar ingreso automático del primer alquiler si es un nuevo inquilino
+                const parking = parkings.find(p => p.id === parkingId);
+                if (parking) {
+                    const financeData = {
+                        id: 'f_' + Date.now(),
+                        date: startDate,
+                        type: 'income',
+                        concept: `Alquiler inicial - ${name}`,
+                        parkingId: parkingId,
+                        amount: parking.price,
+                        notes: `Pago inicial del alquiler de parking por ${name}`,
+                        createdAt: new Date().toISOString()
+                    };
+                    
+                    finances.push(financeData);
+                }
+            }
+            
+            // Guardar datos
+            saveData();
+            
+            // Actualizar UI
+            updateUI();
+            
+            // Cerrar modal
+            document.getElementById('tenantModal').classList.add('hidden');
+        }
+        
+        // Editar inquilino
+        function editTenant(tenantId) {
+            openTenantModal(tenantId);
+        }
+        
+        // Eliminar inquilino
+        function deleteTenant(tenantId) {
+            if (confirm('¿Estás seguro de que deseas eliminar este inquilino? Esta acción no se puede deshacer.')) {
+                // Eliminar inquilino
+                tenants = tenants.filter(t => t.id !== tenantId);
+                
+                // Guardar datos
+                saveData();
+                
+                // Actualizar UI
+                updateUI();
+                
+                showNotification('Inquilino eliminado correctamente', 'success');
+            }
+        }
+        
+        // Abrir modal para añadir transacción financiera
+        function openFinanceModal(type, financeId = null) {
+            const modal = document.getElementById('financeModal');
+            const modalTitle = document.getElementById('financeModalTitle');
+            const form = document.getElementById('financeForm');
+            const saveBtn = document.getElementById('saveFinanceBtn');
+            
+            // Actualizar lista de parkings
+            updateParkingDropdowns();
+            
+            // Limpiar formulario
+            form.reset();
+            
+            // Establecer fecha actual como predeterminada
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('financeDate').value = today;
+            
+            // Establecer tipo de transacción
+            document.getElementById('financeTransactionType').value = type;
+            
+            // Actualizar título y color del botón según tipo
+            if (type === 'income') {
+                modalTitle.textContent = 'Registrar Ingreso';
+                saveBtn.classList.remove('bg-red-500', 'hover:bg-red-600');
+                saveBtn.classList.add('bg-green-500', 'hover:bg-green-600');
+            } else {
+                modalTitle.textContent = 'Registrar Gasto';
+                saveBtn.classList.remove('bg-green-500', 'hover:bg-green-600');
+                saveBtn.classList.add('bg-red-500', 'hover:bg-red-600');
+            }
+            
+            if (financeId) {
+                // Modo edición
+                const finance = finances.find(f => f.id === financeId);
+                if (finance) {
+                    modalTitle.textContent = finance.type === 'income' ? 'Editar Ingreso' : 'Editar Gasto';
+                    document.getElementById('financeId').value = finance.id;
+                    document.getElementById('financeTransactionType').value = finance.type;
+                    document.getElementById('financeDate').value = finance.date;
+                    document.getElementById('financeConcept').value = finance.concept;
+                    document.getElementById('financeParking').value = finance.parkingId || '';
+                    document.getElementById('financeAmount').value = finance.amount;
+                    document.getElementById('financeNotes').value = finance.notes || '';
+                }
+            } else {
+                // Modo añadir
+                document.getElementById('financeId').value = '';
+            }
+            
+            // Mostrar modal
+            modal.classList.remove('hidden');
+            document.getElementById('financeConcept').focus();
+        }
+        
+        // Guardar transacción financiera
+        function saveFinance() {
+            const id = document.getElementById('financeId').value || 'f_' + Date.now();
+            const type = document.getElementById('financeTransactionType').value;
+            const date = document.getElementById('financeDate').value;
+            const concept = document.getElementById('financeConcept').value;
+            const parkingId = document.getElementById('financeParking').value;
+            const amount = document.getElementById('financeAmount').value;
+            const notes = document.getElementById('financeNotes').value;
+            
+            const financeData = {
+                id,
+                type,
+                date,
+                concept,
+                parkingId,
+                amount,
+                notes,
+                createdAt: new Date().toISOString()
+            };
+            
+            // Comprobar si es edición o nuevo
+            const existingIndex = finances.findIndex(f => f.id === id);
+            if (existingIndex >= 0) {
+                // Preservar fecha de creación original
+                financeData.createdAt = finances[existingIndex].createdAt;
+                finances[existingIndex] = financeData;
+                showNotification('Transacción actualizada correctamente', 'success');
+            } else {
+                finances.push(financeData);
+                showNotification(type === 'income' ? 'Nuevo ingreso registrado' : 'Nuevo gasto registrado', 'success');
+            }
+            
+            // Guardar datos
+            saveData();
+            
+            // Actualizar UI
+            updateUI();
+            
+            // Cerrar modal
+            document.getElementById('financeModal').classList.add('hidden');
+        }
+        
+        // Editar transacción financiera
+        function editFinance(financeId) {
+            const finance = finances.find(f => f.id === financeId);
+            if (finance) {
+                openFinanceModal(finance.type, financeId);
+            }
+        }
+        
+        // Eliminar transacción financiera
+        function deleteFinance(financeId) {
+            if (confirm('¿Estás seguro de que deseas eliminar esta transacción? Esta acción no se puede deshacer.')) {
+                // Eliminar transacción
+                finances = finances.filter(f => f.id !== financeId);
+                
+                // Guardar datos
+                saveData();
+                
+                // Actualizar UI
+                updateUI();
+                
+                showNotification('Transacción eliminada correctamente', 'success');
+            }
+        }
+        
+        // Mostrar notificación
+        function showNotification(message, type = 'info') {
+            const container = document.getElementById('notifications');
+            const notification = document.createElement('div');
+            
+            notification.className = `alert alert-${type} shadow-lg fade-in flex items-center`;
+            
+            const icon = type === 'success' ? 'fa-check-circle' : type === 'danger' ? 'fa-exclamation-circle' : 'fa-info-circle';
+            
+            notification.innerHTML = `
+                <i class="fas ${icon} mr-2"></i>
+                <span>${message}</span>
+                <button class="ml-auto text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times"></i>
+                </button>
+            `;
+            
+            // Añadir al contenedor
+            container.appendChild(notification);
+            
+            // Configurar botón de cierre
+            notification.querySelector('button').addEventListener('click', function() {
+                notification.remove();
+            });
+            
+            // Auto-eliminar después de 5 segundos
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                setTimeout(() => {
+                    notification.remove();
+                }, 300);
+            }, 5000);
+        }
+        
+        // Utilidades
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('es-ES');
+        }
+        
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('es-ES', {
+                style: 'currency',
+                currency: 'EUR'
+            }).format(amount);
+        }
+        
+        // Botón de modo oscuro
+        document.getElementById('darkModeToggle').addEventListener('click', function() {
+            document.body.classList.toggle('dark');
+            // Aquí se podría implementar la lógica para cambiar a modo oscuro
+            // por simplicidad no se ha implementado el CSS completo del modo oscuro
+        });
+        
+        // Inicializar acciones rápidas
+        document.getElementById('quickAddParking').addEventListener('click', function() {
+            openParkingModal();
+        });
+        
+        document.getElementById('quickAddTenant').addEventListener('click', function() {
+            openTenantModal();
+        });
+        
+        document.getElementById('quickAddExpense').addEventListener('click', function() {
+            openFinanceModal('expense');
+        });
+        
+        document.getElementById('quickAddIncome').addEventListener('click', function() {
+            openFinanceModal('income');
+        });
+    </script>
+</body>
+</html>
