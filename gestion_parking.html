@@ -1055,6 +1055,39 @@
                 openFinanceModal('income');
             });
 
+//--------------------
+        // ***************************************************
+        // **** COPIAR Y PEGAR LAS SIGUIENTES LÍNEAS AQUÍ: ****
+        // ***************************************************
+        // Botón para calcular proyección compuesta
+        document.getElementById('calculateCompoundForecastBtn').addEventListener('click', calculateCompoundForecast);
+
+        // Botón para añadir fila de inversión futura
+        document.getElementById('addInvestmentRowBtn').addEventListener('click', addFutureInvestmentRow);
+
+        // Delegación de eventos para botones de eliminar inversión (en el contenedor)
+        document.getElementById('futureInvestmentsContainer').addEventListener('click', function(event) {
+            if (event.target.closest('.remove-investment-btn')) {
+                // Asegurarse de no eliminar la última fila si queremos mantenerla como plantilla
+                const container = document.getElementById('futureInvestmentsContainer');
+                if (container.querySelectorAll('.future-investment-row').length > 1) {
+                     event.target.closest('.future-investment-row').remove();
+                } else {
+                    // Si es la última fila, simplemente limpiarla
+                    const row = event.target.closest('.future-investment-row');
+                    row.querySelector('.future-investment-year').value = '';
+                    row.querySelector('.future-investment-cost').value = '';
+                    showNotification('Fila limpiada. Añade otra si necesitas más.', 'info');
+                }
+            }
+        });
+        // ***************************************************
+        // **** FIN DE LA SECCIÓN A PEGAR ****
+        // ***************************************************
+
+//--------------------
+
+            
             // Botón modo oscuro
             document.getElementById('darkModeToggle').addEventListener('click', function() {
                 document.body.classList.toggle('dark');
