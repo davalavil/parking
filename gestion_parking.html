@@ -20,7 +20,6 @@
         body {
             min-height: 100vh;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f7fafc; /* Un gris muy claro por defecto */
         }
         .card {
             transition: all 0.3s ease;
@@ -34,158 +33,126 @@
         }
         /* Estilos para añadir animación y mejorar la visualización */
         .fade-in {
-            animation: fadeIn 0.5s ease-in-out;
+            animation: fadeIn 0.5s;
         }
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
         /* Estilo para mensajes de alerta */
         .alert {
-            padding: 12px 15px;
+            padding: 10px;
             margin: 10px 0;
-            border-radius: 6px;
-            transition: all 0.4s ease;
-            border: 1px solid transparent;
-            font-size: 0.9rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
         }
         .alert-success {
-            background-color: #e6fffa;
-            color: #38a169;
-            border-color: #9ae6b4;
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
         }
         .alert-danger {
-            background-color: #fff5f5;
-            color: #e53e3e;
-            border-color: #feb2b2;
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
         }
         .alert-warning {
-            background-color: #fffaf0;
-            color: #dd6b20;
-            border-color: #fbd38d;
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeeba;
         }
         .alert-info {
-             background-color: #ebf8ff;
-             color: #3182ce;
-             border-color: #90cdf4;
+             background-color: #d1ecf1;
+             color: #0c5460;
+             border: 1px solid #bee5eb;
         }
         /* Estilo para animación en hover de botones */
         .btn-animated:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
         }
         /* Estilos para tablas */
-        .table-hover tbody tr:hover {
-            background-color: #edf2f7; /* Gris más claro para hover */
+        .table-hover tr:hover {
+            background-color: rgba(243, 244, 246, 0.8);
         }
         .grid-cols-stats {
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
         }
-         /* Estilos básicos para Modo Oscuro (si se activa) */
-        body.dark {
-            background-color: #1a202c;
-            color: #cbd5e0;
-        }
-        body.dark .bg-white { background-color: #2d3748; }
-        body.dark .bg-gray-100 { background-color: #2d3748; }
-        body.dark .bg-gray-50 { background-color: #4a5568; }
-        body.dark .text-gray-800 { color: #e2e8f0; }
-        body.dark .text-gray-700 { color: #a0aec0; }
-        body.dark .text-gray-600 { color: #a0aec0; }
-        body.dark .text-gray-500 { color: #718096; }
-        body.dark .border-b { border-color: #4a5568; }
-        body.dark .shadow-md { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2); }
-        body.dark .shadow-lg { box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2); }
-        body.dark .shadow { box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 1px 2px 0 rgba(0, 0, 0, 0.2); }
-        body.dark .table-hover tbody tr:hover { background-color: #4a5568; }
-        body.dark select, body.dark input[type="text"], body.dark input[type="number"], body.dark input[type="date"], body.dark input[type="email"], body.dark input[type="tel"], body.dark textarea {
-            background-color: #4a5568;
-            border-color: #718096;
-            color: #e2e8f0;
-        }
-        body.dark .bg-blue-100 { background-color: #2c5282; } /* Ajustar colores de estado activo de pestaña */
-        body.dark .text-blue-600 { color: #63b3ed; }
-        body.dark .text-blue-800 { color: #90cdf4; }
-        body.dark .text-green-600 { color: #68d391; }
-        body.dark .text-red-600 { color: #fc8181; }
-        body.dark .text-blue-700 { color: #63b3ed; }
-        body.dark .text-red-700 { color: #fc8181; }
-        /* ... (añadir más estilos dark si es necesario) ... */
     </style>
 </head>
 <body class="bg-gray-100">
     <!-- Navbar -->
-    <nav class="bg-blue-600 text-white p-4 shadow-md sticky top-0 z-40">
+    <nav class="bg-blue-600 text-white p-4 shadow-md">
         <div class="container mx-auto flex justify-between items-center">
-            <h1 class="text-xl md:text-2xl font-bold flex items-center">
+            <h1 class="text-2xl font-bold flex items-center">
                 <i class="fas fa-parking mr-2"></i>
-                Gestión Parkings (Local)
+                Gestión de Parkings (Local)
             </h1>
             <div class="flex space-x-2 items-center">
-                <button id="darkModeToggle" class="p-2 rounded hover:bg-blue-700 transition" aria-label="Cambiar modo oscuro" title="Modo Oscuro">
+                <button id="darkModeToggle" class="p-2 rounded hover:bg-blue-700 transition" aria-label="Cambiar modo oscuro">
                     <i class="fas fa-moon"></i>
                 </button>
                 <!-- Input oculto para seleccionar archivo -->
                 <input type="file" id="loadDataInput" accept=".json" style="display: none;">
                 <!-- Botón visible para cargar -->
                 <button id="loadDataBtn" title="Cargar datos desde archivo JSON" class="p-2 rounded bg-green-500 hover:bg-green-600 transition text-sm font-medium flex items-center btn-animated">
-                    <i class="fas fa-folder-open mr-1"></i> <span class="hidden sm:inline">Cargar</span>
+                    <i class="fas fa-folder-open mr-1"></i> Cargar Datos
                 </button>
                 <!-- Botón para guardar (descargar archivo) -->
                 <button id="saveDataToFileBtn" title="Guardar cambios en archivo JSON" class="p-2 rounded bg-blue-700 hover:bg-blue-800 transition text-sm font-medium flex items-center btn-animated">
-                    <i class="fas fa-save mr-1"></i> <span class="hidden sm:inline">Guardar</span>
+                    <i class="fas fa-save mr-1"></i> Guardar Cambios
                 </button>
             </div>
         </div>
     </nav>
 
     <!-- Tabs Navigation -->
-    <div class="container mx-auto mt-4 px-4 md:px-0">
+    <div class="container mx-auto mt-4">
         <div class="bg-white shadow-md rounded-t-lg">
-            <ul class="flex border-b overflow-x-auto">
-                <li class="tab-btn mr-1 flex-shrink-0" data-tab="dashboard">
-                    <a class="bg-white inline-block py-2 px-4 text-blue-600 hover:text-blue-800 font-semibold whitespace-nowrap" href="#">
-                        <i class="fas fa-home mr-1 md:mr-2"></i><span class="hidden md:inline">Dashboard</span><span class="md:hidden">Dash</span>
+            <ul class="flex border-b">
+                <li class="tab-btn mr-1" data-tab="dashboard">
+                    <a class="bg-white inline-block py-2 px-4 text-blue-600 hover:text-blue-800 font-semibold" href="#">
+                        <i class="fas fa-home mr-2"></i>Dashboard
                     </a>
                 </li>
-                <li class="tab-btn mr-1 flex-shrink-0" data-tab="parkings">
-                    <a class="bg-white inline-block py-2 px-4 text-blue-600 hover:text-blue-800 font-semibold whitespace-nowrap" href="#">
-                        <i class="fas fa-car mr-1 md:mr-2"></i>Parkings
+                <li class="tab-btn mr-1" data-tab="parkings">
+                    <a class="bg-white inline-block py-2 px-4 text-blue-600 hover:text-blue-800 font-semibold" href="#">
+                        <i class="fas fa-car mr-2"></i>Parkings
                     </a>
                 </li>
-                <li class="tab-btn mr-1 flex-shrink-0" data-tab="tenants">
-                    <a class="bg-white inline-block py-2 px-4 text-blue-600 hover:text-blue-800 font-semibold whitespace-nowrap" href="#">
-                        <i class="fas fa-users mr-1 md:mr-2"></i>Inquilinos
+                <li class="tab-btn mr-1" data-tab="tenants">
+                    <a class="bg-white inline-block py-2 px-4 text-blue-600 hover:text-blue-800 font-semibold" href="#">
+                        <i class="fas fa-users mr-2"></i>Inquilinos
                     </a>
                 </li>
-                <li class="tab-btn mr-1 flex-shrink-0" data-tab="finances">
-                    <a class="bg-white inline-block py-2 px-4 text-blue-600 hover:text-blue-800 font-semibold whitespace-nowrap" href="#">
-                        <i class="fas fa-euro-sign mr-1 md:mr-2"></i>Finanzas
+                <li class="tab-btn mr-1" data-tab="finances">
+                    <a class="bg-white inline-block py-2 px-4 text-blue-600 hover:text-blue-800 font-semibold" href="#">
+                        <i class="fas fa-euro-sign mr-2"></i>Finanzas
                     </a>
                 </li>
-                <li class="tab-btn mr-1 flex-shrink-0" data-tab="forecast">
-                    <a class="bg-white inline-block py-2 px-4 text-blue-600 hover:text-blue-800 font-semibold whitespace-nowrap" href="#">
-                        <i class="fas fa-chart-line mr-1 md:mr-2"></i><span class="hidden md:inline">Previsiones</span><span class="md:hidden">Prev</span>
+                <li class="tab-btn mr-1" data-tab="forecast">
+                    <a class="bg-white inline-block py-2 px-4 text-blue-600 hover:text-blue-800 font-semibold" href="#">
+                        <i class="fas fa-chart-line mr-2"></i>Previsiones
                     </a>
                 </li>
-                <li class="tab-btn mr-1 flex-shrink-0" data-tab="compound">
-                     <a class="bg-white inline-block py-2 px-4 text-blue-600 hover:text-blue-800 font-semibold whitespace-nowrap" href="#">
-                         <i class="fas fa-chart-pie mr-1 md:mr-2"></i><span class="hidden md:inline">Proy. Compuesta</span><span class="md:hidden">Comp</span>
+                <li class="tab-btn mr-1" data-tab="compound">
+                     <a class="bg-white inline-block py-2 px-4 text-blue-600 hover:text-blue-800 font-semibold" href="#">
+                         <i class="fas fa-chart-pie mr-2"></i>Proyección Compuesta
                      </a>
                  </li>
             </ul>
         </div>
 
         <!-- Tab Contents -->
-        <div class="bg-white shadow-md rounded-b-lg p-4 md:p-6">
+        <div class="bg-white shadow-md rounded-b-lg p-6">
             <!-- Dashboard Tab -->
             <div id="dashboard" class="tab-content active fade-in">
                 <h2 class="text-2xl font-bold mb-6 text-gray-800">Dashboard</h2>
-                <p id="dashboard-message" class="text-gray-600 mb-4">Carga un archivo de datos (`.json`) para empezar.</p>
+                <p id="dashboard-message" class="text-gray-600 mb-4">Carga un archivo de datos para ver el dashboard.</p>
 
                 <div class="grid grid-cols-1 md:grid-cols-stats gap-6 mb-6">
                     <!-- Estadísticas generales -->
-                    <div class="bg-white rounded-lg shadow p-6 border-l-4 border-blue-500 card">
+                    <div class="bg-white rounded-lg shadow p-6 border-l-4 border-blue-500">
                         <div class="flex items-center">
                             <div class="p-3 rounded-full bg-blue-100 text-blue-500 mr-4">
                                 <i class="fas fa-car text-xl"></i>
@@ -197,7 +164,7 @@
                         </div>
                     </div>
 
-                    <div class="bg-white rounded-lg shadow p-6 border-l-4 border-green-500 card">
+                    <div class="bg-white rounded-lg shadow p-6 border-l-4 border-green-500">
                         <div class="flex items-center">
                             <div class="p-3 rounded-full bg-green-100 text-green-500 mr-4">
                                 <i class="fas fa-check-circle text-xl"></i>
@@ -209,25 +176,25 @@
                         </div>
                     </div>
 
-                    <div class="bg-white rounded-lg shadow p-6 border-l-4 border-yellow-500 card">
+                    <div class="bg-white rounded-lg shadow p-6 border-l-4 border-yellow-500">
                         <div class="flex items-center">
                             <div class="p-3 rounded-full bg-yellow-100 text-yellow-500 mr-4">
                                 <i class="fas fa-euro-sign text-xl"></i>
                             </div>
                             <div>
-                                <p class="text-gray-500">Ingresos Mensuales (Est.)</p>
+                                <p class="text-gray-500">Ingresos Mensuales</p>
                                 <p class="text-2xl font-bold" id="monthlyIncome">0 €</p>
                             </div>
                         </div>
                     </div>
 
-                    <div class="bg-white rounded-lg shadow p-6 border-l-4 border-red-500 card">
+                    <div class="bg-white rounded-lg shadow p-6 border-l-4 border-red-500">
                         <div class="flex items-center">
                             <div class="p-3 rounded-full bg-red-100 text-red-500 mr-4">
                                 <i class="fas fa-minus-circle text-xl"></i>
                             </div>
                             <div>
-                                <p class="text-gray-500">Gastos Mes Actual</p>
+                                <p class="text-gray-500">Gastos Mensuales</p>
                                 <p class="text-2xl font-bold" id="monthlyExpenses">0 €</p>
                             </div>
                         </div>
@@ -244,7 +211,7 @@
                                     <tr>
                                         <th class="py-2 px-4 border-b text-left">Ubicación</th>
                                         <th class="py-2 px-4 border-b text-left">Estado</th>
-                                        <th class="py-2 px-4 border-b text-right">Alquiler</th>
+                                        <th class="py-2 px-4 border-b text-left">Precio Alquiler</th>
                                     </tr>
                                 </thead>
                                 <tbody id="recentParkingsTable">
@@ -310,9 +277,9 @@
                                 Ordenar por:
                             </label>
                             <select id="sortParkings" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                                <option value="location">Ubicación (A-Z)</option>
-                                <option value="price">Precio Alquiler (€)</option>
-                                <option value="size">Tamaño (m²)</option>
+                                <option value="location">Ubicación</option>
+                                <option value="price">Precio de alquiler</option>
+                                <option value="size">Tamaño</option>
                             </select>
                         </div>
                     </div>
@@ -325,12 +292,12 @@
                             <tr>
                                 <th class="py-3 px-4 border-b text-left">ID</th>
                                 <th class="py-3 px-4 border-b text-left">Ubicación</th>
-                                <th class="py-3 px-4 border-b text-right">Tamaño (m²)</th>
+                                <th class="py-3 px-4 border-b text-left">Tamaño (m²)</th>
                                 <th class="py-3 px-4 border-b text-left">Características</th>
-                                <th class="py-3 px-4 border-b text-right">Alquiler (€/mes)</th>
-                                <th class="py-3 px-4 border-b text-center">Estado</th>
+                                <th class="py-3 px-4 border-b text-left">Precio Alquiler</th>
+                                <th class="py-3 px-4 border-b text-left">Estado</th>
                                 <th class="py-3 px-4 border-b text-left">Inquilino</th>
-                                <th class="py-3 px-4 border-b text-center">Acciones</th>
+                                <th class="py-3 px-4 border-b text-left">Acciones</th>
                             </tr>
                         </thead>
                         <tbody id="parkingsTable">
@@ -365,8 +332,8 @@
                                 Ordenar por:
                             </label>
                             <select id="sortTenants" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                                <option value="name">Nombre (A-Z)</option>
-                                <option value="startDate">Fecha de inicio (Antigua primero)</option>
+                                <option value="name">Nombre</option>
+                                <option value="startDate">Fecha de inicio</option>
                             </select>
                         </div>
                     </div>
@@ -382,9 +349,9 @@
                                 <th class="py-3 px-4 border-b text-left">Teléfono</th>
                                 <th class="py-3 px-4 border-b text-left">Email</th>
                                 <th class="py-3 px-4 border-b text-left">Parking Asignado</th>
-                                <th class="py-3 px-4 border-b text-center">Inicio</th>
-                                <th class="py-3 px-4 border-b text-center">Fin</th>
-                                <th class="py-3 px-4 border-b text-center">Acciones</th>
+                                <th class="py-3 px-4 border-b text-left">Fecha Inicio</th>
+                                <th class="py-3 px-4 border-b text-left">Fecha Fin</th>
+                                <th class="py-3 px-4 border-b text-left">Acciones</th>
                             </tr>
                         </thead>
                         <tbody id="tenantsTable">
@@ -412,20 +379,20 @@
 
                 <!-- Resumen financiero -->
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-                    <div class="bg-white p-4 rounded-lg shadow border-l-4 border-green-500 card">
+                    <div class="bg-white p-4 rounded-lg shadow border-l-4 border-green-500">
                         <h3 class="text-gray-500 text-sm">Ingresos Totales</h3>
                         <p class="text-2xl font-bold" id="totalIncome">0 €</p>
                     </div>
-                    <div class="bg-white p-4 rounded-lg shadow border-l-4 border-red-500 card">
+                    <div class="bg-white p-4 rounded-lg shadow border-l-4 border-red-500">
                         <h3 class="text-gray-500 text-sm">Gastos Totales</h3>
                         <p class="text-2xl font-bold" id="totalExpenses">0 €</p>
                     </div>
-                    <div class="bg-white p-4 rounded-lg shadow border-l-4 border-blue-500 card">
-                        <h3 class="text-gray-500 text-sm">Balance Histórico</h3>
+                    <div class="bg-white p-4 rounded-lg shadow border-l-4 border-blue-500">
+                        <h3 class="text-gray-500 text-sm">Balance</h3>
                         <p class="text-2xl font-bold" id="totalBalance">0 €</p>
                     </div>
-                    <div class="bg-white p-4 rounded-lg shadow border-l-4 border-yellow-500 card">
-                        <h3 class="text-gray-500 text-sm">ROI (Últimos 12m)</h3>
+                    <div class="bg-white p-4 rounded-lg shadow border-l-4 border-yellow-500">
+                        <h3 class="text-gray-500 text-sm">ROI Anual</h3>
                         <p class="text-2xl font-bold" id="annualROI">0%</p>
                     </div>
                 </div>
@@ -470,12 +437,12 @@
                     <table class="min-w-full bg-white table-hover">
                         <thead class="bg-gray-100">
                             <tr>
-                                <th class="py-3 px-4 border-b text-center">Fecha</th>
+                                <th class="py-3 px-4 border-b text-left">Fecha</th>
                                 <th class="py-3 px-4 border-b text-left">Tipo</th>
                                 <th class="py-3 px-4 border-b text-left">Concepto</th>
                                 <th class="py-3 px-4 border-b text-left">Parking</th>
-                                <th class="py-3 px-4 border-b text-right">Importe</th>
-                                <th class="py-3 px-4 border-b text-center">Acciones</th>
+                                <th class="py-3 px-4 border-b text-left">Importe</th>
+                                <th class="py-3 px-4 border-b text-left">Acciones</th>
                             </tr>
                         </thead>
                         <tbody id="financesTable">
@@ -489,203 +456,205 @@
 
             <!-- Forecast Tab -->
             <div id="forecast" class="tab-content fade-in">
-                 <h2 class="text-2xl font-bold mb-6 text-gray-800">Previsiones Anuales (Simple)</h2>
-                <!-- Parámetros de previsión -->
-                <div class="bg-gray-50 p-4 rounded-lg shadow mb-6">
-                    <h3 class="text-lg font-semibold mb-4">Parámetros de Previsión</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div>
-                            <label class="block text-gray-700 text-sm font-bold mb-2" for="forecastIncrementRate">
-                                Incremento anual de alquiler (%):
-                            </label>
-                            <input id="forecastIncrementRate" type="number" min="0" max="100" step="0.5" value="2" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                        </div>
-                        <div>
-                            <label class="block text-gray-700 text-sm font-bold mb-2" for="forecastExpenseRate">
-                                Incremento anual de gastos (%):
-                            </label>
-                            <input id="forecastExpenseRate" type="number" min="0" max="100" step="0.5" value="3" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                        </div>
-                        <div>
-                            <label class="block text-gray-700 text-sm font-bold mb-2" for="forecastOccupancyRate">
-                                Tasa de ocupación (%):
-                            </label>
-                            <input id="forecastOccupancyRate" type="number" min="0" max="100" step="1" value="90" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                        </div>
-                    </div>
-                    <div class="mt-4">
-                        <button id="calculateForecastBtn" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded btn-animated transition">
-                            <i class="fas fa-calculator mr-2"></i> Calcular Previsión Simple
-                        </button>
-                    </div>
-                </div>
+                <!-- Contenido de la Pestaña Previsiones -->
+                 <h2 class="text-2xl font-bold mb-6 text-gray-800">Previsiones Financieras</h2>
 
-                <!-- Resultados de previsión -->
-                <div class="bg-white p-6 rounded-lg shadow mb-6">
-                    <h3 class="text-lg font-semibold mb-4">Previsión de Ingresos y Gastos - Próximos 5 años</h3>
-                    <div class="overflow-x-auto">
-                        <table class="min-w-full bg-white table-hover">
-                            <thead class="bg-gray-100">
-                                <tr>
-                                    <th class="py-3 px-4 border-b text-left">Año</th>
-                                    <th class="py-3 px-4 border-b text-right">Ingresos</th>
-                                    <th class="py-3 px-4 border-b text-right">Gastos</th>
-                                    <th class="py-3 px-4 border-b text-right">Balance</th>
-                                    <th class="py-3 px-4 border-b text-right">ROI (sobre Inv. Actual)</th>
-                                </tr>
-                            </thead>
-                            <tbody id="forecastTable">
-                                <tr>
-                                    <td colspan="5" class="py-4 px-4 text-center text-gray-500">Carga datos y calcule la previsión para ver los resultados</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <!-- Gráfico de previsión -->
-                <div class="bg-white p-6 rounded-lg shadow">
-                    <h3 class="text-lg font-semibold mb-4">Gráfico de Previsión Simple</h3>
-                    <div class="chart-container">
-                        <canvas id="forecastChart"></canvas>
-                    </div>
-                </div>
-            </div> <!-- Cierre de forecast -->
-
-            <!-- Compound Growth Forecast Tab -->
-            <div id="compound" class="tab-content fade-in">
-                 <h2 class="text-2xl font-bold mb-6 text-gray-800">Proyección de Crecimiento Compuesto</h2>
-
-                 <!-- Parámetros de Proyección Compuesta -->
+                 <!-- Parámetros de previsión -->
                  <div class="bg-gray-50 p-4 rounded-lg shadow mb-6">
-                     <h3 class="text-lg font-semibold mb-4">Parámetros de la Proyección</h3>
-                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                     <h3 class="text-lg font-semibold mb-4">Parámetros de Previsión</h3>
+                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                          <div>
-                             <label class="block text-gray-700 text-sm font-bold mb-2" for="compoundProfitGrowthRate">
-                                 Crecimiento Anual del Beneficio Neto (%):
+                             <label class="block text-gray-700 text-sm font-bold mb-2" for="forecastIncrementRate">
+                                 Incremento anual de alquiler (%):
                              </label>
-                             <input id="compoundProfitGrowthRate" type="number" min="0" max="100" step="0.5" value="2" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" title="Estimación de cuánto crece el beneficio neto cada año (puede ser diferente al crecimiento de ingresos o gastos).">
+                             <input id="forecastIncrementRate" type="number" min="0" max="100" step="0.5" value="2" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                          </div>
-                          <div>
-                              <p class="text-gray-700 text-sm font-bold mb-2">Capital Invertido Inicial:</p>
-                              <p id="compoundInitialInvestment" class="text-lg font-semibold">0 €</p>
-                          </div>
-                          <div>
-                              <p class="text-gray-700 text-sm font-bold mb-2">Balance Acumulado Inicial:</p>
-                              <p id="compoundInitialBalance" class="text-lg font-semibold">0 €</p>
-                          </div>
-                          <div>
-                              <p class="text-gray-700 text-sm font-bold mb-2">Beneficio Neto Anual Base (Estimado):</p>
-                              <p id="compoundBaseAnnualProfit" class="text-lg font-semibold">0 €</p>
-                          </div>
-                     </div>
-
-                     <h3 class="text-lg font-semibold mb-4 mt-6">Inversiones Futuras Planificadas</h3>
-                     <div id="futureInvestmentsContainer" class="space-y-2 mb-4">
-                         <!-- Filas de inversión se añadirán aquí dinámicamente o pre-rellenadas por JS -->
-                         <div class="flex items-center space-x-2 future-investment-row">
-                             <input type="number" min="2025" placeholder="Año" class="shadow appearance-none border rounded w-1/3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline future-investment-year">
-                             <input type="number" min="0" step="100" placeholder="Coste (€)" class="shadow appearance-none border rounded w-1/3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline future-investment-cost">
-                             <button type="button" class="text-red-500 hover:text-red-700 remove-investment-btn" title="Eliminar Inversión">
-                                 <i class="fas fa-trash-alt"></i>
-                             </button>
+                         <div>
+                             <label class="block text-gray-700 text-sm font-bold mb-2" for="forecastExpenseRate">
+                                 Incremento anual de gastos (%):
+                             </label>
+                             <input id="forecastExpenseRate" type="number" min="0" max="100" step="0.5" value="3" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                         </div>
+                         <div>
+                             <label class="block text-gray-700 text-sm font-bold mb-2" for="forecastOccupancyRate">
+                                 Tasa de ocupación (%):
+                             </label>
+                             <input id="forecastOccupancyRate" type="number" min="0" max="100" step="1" value="90" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                          </div>
                      </div>
-                     <button id="addInvestmentRowBtn" type="button" class="bg-gray-300 hover:bg-gray-400 text-gray-800 text-sm font-bold py-1 px-3 rounded btn-animated transition">
-                         <i class="fas fa-plus mr-1"></i> Añadir Inversión Futura
-                     </button>
-
-                     <div class="mt-6">
-                         <button id="calculateCompoundForecastBtn" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded btn-animated transition">
-                             <i class="fas fa-calculator mr-2"></i> Calcular Proyección Compuesta
+                     <div class="mt-4">
+                         <button id="calculateForecastBtn" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded btn-animated transition">
+                             <i class="fas fa-calculator mr-2"></i> Calcular Previsión Simple
                          </button>
                      </div>
                  </div>
 
-                 <!-- Resultados de Proyección Compuesta -->
-                 <div class="bg-white p-6 rounded-lg shadow">
-                     <h3 class="text-lg font-semibold mb-4">Proyección Acumulada - Próximos 5 años</h3>
-                     <p class="text-sm text-gray-600 mb-4">Muestra la ganancia neta total acumulada al final de cada año, después de considerar beneficios e inversiones.</p>
+                 <!-- Resultados de previsión -->
+                 <div class="bg-white p-6 rounded-lg shadow mb-6">
+                     <h3 class="text-lg font-semibold mb-4">Previsión Simple de Ingresos y Gastos - Próximos 5 años</h3>
                      <div class="overflow-x-auto">
                          <table class="min-w-full bg-white table-hover">
                              <thead class="bg-gray-100">
                                  <tr>
                                      <th class="py-3 px-4 border-b text-left">Año</th>
-                                     <th class="py-3 px-4 border-b text-right">Capital Invertido (Total Fin Año)</th>
-                                     <th class="py-3 px-4 border-b text-right">Beneficio Generado (Este Año)</th>
-                                     <th class="py-3 px-4 border-b text-right">Inversión Realizada (Este Año)</th>
-                                     <th class="py-3 px-4 border-b text-right">Ganancia Neta Acumulada (Fin Año)</th>
+                                     <th class="py-3 px-4 border-b text-right">Ingresos</th>
+                                     <th class="py-3 px-4 border-b text-right">Gastos</th>
+                                     <th class="py-3 px-4 border-b text-right">Balance</th>
+                                     <th class="py-3 px-4 border-b text-right">ROI (s/ Inversión Actual)</th>
                                  </tr>
                              </thead>
-                             <tbody id="compoundForecastTable">
+                             <tbody id="forecastTable">
                                  <tr>
-                                     <td colspan="5" class="py-4 px-4 text-center text-gray-500">Calcule la proyección para ver los resultados</td>
+                                     <td colspan="5" class="py-4 px-4 text-center text-gray-500">Carga datos y calcule la previsión para ver los resultados</td>
                                  </tr>
                              </tbody>
                          </table>
                      </div>
                  </div>
-            </div> <!-- Cierre de compound -->
+
+                 <!-- Gráfico de previsión -->
+                 <div class="bg-white p-6 rounded-lg shadow">
+                     <h3 class="text-lg font-semibold mb-4">Gráfico de Previsión Simple</h3>
+                     <div class="chart-container">
+                         <canvas id="forecastChart"></canvas>
+                     </div>
+                 </div>
+            </div> <!-- Cierre de <div id="forecast"> -->
+
+            <!-- Compound Growth Forecast Tab -->
+            <div id="compound" class="tab-content fade-in">
+                <h2 class="text-2xl font-bold mb-6 text-gray-800">Proyección de Crecimiento Compuesto</h2>
+
+                <!-- Parámetros de Proyección Compuesta -->
+                <div class="bg-gray-50 p-4 rounded-lg shadow mb-6">
+                    <h3 class="text-lg font-semibold mb-4">Parámetros de la Proyección</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                        <div>
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="compoundProfitGrowthRate">
+                                Crecimiento Anual del Beneficio Neto (%):
+                            </label>
+                            <input id="compoundProfitGrowthRate" type="number" min="0" max="100" step="0.5" value="2" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" title="Estimación de cuánto crece el beneficio neto cada año (puede ser diferente al crecimiento de ingresos o gastos).">
+                        </div>
+                         <div>
+                             <p class="text-gray-700 text-sm font-bold mb-2">Capital Invertido Inicial:</p>
+                             <p id="compoundInitialInvestment" class="text-lg font-semibold">0 €</p>
+                         </div>
+                         <div>
+                             <p class="text-gray-700 text-sm font-bold mb-2">Balance Acumulado Inicial:</p>
+                             <p id="compoundInitialBalance" class="text-lg font-semibold">0 €</p>
+                         </div>
+                         <div>
+                             <p class="text-gray-700 text-sm font-bold mb-2">Beneficio Neto Anual Base (Estimado):</p>
+                             <p id="compoundBaseAnnualProfit" class="text-lg font-semibold">0 €</p>
+                         </div>
+                    </div>
+
+                    <h3 class="text-lg font-semibold mb-4 mt-6">Inversiones Futuras Planificadas</h3>
+                    <div id="futureInvestmentsContainer" class="space-y-2 mb-4">
+                        <!-- Filas de inversión se añadirán aquí dinámicamente o pre-rellenadas por JS -->
+                        <div class="flex items-center space-x-2 future-investment-row">
+                            <input type="number" min="2025" placeholder="Año" class="shadow appearance-none border rounded w-1/3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline future-investment-year">
+                            <input type="number" min="0" step="100" placeholder="Coste (€)" class="shadow appearance-none border rounded w-1/3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline future-investment-cost">
+                            <button type="button" class="text-red-500 hover:text-red-700 remove-investment-btn" title="Eliminar Inversión">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <button id="addInvestmentRowBtn" type="button" class="bg-gray-300 hover:bg-gray-400 text-gray-800 text-sm font-bold py-1 px-3 rounded btn-animated transition">
+                        <i class="fas fa-plus mr-1"></i> Añadir Inversión Futura
+                    </button>
+
+                    <div class="mt-6">
+                        <button id="calculateCompoundForecastBtn" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded btn-animated transition">
+                            <i class="fas fa-calculator mr-2"></i> Calcular Proyección Compuesta
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Resultados de Proyección Compuesta -->
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="text-lg font-semibold mb-4">Proyección Acumulada - Próximos 5 años</h3>
+                    <p class="text-sm text-gray-600 mb-4">Muestra la ganancia neta total acumulada al final de cada año, después de considerar beneficios e inversiones.</p>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full bg-white table-hover">
+                            <thead class="bg-gray-100">
+                                <tr>
+                                    <th class="py-3 px-4 border-b text-left">Año</th>
+                                    <th class="py-3 px-4 border-b text-right">Capital Invertido (Total Fin Año)</th>
+                                    <th class="py-3 px-4 border-b text-right">Beneficio Generado (Este Año)</th>
+                                    <th class="py-3 px-4 border-b text-right">Inversión Realizada (Este Año)</th>
+                                    <th class="py-3 px-4 border-b text-right">Ganancia Neta Acumulada (Fin Año)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="compoundForecastTable">
+                                <tr>
+                                    <td colspan="5" class="py-4 px-4 text-center text-gray-500">Calcule la proyección para ver los resultados</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div> <!-- Cierre de <div id="compound"> -->
 
         </div> <!-- Cierre del contenedor principal de pestañas -->
     </div> <!-- Cierre del container -->
 
-    <!-- MODALES (Sin cambios aquí) -->
+    <!-- Modales (Parking, Tenant, Finance) -->
     <!-- Modal para añadir/editar parking -->
-    <div id="parkingModal" class="fixed inset-0 bg-gray-600 bg-opacity-75 hidden flex items-center justify-center modal p-4 z-50">
-        <div class="bg-white rounded-lg shadow-xl p-6 w-full max-w-xl max-h-full overflow-y-auto">
-            <div class="flex justify-between items-center mb-4 pb-3 border-b">
-                <h3 class="text-xl font-bold text-gray-800" id="parkingModalTitle">Añadir Nuevo Parking</h3>
+    <div id="parkingModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden flex items-center justify-center modal">
+        <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-xl">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold" id="parkingModalTitle">Añadir Nuevo Parking</h3>
                 <button class="text-gray-500 hover:text-gray-700" id="closeParkingModal" aria-label="Cerrar modal">
-                    <i class="fas fa-times text-xl"></i>
+                    <i class="fas fa-times"></i>
                 </button>
             </div>
             <form id="parkingForm">
                 <input type="hidden" id="parkingId">
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="parkingLocation">
-                        Ubicación: <span class="text-red-500">*</span>
+                        Ubicación:
                     </label>
-                    <input id="parkingLocation" type="text" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Dirección completa del parking">
+                    <input id="parkingLocation" type="text" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Dirección completa del parking">
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                     <div>
                         <label class="block text-gray-700 text-sm font-bold mb-2" for="parkingSize">
-                            Tamaño (m²): <span class="text-red-500">*</span>
+                            Tamaño (m²):
                         </label>
-                        <input id="parkingSize" type="number" min="1" step="0.1" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Ej: 12.5">
+                        <input id="parkingSize" type="number" min="1" step="0.1" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Tamaño en metros cuadrados">
                     </div>
                     <div>
                         <label class="block text-gray-700 text-sm font-bold mb-2" for="parkingPrice">
-                            Precio Alquiler (€/mes): <span class="text-red-500">*</span>
+                            Precio Alquiler (€/mes):
                         </label>
-                        <input id="parkingPrice" type="number" min="0" step="0.01" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Ej: 75.00">
+                        <input id="parkingPrice" type="number" min="0" step="0.01" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Precio mensual">
                     </div>
                 </div>
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="parkingFeatures">
                         Características:
                     </label>
-                    <textarea id="parkingFeatures" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500" rows="3" placeholder="Ej: Plaza cubierta, mando a distancia, vigilancia 24h..."></textarea>
+                    <textarea id="parkingFeatures" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" rows="3" placeholder="Características del parking (seguridad, accesibilidad, etc.)"></textarea>
                 </div>
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="parkingPurchasePrice">
-                        Precio de Compra (€) (Para ROI):
+                        Precio de Compra (€):
                     </label>
-                    <input id="parkingPurchasePrice" type="number" min="0" step="0.01" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Precio de adquisición">
+                    <input id="parkingPurchasePrice" type="number" min="0" step="0.01" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Precio de adquisición del parking">
                 </div>
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="parkingPurchaseDate">
-                        Fecha de Compra (Para ROI):
+                        Fecha de Compra:
                     </label>
-                    <input id="parkingPurchaseDate" type="date" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <input id="parkingPurchaseDate" type="date" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                 </div>
-                <div class="flex justify-end pt-4 border-t mt-4">
+                <div class="flex justify-end">
                     <button type="button" id="cancelParkingBtn" class="mr-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded btn-animated transition">
                         Cancelar
                     </button>
                     <button type="submit" id="saveParkingBtn" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded btn-animated transition">
-                        <i class="fas fa-save mr-2"></i>Guardar Parking
+                        Guardar
                     </button>
                 </div>
             </form>
@@ -693,70 +662,70 @@
     </div>
 
     <!-- Modal para añadir/editar inquilino -->
-    <div id="tenantModal" class="fixed inset-0 bg-gray-600 bg-opacity-75 hidden flex items-center justify-center modal p-4 z-50">
-         <div class="bg-white rounded-lg shadow-xl p-6 w-full max-w-xl max-h-full overflow-y-auto">
-            <div class="flex justify-between items-center mb-4 pb-3 border-b">
-                <h3 class="text-xl font-bold text-gray-800" id="tenantModalTitle">Añadir Nuevo Inquilino</h3>
-                 <button class="text-gray-500 hover:text-gray-700" id="closeTenantModal" aria-label="Cerrar modal">
-                    <i class="fas fa-times text-xl"></i>
+    <div id="tenantModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden flex items-center justify-center modal">
+        <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-xl">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold" id="tenantModalTitle">Añadir Nuevo Inquilino</h3>
+                <button class="text-gray-500 hover:text-gray-700" id="closeTenantModal" aria-label="Cerrar modal">
+                    <i class="fas fa-times"></i>
                 </button>
             </div>
             <form id="tenantForm">
                 <input type="hidden" id="tenantId">
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="tenantName">
-                        Nombre completo: <span class="text-red-500">*</span>
+                        Nombre completo:
                     </label>
-                    <input id="tenantName" type="text" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Nombre y apellidos">
+                    <input id="tenantName" type="text" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Nombre y apellidos">
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                     <div>
                         <label class="block text-gray-700 text-sm font-bold mb-2" for="tenantPhone">
-                            Teléfono: <span class="text-red-500">*</span>
+                            Teléfono:
                         </label>
-                        <input id="tenantPhone" type="tel" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Número de teléfono">
+                        <input id="tenantPhone" type="tel" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Número de teléfono">
                     </div>
                     <div>
                         <label class="block text-gray-700 text-sm font-bold mb-2" for="tenantEmail">
                             Email:
                         </label>
-                        <input id="tenantEmail" type="email" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Correo electrónico">
+                        <input id="tenantEmail" type="email" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Correo electrónico">
                     </div>
                 </div>
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="tenantParking">
-                        Parking Asignado: <span class="text-red-500">*</span>
+                        Parking Asignado:
                     </label>
-                    <select id="tenantParking" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <select id="tenantParking" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"> <!-- required quitado para permitir desasignar -->
                         <option value="">Seleccione un parking disponible...</option>
                     </select>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                     <div>
                         <label class="block text-gray-700 text-sm font-bold mb-2" for="tenantStartDate">
-                            Fecha de Inicio: <span class="text-red-500">*</span>
+                            Fecha de Inicio:
                         </label>
-                        <input id="tenantStartDate" type="date" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <input id="tenantStartDate" type="date" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                     </div>
                     <div>
                         <label class="block text-gray-700 text-sm font-bold mb-2" for="tenantEndDate">
                             Fecha de Fin (opcional):
                         </label>
-                        <input id="tenantEndDate" type="date" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <input id="tenantEndDate" type="date" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                     </div>
                 </div>
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="tenantNotes">
                         Notas:
                     </label>
-                    <textarea id="tenantNotes" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500" rows="3" placeholder="Información adicional: Matrícula, modelo coche, etc."></textarea>
+                    <textarea id="tenantNotes" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" rows="3" placeholder="Información adicional del inquilino"></textarea>
                 </div>
-                <div class="flex justify-end pt-4 border-t mt-4">
-                     <button type="button" id="cancelTenantBtn" class="mr-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded btn-animated transition">
+                <div class="flex justify-end">
+                    <button type="button" id="cancelTenantBtn" class="mr-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded btn-animated transition">
                         Cancelar
                     </button>
                     <button type="submit" id="saveTenantBtn" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded btn-animated transition">
-                         <i class="fas fa-save mr-2"></i>Guardar Inquilino
+                        Guardar
                     </button>
                 </div>
             </form>
@@ -764,12 +733,12 @@
     </div>
 
     <!-- Modal para añadir transacción financiera -->
-    <div id="financeModal" class="fixed inset-0 bg-gray-600 bg-opacity-75 hidden flex items-center justify-center modal p-4 z-50">
-         <div class="bg-white rounded-lg shadow-xl p-6 w-full max-w-xl max-h-full overflow-y-auto">
-             <div class="flex justify-between items-center mb-4 pb-3 border-b">
-                <h3 class="text-xl font-bold text-gray-800" id="financeModalTitle">Registrar Ingreso</h3>
-                 <button class="text-gray-500 hover:text-gray-700" id="closeFinanceModal" aria-label="Cerrar modal">
-                    <i class="fas fa-times text-xl"></i>
+    <div id="financeModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden flex items-center justify-center modal">
+        <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-xl">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold" id="financeModalTitle">Registrar Ingreso</h3>
+                <button class="text-gray-500 hover:text-gray-700" id="closeFinanceModal" aria-label="Cerrar modal">
+                    <i class="fas fa-times"></i>
                 </button>
             </div>
             <form id="financeForm">
@@ -777,43 +746,42 @@
                 <input type="hidden" id="financeTransactionType" value="income">
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="financeDate">
-                        Fecha: <span class="text-red-500">*</span>
+                        Fecha:
                     </label>
-                    <input id="financeDate" type="date" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <input id="financeDate" type="date" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                 </div>
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="financeConcept">
-                        Concepto: <span class="text-red-500">*</span>
+                        Concepto:
                     </label>
-                    <input id="financeConcept" type="text" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Breve descripción">
+                    <input id="financeConcept" type="text" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Breve descripción de la transacción">
                 </div>
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="financeParking">
                         Parking relacionado (opcional):
                     </label>
-                    <select id="financeParking" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <select id="financeParking" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                         <option value="">Ninguno (general)</option>
                     </select>
                 </div>
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="financeAmount">
-                        Importe (€): <span class="text-red-500">*</span>
+                        Importe (€):
                     </label>
-                    <input id="financeAmount" type="number" min="0.01" step="0.01" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Ej: 75.00">
+                    <input id="financeAmount" type="number" min="0" step="0.01" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Importe de la transacción">
                 </div>
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="financeNotes">
                         Notas adicionales:
                     </label>
-                    <textarea id="financeNotes" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500" rows="3" placeholder="Detalles: nº factura, método pago..."></textarea>
+                    <textarea id="financeNotes" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" rows="3" placeholder="Detalles adicionales de la transacción"></textarea>
                 </div>
-                 <div class="flex justify-end pt-4 border-t mt-4">
-                     <button type="button" id="cancelFinanceBtn" class="mr-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded btn-animated transition">
+                <div class="flex justify-end">
+                    <button type="button" id="cancelFinanceBtn" class="mr-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded btn-animated transition">
                         Cancelar
                     </button>
-                    <!-- El color de este botón se ajusta dinámicamente en JS -->
                     <button type="submit" id="saveFinanceBtn" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded btn-animated transition">
-                        <i class="fas fa-save mr-2"></i>Guardar Transacción
+                        Guardar
                     </button>
                 </div>
             </form>
@@ -821,14 +789,12 @@
     </div>
 
     <!-- Panel de notificaciones -->
-    <div id="notifications" class="fixed bottom-5 right-5 w-full max-w-sm z-50 space-y-2">
+    <div id="notifications" class="fixed bottom-5 right-5 w-80 z-50">
         <!-- Las notificaciones se añadirán aquí dinámicamente -->
     </div>
 
     <!-- Script para Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
-
 
     <script>
         // Modelo de datos (en memoria)
@@ -859,9 +825,6 @@
                         Array.isArray(loadedData.tenants) &&
                         Array.isArray(loadedData.finances))
                     {
-                        // Limpiar datos antiguos antes de cargar nuevos
-                        initializeEmptyData();
-
                         parkings = loadedData.parkings || [];
                         tenants = loadedData.tenants || [];
                         finances = loadedData.finances || [];
@@ -871,9 +834,6 @@
                         // Ocultar mensaje inicial del dashboard
                         const dashMsg = document.getElementById('dashboard-message');
                         if (dashMsg) dashMsg.style.display = 'none';
-                         // Activar la primera pestaña por defecto después de cargar datos
-                        activateTab('dashboard');
-
 
                     } else {
                        showNotification('El archivo JSON no tiene el formato esperado (debe contener "parkings", "tenants", "finances").', 'danger');
@@ -916,7 +876,7 @@
             const dataStr = JSON.stringify(allData, null, 2); // null, 2 para formatear
 
             // Crear un Blob con los datos JSON
-            const dataBlob = new Blob([dataStr], { type: 'application/json;charset=utf-8' });
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
 
             // Crear una URL temporal para el Blob
             const url = URL.createObjectURL(dataBlob);
@@ -946,8 +906,8 @@
              // Mostrar mensaje inicial del dashboard si existe
             const dashMsg = document.getElementById('dashboard-message');
             if (dashMsg) dashMsg.style.display = 'block';
-            // Limpiar tablas y stats si ya estaban renderizados
-            updateUI(); // Llama a updateUI para limpiar todo
+             // Limpiar tablas y estadísticas
+             updateUI(); // Asegura que la UI refleje el estado vacío
         }
 
         // --- Fin: Funciones para Cargar/Guardar Archivo Local ---
@@ -961,113 +921,122 @@
             // Configurar pestañas, modales y botones
             initTabs();
             initModals();
-            initButtonEvents();
-
-             // Inicializar UI (mostrará tablas vacías o mensajes "No hay datos")
-             // Se llama dentro de initializeEmptyData y handleFileSelect
+            initButtonEvents(); // Asegúrate de que los nuevos listeners estén aquí
         });
-
-
-        // Función para activar una pestaña específica
-        function activateTab(tabId) {
-             const tabBtns = document.querySelectorAll('.tab-btn');
-             const tabContents = document.querySelectorAll('.tab-content');
-
-             // Desactivar todas las pestañas visualmente
-             tabBtns.forEach(b => b.querySelector('a').classList.remove('bg-blue-100', 'border-l', 'border-t', 'border-r', 'rounded-t'));
-             // Ocultar todos los contenidos
-             tabContents.forEach(content => content.classList.remove('active'));
-
-             // Activar la pestaña seleccionada
-             const targetBtn = document.querySelector(`.tab-btn[data-tab="${tabId}"]`);
-             const targetContent = document.getElementById(tabId);
-
-             if (targetBtn && targetContent) {
-                 targetBtn.querySelector('a').classList.add('bg-blue-100', 'border-l', 'border-t', 'border-r', 'rounded-t');
-                 targetContent.classList.add('active');
-
-                 // Actualizar contenido específico si es necesario
-                 if (tabId === 'forecast' && parkings.length > 0) {
-                     updateForecastData();
-                 } else if (tabId === 'compound') {
-                     // Podríamos calcular la proyección compuesta automáticamente al cambiar de pestaña,
-                     // pero es mejor dejarlo al botón para controlar los parámetros.
-                     // Solo limpiamos la tabla si no hay resultados.
-                     if(document.getElementById('compoundForecastTable').rows.length <= 1) {
-                         document.getElementById('compoundForecastTable').innerHTML = `<tr><td colspan="5" class="py-4 px-4 text-center text-gray-500">Ajusta parámetros y calcula la proyección.</td></tr>`;
-                     }
-                 } else if (tabId === 'dashboard') {
-                      updateDashboardStats(); // Re-calcular stats al volver al dashboard
-                 }
-             } else {
-                 console.error(`No se encontró la pestaña o contenido para el ID: ${tabId}`);
-                 // Activar la primera pestaña como fallback
-                 const firstTabBtn = tabBtns[0];
-                 const firstTabContent = tabContents[0];
-                 if(firstTabBtn && firstTabContent) {
-                     firstTabBtn.querySelector('a').classList.add('bg-blue-100', 'border-l', 'border-t', 'border-r', 'rounded-t');
-                     firstTabContent.classList.add('active');
-                 }
-             }
-        }
 
 
         // Inicializar pestañas
         function initTabs() {
-             const tabBtns = document.querySelectorAll('.tab-btn');
-             tabBtns.forEach(btn => {
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+            const firstTabBtn = tabBtns[0]; // Activar la primera pestaña por defecto
+
+            // Ocultar todos los contenidos excepto el activo inicial (si se define)
+            tabContents.forEach(content => {
+                if (!content.classList.contains('active')) {
+                    content.style.display = 'none'; // Usar display none inicial
+                } else {
+                    content.style.display = 'block'; // Asegurar que el activo se muestre
+                }
+            });
+
+            // Activar la primera pestaña visualmente
+             if(firstTabBtn) {
+                const firstLink = firstTabBtn.querySelector('a');
+                firstLink.classList.add('bg-blue-100', 'border-l', 'border-t', 'border-r', 'rounded-t');
+                 // Asegurar que el contenido de la primera pestaña esté activo en la clase y visible
+                 const firstTabId = firstTabBtn.getAttribute('data-tab');
+                 const firstContent = document.getElementById(firstTabId);
+                 if (firstContent) {
+                     firstContent.classList.add('active');
+                     firstContent.style.display = 'block';
+                 }
+             }
+
+            tabBtns.forEach(btn => {
                 btn.addEventListener('click', function(e) {
                     e.preventDefault();
                     const tabId = this.getAttribute('data-tab');
-                    activateTab(tabId);
+                    const targetContent = document.getElementById(tabId);
+
+                    // Desactivar todas las pestañas visualmente
+                    tabBtns.forEach(b => b.querySelector('a').classList.remove('bg-blue-100', 'border-l', 'border-t', 'border-r', 'rounded-t'));
+                    // Ocultar todos los contenidos y quitar clase active
+                    tabContents.forEach(content => {
+                        content.classList.remove('active');
+                        content.style.display = 'none';
+                    });
+
+                    // Activar la pestaña seleccionada visualmente
+                    this.querySelector('a').classList.add('bg-blue-100', 'border-l', 'border-t', 'border-r', 'rounded-t');
+                    // Mostrar el contenido de la pestaña seleccionada y añadir clase active
+                     if(targetContent) {
+                        targetContent.classList.add('active');
+                        targetContent.style.display = 'block';
+                     }
+
+                    // Actualizar contenido específico de la pestaña si es necesario
+                    if (tabId === 'forecast' && parkings.length > 0) { // Solo calcular si hay datos
+                        updateForecastData();
+                    }
+                    // Añadido: Podrías inicializar la tabla compuesta si se selecciona esa pestaña
+                    if (tabId === 'compound' && document.getElementById('compoundForecastTable')) {
+                         document.getElementById('compoundForecastTable').innerHTML = `<tr><td colspan="5" class="py-4 px-4 text-center text-gray-500">Calcule la proyección para ver los resultados</td></tr>`;
+                         // Podrías llamar a calculateCompoundForecast() si quieres que se calcule al cambiar
+                    }
                 });
-             });
-              // Activar la primera pestaña al inicio
-             const firstTabId = tabBtns[0]?.getAttribute('data-tab') || 'dashboard';
-             activateTab(firstTabId);
+            });
         }
 
         // Inicializar modales
         function initModals() {
-            // --- Parking Modal ---
-            const parkingModal = document.getElementById('parkingModal');
-            document.getElementById('addParkingBtn').addEventListener('click', () => openParkingModal());
-            document.getElementById('quickAddParking').addEventListener('click', () => openParkingModal());
-            document.getElementById('closeParkingModal').addEventListener('click', () => parkingModal.classList.add('hidden'));
-            document.getElementById('cancelParkingBtn').addEventListener('click', () => parkingModal.classList.add('hidden'));
-            // Cerrar modal al hacer clic fuera
-            parkingModal.addEventListener('click', (event) => {
-                if (event.target === parkingModal) {
-                    parkingModal.classList.add('hidden');
-                }
+            // Modal de parking
+            document.getElementById('addParkingBtn').addEventListener('click', function() {
+                openParkingModal();
+            });
+            document.getElementById('quickAddParking').addEventListener('click', function() {
+                openParkingModal();
+            });
+            document.getElementById('closeParkingModal').addEventListener('click', function() {
+                document.getElementById('parkingModal').classList.add('hidden');
+            });
+            document.getElementById('cancelParkingBtn').addEventListener('click', function() {
+                document.getElementById('parkingModal').classList.add('hidden');
             });
 
+            // Modal de inquilino
+            document.getElementById('addTenantBtn').addEventListener('click', function() {
+                openTenantModal();
+            });
+            document.getElementById('quickAddTenant').addEventListener('click', function() {
+                openTenantModal();
+            });
+            document.getElementById('closeTenantModal').addEventListener('click', function() {
+                document.getElementById('tenantModal').classList.add('hidden');
+            });
+            document.getElementById('cancelTenantBtn').addEventListener('click', function() {
+                document.getElementById('tenantModal').classList.add('hidden');
+            });
 
-            // --- Tenant Modal ---
-            const tenantModal = document.getElementById('tenantModal');
-            document.getElementById('addTenantBtn').addEventListener('click', () => openTenantModal());
-            document.getElementById('quickAddTenant').addEventListener('click', () => openTenantModal());
-            document.getElementById('closeTenantModal').addEventListener('click', () => tenantModal.classList.add('hidden'));
-            document.getElementById('cancelTenantBtn').addEventListener('click', () => tenantModal.classList.add('hidden');
-            tenantModal.addEventListener('click', (event) => {
-                 if (event.target === tenantModal) {
-                    tenantModal.classList.add('hidden');
-                 }
-             });
-
-            // --- Finance Modal ---
-             const financeModal = document.getElementById('financeModal');
-             document.getElementById('addIncomeBtn').addEventListener('click', () => openFinanceModal('income'));
-             document.getElementById('quickAddIncome').addEventListener('click', () => openFinanceModal('income'));
-             document.getElementById('addExpenseBtn').addEventListener('click', () => openFinanceModal('expense'));
-             document.getElementById('quickAddExpense').addEventListener('click', () => openFinanceModal('expense'));
-             document.getElementById('closeFinanceModal').addEventListener('click', () => financeModal.classList.add('hidden'));
-             document.getElementById('cancelFinanceBtn').addEventListener('click', () => financeModal.classList.add('hidden');
-             financeModal.addEventListener('click', (event) => {
-                 if (event.target === financeModal) {
-                     financeModal.classList.add('hidden');
-                 }
-             });
+            // Modal de finanzas
+            document.getElementById('addIncomeBtn').addEventListener('click', function() {
+                openFinanceModal('income');
+            });
+            document.getElementById('quickAddIncome').addEventListener('click', function() {
+                openFinanceModal('income');
+            });
+            document.getElementById('addExpenseBtn').addEventListener('click', function() {
+                openFinanceModal('expense');
+            });
+            document.getElementById('quickAddExpense').addEventListener('click', function() {
+                openFinanceModal('expense');
+            });
+            document.getElementById('closeFinanceModal').addEventListener('click', function() {
+                document.getElementById('financeModal').classList.add('hidden');
+            });
+            document.getElementById('cancelFinanceBtn').addEventListener('click', function() {
+                document.getElementById('financeModal').classList.add('hidden');
+            });
 
             // Inicializar formularios
             initForms();
@@ -1094,28 +1063,72 @@
             });
         }
 
-       // Inicializar eventos de botones (incluye carga/guardado de archivo)
-       function initButtonEvents() {
-            // --- Carga/Guardado Archivo ---
-            document.getElementById('loadDataBtn').addEventListener('click', () => document.getElementById('loadDataInput').click());
-            document.getElementById('loadDataInput').addEventListener('change', handleFileSelect);
-            document.getElementById('saveDataToFileBtn').addEventListener('click', saveDataToFile);
-
-            // --- Previsiones ---
-            document.getElementById('calculateForecastBtn').addEventListener('click', () => {
-                if (parkings.length > 0) updateForecastData();
-                else showNotification('Carga datos primero para calcular previsiones.', 'warning');
+        // Inicializar eventos de botones (incluye carga/guardado de archivo y proyección compuesta)
+        function initButtonEvents() {
+             // Listener para el botón de Cargar Datos (que activa el input oculto)
+            document.getElementById('loadDataBtn').addEventListener('click', function() {
+                document.getElementById('loadDataInput').click(); // Abre el diálogo de selección de archivo
             });
 
-            // --- Proyección Compuesta ---
+            // Listener para cuando se selecciona un archivo en el input oculto
+            document.getElementById('loadDataInput').addEventListener('change', handleFileSelect);
+
+            // Listener para el botón de Guardar Cambios (descargar archivo)
+            document.getElementById('saveDataToFileBtn').addEventListener('click', saveDataToFile);
+
+
+            // Botón de cálculo de previsión simple
+            document.getElementById('calculateForecastBtn').addEventListener('click', function() {
+                 if (parkings.length > 0) {
+                     updateForecastData();
+                 } else {
+                     showNotification('Carga datos primero para calcular previsiones.', 'warning');
+                 }
+            });
+
+            // Filtros de búsqueda de parkings
+            document.getElementById('searchParking').addEventListener('input', updateParkingsTable);
+            document.getElementById('filterParkingStatus').addEventListener('change', updateParkingsTable);
+            document.getElementById('sortParkings').addEventListener('change', updateParkingsTable);
+
+            // Filtros de búsqueda de inquilinos
+            document.getElementById('searchTenant').addEventListener('input', updateTenantsTable);
+            document.getElementById('sortTenants').addEventListener('change', updateTenantsTable);
+
+            // Filtros de finanzas
+            document.getElementById('financesPeriod').addEventListener('change', updateFinancesTable);
+            document.getElementById('financesParkingFilter').addEventListener('change', updateFinancesTable);
+            document.getElementById('financeType').addEventListener('change', updateFinancesTable);
+
+            // Inicializar acciones rápidas
+            document.getElementById('quickAddParking').addEventListener('click', function() {
+                openParkingModal();
+            });
+            document.getElementById('quickAddTenant').addEventListener('click', function() {
+                openTenantModal();
+            });
+            document.getElementById('quickAddExpense').addEventListener('click', function() {
+                openFinanceModal('expense');
+            });
+            document.getElementById('quickAddIncome').addEventListener('click', function() {
+                openFinanceModal('income');
+            });
+
+            // Botón para calcular proyección compuesta
             document.getElementById('calculateCompoundForecastBtn').addEventListener('click', calculateCompoundForecast);
+
+            // Botón para añadir fila de inversión futura
             document.getElementById('addInvestmentRowBtn').addEventListener('click', addFutureInvestmentRow);
+
+            // Delegación de eventos para botones de eliminar inversión (en el contenedor)
             document.getElementById('futureInvestmentsContainer').addEventListener('click', function(event) {
                 if (event.target.closest('.remove-investment-btn')) {
+                    // Asegurarse de no eliminar la última fila si queremos mantenerla como plantilla
                     const container = document.getElementById('futureInvestmentsContainer');
                     if (container.querySelectorAll('.future-investment-row').length > 1) {
                          event.target.closest('.future-investment-row').remove();
                     } else {
+                        // Si es la última fila, simplemente limpiarla
                         const row = event.target.closest('.future-investment-row');
                         row.querySelector('.future-investment-year').value = '';
                         row.querySelector('.future-investment-cost').value = '';
@@ -1124,61 +1137,27 @@
                 }
             });
 
-
-            // --- Filtros y Ordenación ---
-            // Parkings
-            document.getElementById('searchParking').addEventListener('input', updateParkingsTable);
-            document.getElementById('filterParkingStatus').addEventListener('change', updateParkingsTable);
-            document.getElementById('sortParkings').addEventListener('change', updateParkingsTable);
-            // Inquilinos
-            document.getElementById('searchTenant').addEventListener('input', updateTenantsTable);
-            document.getElementById('sortTenants').addEventListener('change', updateTenantsTable);
-            // Finanzas
-            document.getElementById('financesPeriod').addEventListener('change', updateFinancesTable);
-            document.getElementById('financesParkingFilter').addEventListener('change', updateFinancesTable);
-            document.getElementById('financeType').addEventListener('change', updateFinancesTable);
-
-
-            // --- Acciones Rápidas (ya vinculadas a abrir modales en initModals) ---
-            // (No se necesita código adicional aquí si solo abren modales)
-
-            // --- Modo Oscuro ---
+            // Botón modo oscuro
             document.getElementById('darkModeToggle').addEventListener('click', function() {
                 document.body.classList.toggle('dark');
-                const isDarkMode = document.body.classList.contains('dark');
-                // Opcional: Guardar preferencia en localStorage
-                // localStorage.setItem('darkMode', isDarkMode);
-                // Actualizar icono
-                this.querySelector('i').className = isDarkMode ? 'fas fa-sun' : 'fas fa-moon';
-                showNotification(`Modo ${isDarkMode ? 'Oscuro' : 'Claro'} activado.`, 'info');
+                 showNotification('Modo oscuro no implementado visualmente.', 'info');
             });
-             // Opcional: Cargar preferencia de modo oscuro al inicio
-             // if (localStorage.getItem('darkMode') === 'true') {
-             //     document.body.classList.add('dark');
-             //     document.getElementById('darkModeToggle').querySelector('i').className = 'fas fa-sun';
-             // }
         }
 
-
-        // ===== FUNCIONES DE ACTUALIZACIÓN DE UI =====
-
+        // Actualizar toda la UI
         function updateUI() {
             updateParkingsTable();
             updateTenantsTable();
-            updateFinancesTable(); // Esto también recalcula y actualiza el ROI TTM y totales
-            updateParkingDropdowns();
-            updateDashboardStats(); // Recalcula stats del dashboard
-             // Limpiar/resetear tablas de previsiones si no hay datos
-            if (parkings.length === 0) {
-                 document.getElementById('forecastTable').innerHTML = `<tr><td colspan="5" class="py-4 px-4 text-center text-gray-500">Carga datos primero.</td></tr>`;
-                 document.getElementById('compoundForecastTable').innerHTML = `<tr><td colspan="5" class="py-4 px-4 text-center text-gray-500">Carga datos primero.</td></tr>`;
-                 // Limpiar gráfico si existe
-                 if (window.forecastChartInstance) {
-                    window.forecastChartInstance.destroy();
-                    window.forecastChartInstance = null; // Resetear la instancia
-                 }
-            }
+            updateFinancesTable(); // Esta llama internamente a updateDashboardStats (indirectamente vía cálculo ROI) y updateParkingDropdowns
+            updateDashboardStats(); // Asegura que el dashboard se actualice siempre
+            updateParkingDropdowns(); // Asegura que los desplegables estén al día
+            // No actualizamos previsiones aquí
         }
+
+        // --- Funciones de Actualización de Tablas y Componentes ---
+        // (updateParkingsTable, updateRecentParkings, updateTenantsTable, updateFinancesTable, updateParkingDropdowns, updateDashboardStats)
+        // ... (Estas funciones ya las tienes y parecen correctas) ...
+        // (Incluyo las versiones corregidas para Gastos Mensuales y ROI TTM)
 
         function updateParkingsTable() {
             const tableBody = document.getElementById('parkingsTable');
@@ -1189,14 +1168,16 @@
             let filteredParkings = [...parkings];
 
             if (searchTerm) {
-                filteredParkings = filteredParkings.filter(p => p.location.toLowerCase().includes(searchTerm));
+                filteredParkings = filteredParkings.filter(parking =>
+                    parking.location.toLowerCase().includes(searchTerm)
+                );
             }
 
             if (statusFilter !== 'all') {
-                const isOccupiedFilter = statusFilter === 'occupied';
-                filteredParkings = filteredParkings.filter(p => {
-                    const hasTenant = tenants.some(t => t.parkingId === p.id);
-                    return hasTenant === isOccupiedFilter;
+                const isOccupied = statusFilter === 'occupied';
+                filteredParkings = filteredParkings.filter(parking => {
+                    const tenant = tenants.find(t => t.parkingId === parking.id);
+                    return isOccupied ? !!tenant : !tenant;
                 });
             }
 
@@ -1209,28 +1190,29 @@
                 }
             });
 
-            tableBody.innerHTML = ''; // Limpiar tabla
+            tableBody.innerHTML = '';
 
-            if (filteredParkings.length === 0) {
-                 const message = parkings.length === 0 ? 'Carga datos o añade un parking.' : 'No hay parkings que coincidan.';
-                 tableBody.innerHTML = `<tr><td colspan="8" class="py-4 px-4 text-center text-gray-500">${message}</td></tr>`;
+            if (filteredParkings.length === 0 && parkings.length > 0) {
+                 tableBody.innerHTML = `<tr><td colspan="8" class="py-4 px-4 text-center text-gray-500">No hay parkings que coincidan con los criterios.</td></tr>`;
+            } else if (parkings.length === 0) {
+                tableBody.innerHTML = `<tr><td colspan="8" class="py-4 px-4 text-center text-gray-500">Carga datos o añade un parking.</td></tr>`;
             } else {
                 filteredParkings.forEach(parking => {
                     const tenant = tenants.find(t => t.parkingId === parking.id);
                     const status = tenant ? 'Ocupado' : 'Disponible';
-                    const statusClass = tenant ? 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300' : 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300';
-
+                    const statusClass = tenant ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800';
                     const row = document.createElement('tr');
+                    row.className = 'hover:bg-gray-50';
                     row.innerHTML = `
-                        <td class="py-3 px-4 border-b text-sm">${parking.id}</td>
-                        <td class="py-3 px-4 border-b font-medium">${parking.location}</td>
-                        <td class="py-3 px-4 border-b text-right">${parking.size || '-'} m²</td>
-                        <td class="py-3 px-4 border-b text-sm">${parking.features || '-'}</td>
-                        <td class="py-3 px-4 border-b text-right font-semibold">${formatCurrency(parking.price)}</td>
-                        <td class="py-3 px-4 border-b text-center"><span class="px-2 py-1 rounded-full text-xs font-semibold ${statusClass}">${status}</span></td>
+                        <td class="py-3 px-4 border-b">${parking.id}</td>
+                        <td class="py-3 px-4 border-b">${parking.location}</td>
+                        <td class="py-3 px-4 border-b">${parking.size || '-'} m²</td>
+                        <td class="py-3 px-4 border-b">${parking.features || '-'}</td>
+                        <td class="py-3 px-4 border-b">${formatCurrency(parking.price)}</td>
+                        <td class="py-3 px-4 border-b"><span class="px-2 py-1 rounded-full text-xs font-semibold ${statusClass}">${status}</span></td>
                         <td class="py-3 px-4 border-b">${tenant ? tenant.name : '-'}</td>
-                        <td class="py-3 px-4 border-b text-center">
-                            <div class="flex justify-center space-x-3">
+                        <td class="py-3 px-4 border-b">
+                            <div class="flex space-x-2">
                                 <button class="text-blue-500 hover:text-blue-700" onclick="editParking('${parking.id}')" title="Editar"><i class="fas fa-edit"></i></button>
                                 <button class="text-red-500 hover:text-red-700" onclick="deleteParking('${parking.id}')" title="Eliminar"><i class="fas fa-trash-alt"></i></button>
                                 ${!tenant ? `<button class="text-green-500 hover:text-green-700" onclick="assignTenant('${parking.id}')" title="Asignar Inquilino"><i class="fas fa-user-plus"></i></button>` : ''}
@@ -1240,36 +1222,31 @@
                     tableBody.appendChild(row);
                 });
             }
-            updateRecentParkings(); // Actualizar dashboard
+            updateRecentParkings();
         }
 
         function updateRecentParkings() {
             const recentTable = document.getElementById('recentParkingsTable');
             recentTable.innerHTML = '';
-
             if (parkings.length === 0) {
-                recentTable.innerHTML = `<tr><td colspan="3" class="py-4 px-4 text-center text-gray-500">Carga datos primero.</td></tr>`;
+                recentTable.innerHTML = `<tr><td colspan="3" class="py-4 px-4 text-center text-gray-500">Carga datos para ver parkings</td></tr>`;
                 return;
             }
-
-            const recentParkings = [...parkings]
-                .sort((a, b) => (b.createdAt || '') < (a.createdAt || '') ? -1 : 1) // Ordenar por fecha de creación (si existe)
-                .slice(0, 5);
-
+            const recentParkings = [...parkings].sort((a, b) => (b.createdAt || '') < (a.createdAt || '') ? -1 : 1).slice(0, 5);
             if (recentParkings.length === 0) {
-                 recentTable.innerHTML = `<tr><td colspan="3" class="py-4 px-4 text-center text-gray-500">No hay parkings.</td></tr>`;
+                 recentTable.innerHTML = `<tr><td colspan="3" class="py-4 px-4 text-center text-gray-500">No hay parkings registrados</td></tr>`;
                  return;
             }
-
             recentParkings.forEach(parking => {
                 const tenant = tenants.find(t => t.parkingId === parking.id);
                 const status = tenant ? 'Ocupado' : 'Disponible';
-                const statusClass = tenant ? 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300' : 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300';
+                const statusClass = tenant ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800';
                 const row = document.createElement('tr');
+                row.className = 'hover:bg-gray-50';
                 row.innerHTML = `
                     <td class="py-2 px-4 border-b">${parking.location}</td>
                     <td class="py-2 px-4 border-b"><span class="px-2 py-1 rounded-full text-xs font-semibold ${statusClass}">${status}</span></td>
-                    <td class="py-2 px-4 border-b text-right">${formatCurrency(parking.price)}</td>
+                    <td class="py-2 px-4 border-b">${formatCurrency(parking.price)}</td>
                 `;
                 recentTable.appendChild(row);
             });
@@ -1279,16 +1256,15 @@
             const tableBody = document.getElementById('tenantsTable');
             const searchTerm = document.getElementById('searchTenant').value.toLowerCase();
             const sortBy = document.getElementById('sortTenants').value;
-
             let filteredTenants = [...tenants];
-
             if (searchTerm) {
-                filteredTenants = filteredTenants.filter(t => t.name.toLowerCase().includes(searchTerm));
+                filteredTenants = filteredTenants.filter(tenant =>
+                    (tenant.name || '').toLowerCase().includes(searchTerm)
+                );
             }
-
             filteredTenants.sort((a, b) => {
                 switch (sortBy) {
-                    case 'name': return a.name.localeCompare(b.name);
+                    case 'name': return (a.name || '').localeCompare(b.name || '');
                     case 'startDate':
                         const dateA = a.startDate ? new Date(a.startDate) : 0;
                         const dateB = b.startDate ? new Date(b.startDate) : 0;
@@ -1296,26 +1272,26 @@
                     default: return 0;
                 }
             });
-
-            tableBody.innerHTML = ''; // Limpiar
-
-             if (filteredTenants.length === 0) {
-                 const message = tenants.length === 0 ? 'Carga datos o añade un inquilino.' : 'No hay inquilinos que coincidan.';
-                 tableBody.innerHTML = `<tr><td colspan="8" class="py-4 px-4 text-center text-gray-500">${message}</td></tr>`;
+            tableBody.innerHTML = '';
+             if (filteredTenants.length === 0 && tenants.length > 0) {
+                 tableBody.innerHTML = `<tr><td colspan="8" class="py-4 px-4 text-center text-gray-500">No hay inquilinos que coincidan.</td></tr>`;
+             } else if (tenants.length === 0) {
+                 tableBody.innerHTML = `<tr><td colspan="8" class="py-4 px-4 text-center text-gray-500">Carga datos o añade un inquilino.</td></tr>`;
             } else {
                 filteredTenants.forEach(tenant => {
                     const parking = parkings.find(p => p.id === tenant.parkingId);
                     const row = document.createElement('tr');
+                    row.className = 'hover:bg-gray-50';
                     row.innerHTML = `
-                        <td class="py-3 px-4 border-b text-sm">${tenant.id}</td>
-                        <td class="py-3 px-4 border-b font-medium">${tenant.name}</td>
-                        <td class="py-3 px-4 border-b">${tenant.phone}</td>
+                        <td class="py-3 px-4 border-b">${tenant.id}</td>
+                        <td class="py-3 px-4 border-b">${tenant.name}</td>
+                        <td class="py-3 px-4 border-b">${tenant.phone || '-'}</td>
                         <td class="py-3 px-4 border-b">${tenant.email || '-'}</td>
-                        <td class="py-3 px-4 border-b">${parking ? parking.location : (tenant.parkingId ? `ID: ${tenant.parkingId}` : 'Ninguno')}</td>
-                        <td class="py-3 px-4 border-b text-center">${formatDate(tenant.startDate)}</td>
-                        <td class="py-3 px-4 border-b text-center">${tenant.endDate ? formatDate(tenant.endDate) : '-'}</td>
-                        <td class="py-3 px-4 border-b text-center">
-                            <div class="flex justify-center space-x-3">
+                        <td class="py-3 px-4 border-b">${parking ? parking.location : (tenant.parkingId ? 'N/A' : '-')}</td>
+                        <td class="py-3 px-4 border-b">${formatDate(tenant.startDate)}</td>
+                        <td class="py-3 px-4 border-b">${tenant.endDate ? formatDate(tenant.endDate) : '-'}</td>
+                        <td class="py-3 px-4 border-b">
+                            <div class="flex space-x-2">
                                 <button class="text-blue-500 hover:text-blue-700" onclick="editTenant('${tenant.id}')" title="Editar"><i class="fas fa-edit"></i></button>
                                 <button class="text-red-500 hover:text-red-700" onclick="deleteTenant('${tenant.id}')" title="Eliminar"><i class="fas fa-trash-alt"></i></button>
                             </div>
@@ -1333,7 +1309,6 @@
             const typeFilter = document.getElementById('financeType').value;
 
             let filteredFinances = [...finances];
-
             if (periodFilter !== 'all') {
                 const today = new Date();
                 const startDate = new Date(today);
@@ -1342,41 +1317,38 @@
                     case 'quarter': startDate.setMonth(today.getMonth() - 3); break;
                     case 'year': startDate.setFullYear(today.getFullYear() - 1); break;
                 }
-                startDate.setHours(0, 0, 0, 0);
+                 startDate.setHours(0, 0, 0, 0);
                 filteredFinances = filteredFinances.filter(f => f.date && new Date(f.date) >= startDate);
             }
-
             if (parkingFilter !== 'all') {
                 filteredFinances = filteredFinances.filter(f => f.parkingId === parkingFilter);
             }
             if (typeFilter !== 'all') {
                 filteredFinances = filteredFinances.filter(f => f.type === typeFilter);
             }
-
             filteredFinances.sort((a, b) => (b.date ? new Date(b.date) : 0) - (a.date ? new Date(a.date) : 0));
 
-            tableBody.innerHTML = ''; // Limpiar
-
-             if (filteredFinances.length === 0) {
-                 const message = finances.length === 0 ? 'Carga datos o registra movimientos.' : 'No hay movimientos que coincidan.';
-                 tableBody.innerHTML = `<tr><td colspan="6" class="py-4 px-4 text-center text-gray-500">${message}</td></tr>`;
+            tableBody.innerHTML = '';
+            if (filteredFinances.length === 0 && finances.length > 0) {
+                tableBody.innerHTML = `<tr><td colspan="6" class="py-4 px-4 text-center text-gray-500">No hay movimientos que coincidan.</td></tr>`;
+            } else if (finances.length === 0) {
+                tableBody.innerHTML = `<tr><td colspan="6" class="py-4 px-4 text-center text-gray-500">Carga datos o registra movimientos.</td></tr>`;
              } else {
-                 filteredFinances.forEach(finance => {
+                filteredFinances.forEach(finance => {
                     const parking = parkings.find(p => p.id === finance.parkingId);
-                    const typeClass = finance.type === 'income' ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400';
+                    const typeClass = finance.type === 'income' ? 'text-green-600' : 'text-red-600';
                     const typeIcon = finance.type === 'income' ? 'fa-plus-circle' : 'fa-minus-circle';
                     const typeText = finance.type === 'income' ? 'Ingreso' : 'Gasto';
                     const row = document.createElement('tr');
+                    row.className = 'hover:bg-gray-50';
                     row.innerHTML = `
-                        <td class="py-3 px-4 border-b text-center">${formatDate(finance.date)}</td>
-                        <td class="py-3 px-4 border-b ${typeClass}">
-                            <i class="fas ${typeIcon} mr-1"></i> ${typeText}
-                        </td>
+                        <td class="py-3 px-4 border-b">${formatDate(finance.date)}</td>
+                        <td class="py-3 px-4 border-b ${typeClass}"><i class="fas ${typeIcon} mr-1"></i> ${typeText}</td>
                         <td class="py-3 px-4 border-b">${finance.concept}</td>
-                        <td class="py-3 px-4 border-b">${parking ? parking.location : (finance.parkingId ? `ID: ${finance.parkingId}` : 'General')}</td>
-                        <td class="py-3 px-4 border-b text-right ${typeClass} font-semibold">${formatCurrency(finance.amount)}</td>
-                        <td class="py-3 px-4 border-b text-center">
-                            <div class="flex justify-center space-x-3">
+                        <td class="py-3 px-4 border-b">${parking ? parking.location : (finance.parkingId ? 'General' : '-')}</td>
+                        <td class="py-3 px-4 border-b ${typeClass} font-semibold">${formatCurrency(finance.amount)}</td>
+                        <td class="py-3 px-4 border-b">
+                            <div class="flex space-x-2">
                                 <button class="text-blue-500 hover:text-blue-700" onclick="editFinance('${finance.id}')" title="Editar"><i class="fas fa-edit"></i></button>
                                 <button class="text-red-500 hover:text-red-700" onclick="deleteFinance('${finance.id}')" title="Eliminar"><i class="fas fa-trash-alt"></i></button>
                             </div>
@@ -1384,9 +1356,9 @@
                     `;
                     tableBody.appendChild(row);
                 });
-            }
+             }
 
-            // Recalcular totales y ROI TTM (basado en *todos* los datos, no los filtrados)
+            // --- Actualizar Resumen Financiero con ROI TTM ---
             let totalIncome = 0;
             let totalExpenses = 0;
             finances.forEach(f => {
@@ -1400,26 +1372,28 @@
             const todayForROI = new Date();
             const currentInvestment = parkings.reduce((sum, p) => {
                 const price = parseFloat(p.purchasePrice) || 0;
-                const pDate = p.purchaseDate ? new Date(p.purchaseDate) : null;
-                return (price > 0 && (!pDate || pDate <= todayForROI)) ? sum + price : sum;
+                const date = p.purchaseDate ? new Date(p.purchaseDate) : null;
+                return (price > 0 && (!date || date <= todayForROI)) ? sum + price : sum;
             }, 0);
 
+            const twelveMonthsAgo = new Date(todayForROI);
+            twelveMonthsAgo.setFullYear(todayForROI.getFullYear() - 1);
+            twelveMonthsAgo.setHours(0, 0, 0, 0);
+            let incomeLast12Months = 0;
+            let expensesLast12Months = 0;
+            finances.forEach(f => {
+                if (!f.date) return;
+                try {
+                    const transactionDate = new Date(f.date);
+                    if (!isNaN(transactionDate) && transactionDate >= twelveMonthsAgo && transactionDate <= todayForROI) {
+                        const amount = parseFloat(f.amount) || 0;
+                        if (f.type === 'income') incomeLast12Months += amount;
+                        else if (f.type === 'expense') expensesLast12Months += amount;
+                    }
+                } catch (e) { console.warn("Fecha inválida en ROI TTM:", f.date); }
+            });
+            const balanceLast12Months = incomeLast12Months - expensesLast12Months;
             if (currentInvestment > 0) {
-                const twelveMonthsAgo = new Date(todayForROI); twelveMonthsAgo.setFullYear(todayForROI.getFullYear() - 1); twelveMonthsAgo.setHours(0, 0, 0, 0);
-                let incomeLast12Months = 0;
-                let expensesLast12Months = 0;
-                finances.forEach(f => {
-                    if (!f.date) return;
-                    try {
-                        const tDate = new Date(f.date);
-                        if (!isNaN(tDate) && tDate >= twelveMonthsAgo && tDate <= todayForROI) {
-                            const amount = parseFloat(f.amount) || 0;
-                            if (f.type === 'income') incomeLast12Months += amount;
-                            else if (f.type === 'expense') expensesLast12Months += amount;
-                        }
-                    } catch (e) { console.warn("Fecha inválida en cálculo TTM ROI:", f.date); }
-                });
-                const balanceLast12Months = incomeLast12Months - expensesLast12Months;
                 roiTTM = (balanceLast12Months / currentInvestment) * 100;
             }
 
@@ -1433,60 +1407,38 @@
             const tenantParkingSelect = document.getElementById('tenantParking');
             const financeParkingSelect = document.getElementById('financeParking');
             const financesParkingFilter = document.getElementById('financesParkingFilter');
+            const currentFinanceFilterValue = financesParkingFilter.value;
 
-            const currentTenantValue = tenantParkingSelect.value;
-            const currentFinanceValue = financeParkingSelect.value;
-            const currentFilterValue = financesParkingFilter.value;
-
-            const selects = [tenantParkingSelect, financeParkingSelect, financesParkingFilter];
-            selects.forEach(select => {
+            [tenantParkingSelect, financeParkingSelect, financesParkingFilter].forEach(select => {
                 const firstOption = select.options[0].cloneNode(true);
                 select.innerHTML = '';
                 select.appendChild(firstOption);
+                [...parkings].sort((a, b) => a.location.localeCompare(b.location)).forEach(parking => {
+                    const isOccupied = tenants.some(t => t.parkingId === parking.id);
+                    const currentTenantId = document.getElementById('tenantId').value;
+                    const isAssignedToCurrentTenant = currentTenantId && tenants.find(t => t.id === currentTenantId)?.parkingId === parking.id;
+                    if (select === tenantParkingSelect) {
+                        if (!isOccupied || isAssignedToCurrentTenant) {
+                            const option = document.createElement('option');
+                            option.value = parking.id;
+                            option.textContent = `${parking.location} (${formatCurrency(parking.price)}/mes)`;
+                            select.appendChild(option);
+                        }
+                    } else {
+                        const option = document.createElement('option');
+                        option.value = parking.id;
+                        option.textContent = parking.location;
+                        select.appendChild(option);
+                    }
+                });
             });
-
-            [...parkings].sort((a, b) => a.location.localeCompare(b.location)).forEach(parking => {
-                const isOccupied = tenants.some(t => t.parkingId === parking.id);
-                const tenantIdBeingEdited = document.getElementById('tenantId').value;
-                const isAssignedToCurrentTenant = tenantIdBeingEdited && tenants.find(t => t.id === tenantIdBeingEdited)?.parkingId === parking.id;
-
-                // Opción para filtro de finanzas y modal de finanzas (todos)
-                const financeOption = document.createElement('option');
-                financeOption.value = parking.id;
-                financeOption.textContent = parking.location;
-                financeParkingSelect.appendChild(financeOption.cloneNode(true));
-                financesParkingFilter.appendChild(financeOption);
-
-
-                // Opción para modal de inquilino (solo disponibles o el suyo)
-                if (!isOccupied || isAssignedToCurrentTenant) {
-                    const tenantOption = document.createElement('option');
-                    tenantOption.value = parking.id;
-                    tenantOption.textContent = `${parking.location} (${formatCurrency(parking.price)}/mes)`;
-                    tenantParkingSelect.appendChild(tenantOption);
-                }
-            });
-
-            // Restaurar selecciones anteriores si es posible
-            tenantParkingSelect.value = currentTenantValue;
-            financeParkingSelect.value = currentFinanceValue;
-            financesParkingFilter.value = currentFilterValue;
+            financesParkingFilter.value = currentFinanceFilterValue;
         }
 
         function updateDashboardStats() {
-             if (parkings.length === 0 && tenants.length === 0 && finances.length === 0) {
-                document.getElementById('totalParkings').textContent = '0';
-                document.getElementById('occupiedParkings').textContent = '0';
-                document.getElementById('monthlyIncome').textContent = '0 €';
-                document.getElementById('monthlyExpenses').textContent = '0 €';
-                return;
-            }
-
             document.getElementById('totalParkings').textContent = parkings.length;
-
             const occupiedCount = tenants.filter(t => parkings.some(p => p.id === t.parkingId)).length;
             document.getElementById('occupiedParkings').textContent = occupiedCount;
-
             let monthlyIncome = 0;
             tenants.forEach(tenant => {
                 const parking = parkings.find(p => p.id === tenant.parkingId);
@@ -1494,33 +1446,144 @@
             });
             document.getElementById('monthlyIncome').textContent = formatCurrency(monthlyIncome);
 
+            // --- Cálculo Gastos del Mes Actual ---
             const today = new Date();
             const currentYear = today.getFullYear();
             const currentMonth = today.getMonth();
-            let totalCurrentMonthExpenses = 0;
-            finances.forEach(f => {
-                 if (f.type !== 'expense' || !f.date) return;
-                 try {
-                    const tDate = new Date(f.date);
-                    if (!isNaN(tDate) && tDate.getFullYear() === currentYear && tDate.getMonth() === currentMonth) {
-                        totalCurrentMonthExpenses += parseFloat(f.amount || 0);
-                    }
-                 } catch (e) { console.warn("Fecha inválida en finanzas (dashboard):", f.date); }
+            const currentMonthExpenses = finances.filter(f => {
+                if (f.type !== 'expense' || !f.date) return false;
+                try {
+                    const transactionDate = new Date(f.date);
+                    return !isNaN(transactionDate) &&
+                           transactionDate.getFullYear() === currentYear &&
+                           transactionDate.getMonth() === currentMonth;
+                } catch (e) { return false; }
             });
+            let totalCurrentMonthExpenses = currentMonthExpenses.reduce((sum, exp) => sum + (parseFloat(exp.amount) || 0), 0);
             document.getElementById('monthlyExpenses').textContent = formatCurrency(totalCurrentMonthExpenses);
         }
 
+        // --- Funciones de Previsión Simple ---
+        function updateForecastData() {
+            // ... (código idéntico al proporcionado anteriormente) ...
+             if (parkings.length === 0) {
+                 showNotification('No hay datos de parkings cargados para calcular la previsión.', 'warning');
+                 document.getElementById('forecastTable').innerHTML = `<tr><td colspan="5" class="py-4 px-4 text-center text-gray-500">Carga datos primero.</td></tr>`;
+                 if (window.forecastChartInstance) window.forecastChartInstance.destroy();
+                 return;
+             }
+            const incrementRate = (parseFloat(document.getElementById('forecastIncrementRate').value) || 0) / 100;
+            const expenseRate = (parseFloat(document.getElementById('forecastExpenseRate').value) || 0) / 100;
+            const occupancyRate = (parseFloat(document.getElementById('forecastOccupancyRate').value) || 90) / 100; // Default 90
+            let potentialAnnualIncome = parkings.reduce((sum, p) => sum + (parseFloat(p.price) || 0) * 12, 0);
+            let currentAnnualIncome = potentialAnnualIncome * occupancyRate;
+            const oneYearAgo = new Date(); oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1); oneYearAgo.setHours(0,0,0,0);
+            const expenseTransactions = finances.filter(f => f.type === 'expense' && f.date);
+            const firstExpenseDate = expenseTransactions.length > 0 ? new Date(Math.min.apply(null, expenseTransactions.map(f => new Date(f.date)))) : null;
+            const startDateForAvg = firstExpenseDate && firstExpenseDate > oneYearAgo ? firstExpenseDate : oneYearAgo;
+            const relevantExpenses = expenseTransactions.filter(f => f.date && new Date(f.date) >= startDateForAvg);
+            let totalRelevantExpenses = relevantExpenses.reduce((sum, f) => sum + (parseFloat(f.amount) || 0), 0);
+            let currentAnnualExpenses = 0;
+            if (relevantExpenses.length > 0) {
+                const months = (new Date() - startDateForAvg) / (1000 * 60 * 60 * 24 * (365.25 / 12));
+                if (months > 0) currentAnnualExpenses = (totalRelevantExpenses / months) * 12;
+            }
+            if (currentAnnualExpenses === 0 && currentAnnualIncome > 0) {
+                currentAnnualExpenses = currentAnnualIncome * 0.3;
+                showNotification('No hay gastos registrados, estimando gastos como 30% de ingresos para la previsión.', 'info');
+            }
+            const forecastData = [];
+            const currentInvestmentSimple = parkings.reduce((sum, p) => {
+                const price = parseFloat(p.purchasePrice) || 0;
+                const pDate = p.purchaseDate ? new Date(p.purchaseDate) : null;
+                return (price > 0 && (!pDate || pDate <= new Date())) ? sum + price : sum;
+            }, 0);
+            let predictedAnnualIncome = currentAnnualIncome;
+            let predictedAnnualExpenses = currentAnnualExpenses;
+            const startYear = new Date().getFullYear();
+            for (let year = 1; year <= 5; year++) {
+                if (year > 1) {
+                    predictedAnnualIncome *= (1 + incrementRate);
+                    predictedAnnualExpenses *= (1 + expenseRate);
+                }
+                const balance = predictedAnnualIncome - predictedAnnualExpenses;
+                let roi = (currentInvestmentSimple > 0) ? (balance / currentInvestmentSimple) * 100 : 0;
+                forecastData.push({
+                    year: startYear + year -1,
+                    income: predictedAnnualIncome,
+                    expenses: predictedAnnualExpenses,
+                    balance: balance,
+                    roi: isFinite(roi) ? roi : 0
+                });
+            }
+            updateForecastTable(forecastData);
+            updateForecastChart(forecastData);
+        }
 
-        // ===== FUNCIONES CRUD (Añadir/Editar/Borrar) =====
-        // (Estas funciones modifican los arrays en memoria; los cambios se guardan en archivo con el botón 'Guardar Cambios')
+        function updateForecastTable(forecastData) {
+            // ... (código idéntico al proporcionado anteriormente) ...
+            const tableBody = document.getElementById('forecastTable');
+            tableBody.innerHTML = '';
+            if (forecastData.length === 0) {
+                 tableBody.innerHTML = `<tr><td colspan="5" class="py-4 px-4 text-center text-gray-500">No se pudo generar la previsión.</td></tr>`;
+                 return;
+            }
+            forecastData.forEach(yearData => {
+                const row = document.createElement('tr');
+                row.className = 'hover:bg-gray-50';
+                row.innerHTML = `
+                    <td class="py-3 px-4 border-b">${yearData.year}</td>
+                    <td class="py-3 px-4 border-b text-right text-green-600 font-semibold">${formatCurrency(yearData.income)}</td>
+                    <td class="py-3 px-4 border-b text-right text-red-600 font-semibold">${formatCurrency(yearData.expenses)}</td>
+                    <td class="py-3 px-4 border-b text-right font-bold ${yearData.balance >= 0 ? 'text-green-700' : 'text-red-700'}">${formatCurrency(yearData.balance)}</td>
+                    <td class="py-3 px-4 border-b text-right font-semibold">${yearData.roi.toFixed(2)}%</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
 
-        function openParkingModal(parkingId = null) {
+        window.forecastChartInstance = null;
+        function updateForecastChart(forecastData) {
+            // ... (código idéntico al proporcionado anteriormente) ...
+            const canvas = document.getElementById('forecastChart');
+             if (!canvas) return;
+             const ctx = canvas.getContext('2d');
+            if (window.forecastChartInstance) window.forecastChartInstance.destroy();
+             if (forecastData.length === 0) {
+                 ctx.clearRect(0, 0, canvas.width, canvas.height);
+                 ctx.textAlign = 'center';
+                 ctx.fillText('Calcula la previsión para ver el gráfico.', canvas.width/2, canvas.height/2);
+                 return;
+             }
+            const labels = forecastData.map(data => data.year);
+            const incomeData = forecastData.map(data => data.income);
+            const expensesData = forecastData.map(data => data.expenses);
+            const balanceData = forecastData.map(data => data.balance);
+            window.forecastChartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {label: 'Ingresos', data: incomeData, backgroundColor: 'rgba(72, 187, 120, 0.6)', borderColor: 'rgb(72, 187, 120)', borderWidth: 1, order: 2},
+                        {label: 'Gastos', data: expensesData, backgroundColor: 'rgba(245, 101, 101, 0.6)', borderColor: 'rgb(245, 101, 101)', borderWidth: 1, order: 3},
+                        {label: 'Balance', data: balanceData, type: 'line', fill: false, borderColor: 'rgb(66, 153, 225)', borderWidth: 3, tension: 0.1, pointBackgroundColor: 'rgb(66, 153, 225)', pointRadius: 4, order: 1}
+                    ]
+                },
+                options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true, ticks: { callback: value => formatCurrency(value) } }, x: { grid: { display: false } } }, plugins: { tooltip: { callbacks: { label: context => { let l = context.dataset.label || ''; if(l) l+=': '; if(context.parsed.y !== null) l += formatCurrency(context.parsed.y); return l; } } }, legend: { position: 'top', } }, interaction: { mode: 'index', intersect: false, }, }
+            });
+        }
+
+        // --- Funciones CRUD (Parking, Tenant, Finance) ---
+        // (openParkingModal, saveParking, editParking, assignTenant, deleteParking)
+        // (openTenantModal, saveTenant, editTenant, deleteTenant)
+        // (openFinanceModal, saveFinance, editFinance, deleteFinance)
+        // ... (Estas funciones ya las tienes y parecen correctas) ...
+         function openParkingModal(parkingId = null) {
             const modal = document.getElementById('parkingModal');
             const modalTitle = document.getElementById('parkingModalTitle');
             const form = document.getElementById('parkingForm');
             form.reset();
-            document.getElementById('parkingId').value = '';
-
+             document.getElementById('parkingId').value = '';
             if (parkingId) {
                 const parking = parkings.find(p => p.id === parkingId);
                 if (parking) {
@@ -1532,541 +1595,284 @@
                     document.getElementById('parkingFeatures').value = parking.features || '';
                     document.getElementById('parkingPurchasePrice').value = parking.purchasePrice || '';
                     document.getElementById('parkingPurchaseDate').value = parking.purchaseDate || '';
-                } else { showNotification(`Parking ID ${parkingId} no encontrado.`, 'danger'); return; }
+                } else { showNotification(`No se encontró el parking con ID ${parkingId}`, 'danger'); return; }
             } else { modalTitle.textContent = 'Añadir Nuevo Parking'; }
             modal.classList.remove('hidden');
             document.getElementById('parkingLocation').focus();
         }
-
         function saveParking() {
-            const idInput = document.getElementById('parkingId');
-            const isEditing = !!idInput.value;
+            const idInput = document.getElementById('parkingId'); const isEditing = !!idInput.value;
             const id = idInput.value || 'p_' + Date.now() + Math.random().toString(16).slice(2);
-            const location = document.getElementById('parkingLocation').value.trim();
-            const size = document.getElementById('parkingSize').value;
-            const price = document.getElementById('parkingPrice').value;
-            const features = document.getElementById('parkingFeatures').value.trim();
-            const purchasePrice = document.getElementById('parkingPurchasePrice').value;
-            const purchaseDate = document.getElementById('parkingPurchaseDate').value;
-
+            const location = document.getElementById('parkingLocation').value; const size = document.getElementById('parkingSize').value;
+            const price = document.getElementById('parkingPrice').value; const features = document.getElementById('parkingFeatures').value;
+            const purchasePrice = document.getElementById('parkingPurchasePrice').value; const purchaseDate = document.getElementById('parkingPurchaseDate').value;
             if (!location || !size || !price) { showNotification('Ubicación, Tamaño y Precio son requeridos.', 'warning'); return; }
-
-            const parkingData = {
-                id, location, size: parseFloat(size), price: parseFloat(price), features,
-                purchasePrice: purchasePrice ? parseFloat(purchasePrice) : null,
-                purchaseDate: purchaseDate || null,
-                createdAt: isEditing ? parkings.find(p => p.id === id)?.createdAt : new Date().toISOString(),
-                updatedAt: new Date().toISOString()
-            };
-
+            const parkingData = { id, location, size: parseFloat(size), price: parseFloat(price), features, purchasePrice: purchasePrice ? parseFloat(purchasePrice) : null, purchaseDate: purchaseDate || null, createdAt: isEditing ? parkings.find(p => p.id === id)?.createdAt : new Date().toISOString(), updatedAt: new Date().toISOString() };
             const existingIndex = parkings.findIndex(p => p.id === id);
-            if (existingIndex >= 0) {
-                parkingData.createdAt = parkings[existingIndex].createdAt || parkingData.createdAt;
-                parkings[existingIndex] = parkingData;
-                showNotification('Parking actualizado (pendiente de guardar).', 'info');
-            } else {
-                parkings.push(parkingData);
-                showNotification('Nuevo parking añadido (pendiente de guardar).', 'info');
-            }
-            updateUI();
-            document.getElementById('parkingModal').classList.add('hidden');
+            if (existingIndex >= 0) { parkingData.createdAt = parkings[existingIndex].createdAt || parkingData.createdAt; parkings[existingIndex] = parkingData; showNotification('Parking actualizado (cambios pendientes).', 'info');
+            } else { parkings.push(parkingData); showNotification('Nuevo parking añadido (cambios pendientes).', 'info'); }
+            updateUI(); document.getElementById('parkingModal').classList.add('hidden');
         }
-
         function editParking(parkingId) { openParkingModal(parkingId); }
-
         function assignTenant(parkingId) { openTenantModal(null, parkingId); }
-
         function deleteParking(parkingId) {
-             const parking = parkings.find(p => p.id === parkingId);
-             if (!parking) { showNotification(`Parking ID ${parkingId} no encontrado.`, 'warning'); return; }
-             if (!confirm(`¿Eliminar parking "${parking.location}"? El inquilino asociado (si existe) será desvinculado. Cambios pendientes de guardar.`)) return;
-
-            const associatedTenantIndex = tenants.findIndex(t => t.parkingId === parkingId);
-            if (associatedTenantIndex > -1) {
-                tenants[associatedTenantIndex].parkingId = null;
-                tenants[associatedTenantIndex].updatedAt = new Date().toISOString();
-                showNotification(`Inquilino "${tenants[associatedTenantIndex].name}" desvinculado.`, 'info');
+             if (!confirm(`¿Seguro que quieres eliminar el parking ID ${parkingId}? Esto desvinculará inquilinos/finanzas.\nSolo se guarda permanentemente al usar "Guardar Cambios".`)) return;
+            const associatedTenant = tenants.find(t => t.parkingId === parkingId);
+            if (associatedTenant) {
+                 if (confirm(`Parking asignado a "${associatedTenant.name}". Al eliminar el parking, quedará sin asignar. ¿Continuar?`)) {
+                     const tenantIndex = tenants.findIndex(t => t.id === associatedTenant.id);
+                     if (tenantIndex > -1) { tenants[tenantIndex].parkingId = null; tenants[tenantIndex].updatedAt = new Date().toISOString(); }
+                 } else { showNotification('Eliminación cancelada.', 'info'); return; }
             }
-
-            parkings = parkings.filter(p => p.id !== parkingId);
-            updateUI();
-            showNotification(`Parking "${parking.location}" eliminado (pendiente de guardar).`, 'info');
+            const initialLength = parkings.length; parkings = parkings.filter(p => p.id !== parkingId);
+            if (parkings.length < initialLength) { updateUI(); showNotification(`Parking ID ${parkingId} eliminado (cambios pendientes). Inquilino desvinculado si existía.`, 'info');
+            } else { showNotification(`No se encontró parking ID ${parkingId}.`, 'warning'); }
         }
-
-        function openTenantModal(tenantId = null, preSelectedParkingId = null) {
-            const modal = document.getElementById('tenantModal');
-            const modalTitle = document.getElementById('tenantModalTitle');
-            const form = document.getElementById('tenantForm');
-            const tenantParkingSelect = document.getElementById('tenantParking');
-            form.reset();
-            document.getElementById('tenantId').value = '';
-            updateParkingDropdowns(); // Actualizar lista antes de todo
+         function openTenantModal(tenantId = null, preSelectedParkingId = null) {
+            const modal = document.getElementById('tenantModal'); const modalTitle = document.getElementById('tenantModalTitle');
+            const form = document.getElementById('tenantForm'); const tenantParkingSelect = document.getElementById('tenantParking');
+            form.reset(); document.getElementById('tenantId').value = '';
+            updateParkingDropdowns(); // Actualizar lista ANTES
             const today = new Date().toISOString().split('T')[0];
-
             if (tenantId) {
                 const tenant = tenants.find(t => t.id === tenantId);
                 if (tenant) {
-                    modalTitle.textContent = 'Editar Inquilino';
-                    document.getElementById('tenantId').value = tenant.id;
-                    document.getElementById('tenantName').value = tenant.name;
-                    document.getElementById('tenantPhone').value = tenant.phone;
-                    document.getElementById('tenantEmail').value = tenant.email || '';
-                    tenantParkingSelect.value = tenant.parkingId || ""; // Seleccionar parking actual
-                    document.getElementById('tenantStartDate').value = tenant.startDate || today;
-                    document.getElementById('tenantEndDate').value = tenant.endDate || '';
+                    modalTitle.textContent = 'Editar Inquilino'; document.getElementById('tenantId').value = tenant.id;
+                    document.getElementById('tenantName').value = tenant.name; document.getElementById('tenantPhone').value = tenant.phone;
+                    document.getElementById('tenantEmail').value = tenant.email || ''; tenantParkingSelect.value = tenant.parkingId || "";
+                    document.getElementById('tenantStartDate').value = tenant.startDate || today; document.getElementById('tenantEndDate').value = tenant.endDate || '';
                     document.getElementById('tenantNotes').value = tenant.notes || '';
-                } else { showNotification(`Inquilino ID ${tenantId} no encontrado.`, 'danger'); return; }
+                } else { showNotification(`No se encontró inquilino ID ${tenantId}`, 'danger'); return; }
             } else {
-                modalTitle.textContent = 'Añadir Nuevo Inquilino';
-                document.getElementById('tenantStartDate').value = today;
+                modalTitle.textContent = 'Añadir Nuevo Inquilino'; document.getElementById('tenantStartDate').value = today;
                 if (preSelectedParkingId) {
                     const parkingExists = parkings.some(p => p.id === preSelectedParkingId);
                     const parkingAvailable = !tenants.some(t => t.parkingId === preSelectedParkingId);
-                    if (parkingExists && parkingAvailable) tenantParkingSelect.value = preSelectedParkingId;
-                    else if (parkingExists) showNotification('Parking seleccionado ya ocupado.', 'warning');
-                    else showNotification('Parking de origen no encontrado.', 'warning');
+                    if (parkingExists && parkingAvailable) { tenantParkingSelect.value = preSelectedParkingId; }
+                    else if (parkingExists) { showNotification(`Parking seleccionado ya ocupado. Elija otro.`, 'warning'); }
+                    else { showNotification(`Parking de origen ya no existe.`, 'warning'); }
                 }
             }
-            modal.classList.remove('hidden');
-            document.getElementById('tenantName').focus();
+            modal.classList.remove('hidden'); document.getElementById('tenantName').focus();
         }
-
         function saveTenant() {
-            const idInput = document.getElementById('tenantId');
-            const isEditing = !!idInput.value;
+            const idInput = document.getElementById('tenantId'); const isEditing = !!idInput.value;
             const id = idInput.value || 't_' + Date.now() + Math.random().toString(16).slice(2);
-            const name = document.getElementById('tenantName').value.trim();
-            const phone = document.getElementById('tenantPhone').value.trim();
-            const email = document.getElementById('tenantEmail').value.trim();
-            const parkingId = document.getElementById('tenantParking').value || null;
-            const startDate = document.getElementById('tenantStartDate').value;
-            const endDate = document.getElementById('tenantEndDate').value || null;
-            const notes = document.getElementById('tenantNotes').value.trim();
-
-            if (!name || !phone || !startDate || !parkingId) { // Parking es ahora requerido
-                showNotification('Nombre, Teléfono, Fecha Inicio y Parking Asignado son requeridos.', 'warning'); return;
-            }
-            if (endDate && new Date(endDate) < new Date(startDate)) {
-                showNotification('Fecha Fin no puede ser anterior a Fecha Inicio.', 'warning'); return;
-            }
-            const existingTenant = tenants.find(t => t.parkingId === parkingId && t.id !== id);
-            if (existingTenant) {
-                showNotification(`Parking ya asignado a "${existingTenant.name}". Elija otro.`, 'danger'); return;
-            }
-
-            const tenantData = {
-                id, name, phone, email: email || null, parkingId, startDate, endDate, notes,
-                createdAt: isEditing ? tenants.find(t => t.id === id)?.createdAt : new Date().toISOString(),
-                updatedAt: new Date().toISOString()
-            };
-
-            let autoGeneratedIncome = false;
-            const existingIndex = tenants.findIndex(t => t.id === id);
-            if (existingIndex >= 0) {
-                tenantData.createdAt = tenants[existingIndex].createdAt || tenantData.createdAt;
-                tenants[existingIndex] = tenantData;
-                showNotification('Inquilino actualizado (pendiente de guardar).', 'info');
-            } else {
-                tenants.push(tenantData);
-                showNotification('Nuevo inquilino añadido (pendiente de guardar).', 'info');
+            const name = document.getElementById('tenantName').value; const phone = document.getElementById('tenantPhone').value;
+            const email = document.getElementById('tenantEmail').value; const parkingId = document.getElementById('tenantParking').value || null;
+            const startDate = document.getElementById('tenantStartDate').value; const endDate = document.getElementById('tenantEndDate').value || null;
+            const notes = document.getElementById('tenantNotes').value;
+            if (!name || !phone || !startDate) { showNotification('Nombre, Teléfono y Fecha Inicio son requeridos.', 'warning'); return; }
+            if (endDate && startDate && new Date(endDate) < new Date(startDate)) { showNotification('Fecha Fin no puede ser anterior a Fecha Inicio.', 'warning'); return; }
+            if (parkingId) {
+                 const existingTenant = tenants.find(t => t.parkingId === parkingId && t.id !== id);
+                 if (existingTenant) { showNotification(`Parking ya asignado a "${existingTenant.name}". Elija otro.`, 'danger'); return; }
+             }
+            const tenantData = { id, name, phone, email: email || null, parkingId, startDate, endDate, notes, createdAt: isEditing ? tenants.find(t => t.id === id)?.createdAt : new Date().toISOString(), updatedAt: new Date().toISOString() };
+            let autoGeneratedIncome = false; const existingIndex = tenants.findIndex(t => t.id === id);
+            if (existingIndex >= 0) { tenantData.createdAt = tenants[existingIndex].createdAt || tenantData.createdAt; tenants[existingIndex] = tenantData; showNotification('Inquilino actualizado (cambios pendientes).', 'info');
+            } else { tenants.push(tenantData); showNotification('Nuevo inquilino añadido (cambios pendientes).', 'info');
                 const parking = parkings.find(p => p.id === parkingId);
                 if (parking && parking.price > 0) {
-                    const financeData = {
-                        id: 'f_' + Date.now() + Math.random().toString(16).slice(2), date: startDate, type: 'income',
-                        concept: `Alquiler inicial - ${name}`, parkingId: parkingId, amount: parking.price,
-                        notes: `Pago inicial automático al añadir inquilino ${name}.`, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString()
-                    };
-                    finances.push(financeData);
-                    autoGeneratedIncome = true;
+                    const financeData = { id: 'f_' + Date.now() + Math.random().toString(16).slice(2), date: startDate, type: 'income', concept: `Alquiler inicial - ${name}`, parkingId: parkingId, amount: parking.price, notes: `Pago inicial automático.`, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() };
+                    finances.push(financeData); autoGeneratedIncome = true;
                 }
             }
-            updateUI();
-            document.getElementById('tenantModal').classList.add('hidden');
-            if (autoGeneratedIncome) {
-                showNotification('Ingreso automático por primer alquiler añadido (pendiente de guardar).', 'success');
-            }
+            updateUI(); document.getElementById('tenantModal').classList.add('hidden');
+             if (autoGeneratedIncome) showNotification('Ingreso por primer alquiler registrado automáticamente (cambios pendientes).', 'success');
         }
-
         function editTenant(tenantId) { openTenantModal(tenantId); }
-
         function deleteTenant(tenantId) {
-            const tenant = tenants.find(t => t.id === tenantId);
-            if (!tenant) { showNotification(`Inquilino ID ${tenantId} no encontrado.`, 'warning'); return; }
-            if (!confirm(`¿Eliminar inquilino "${tenant.name}"? Cambios pendientes de guardar.`)) return;
-            tenants = tenants.filter(t => t.id !== tenantId);
-            updateUI();
-            showNotification(`Inquilino "${tenant.name}" eliminado (pendiente de guardar).`, 'info');
+            const tenant = tenants.find(t => t.id === tenantId); if (!tenant) { showNotification(`Inquilino ID ${tenantId} no encontrado.`, 'warning'); return; }
+             if (!confirm(`¿Seguro que quieres eliminar a "${tenant.name}"? Solo se guarda al usar "Guardar Cambios".`)) return;
+            const initialLength = tenants.length; tenants = tenants.filter(t => t.id !== tenantId);
+             if (tenants.length < initialLength) { updateUI(); showNotification(`Inquilino "${tenant.name}" eliminado (cambios pendientes).`, 'info'); }
         }
-
-
-        function openFinanceModal(type, financeId = null) {
-            const modal = document.getElementById('financeModal');
-            const modalTitle = document.getElementById('financeModalTitle');
-            const form = document.getElementById('financeForm');
-            const saveBtn = document.getElementById('saveFinanceBtn');
-            form.reset();
-            document.getElementById('financeId').value = '';
-            document.getElementById('financeTransactionType').value = type;
-            updateParkingDropdowns();
-            const today = new Date().toISOString().split('T')[0];
-
+         function openFinanceModal(type, financeId = null) {
+            const modal = document.getElementById('financeModal'); const modalTitle = document.getElementById('financeModalTitle');
+            const form = document.getElementById('financeForm'); const saveBtn = document.getElementById('saveFinanceBtn');
+            form.reset(); document.getElementById('financeId').value = ''; document.getElementById('financeTransactionType').value = type;
+            updateParkingDropdowns(); const today = new Date().toISOString().split('T')[0];
+            if (type === 'income') { modalTitle.textContent = 'Registrar Ingreso'; saveBtn.className = saveBtn.className.replace(/bg-red-\d+|hover:bg-red-\d+/g, '') + ' bg-green-500 hover:bg-green-600'; }
+            else { modalTitle.textContent = 'Registrar Gasto'; saveBtn.className = saveBtn.className.replace(/bg-green-\d+|hover:bg-green-\d+/g, '') + ' bg-red-500 hover:bg-red-600'; }
             if (financeId) {
                 const finance = finances.find(f => f.id === financeId);
                 if (finance) {
-                    type = finance.type; // Usar el tipo real para título y botón
-                    document.getElementById('financeId').value = finance.id;
-                    document.getElementById('financeTransactionType').value = finance.type;
-                    document.getElementById('financeDate').value = finance.date || today;
-                    document.getElementById('financeConcept').value = finance.concept;
-                    document.getElementById('financeParking').value = finance.parkingId || '';
-                    document.getElementById('financeAmount').value = finance.amount;
+                    modalTitle.textContent = finance.type === 'income' ? 'Editar Ingreso' : 'Editar Gasto';
+                     if (finance.type === 'income') saveBtn.className = saveBtn.className.replace(/bg-red-\d+|hover:bg-red-\d+/g, '') + ' bg-green-500 hover:bg-green-600';
+                     else saveBtn.className = saveBtn.className.replace(/bg-green-\d+|hover:bg-green-\d+/g, '') + ' bg-red-500 hover:bg-red-600';
+                    document.getElementById('financeId').value = finance.id; document.getElementById('financeTransactionType').value = finance.type;
+                    document.getElementById('financeDate').value = finance.date || today; document.getElementById('financeConcept').value = finance.concept;
+                    document.getElementById('financeParking').value = finance.parkingId || ''; document.getElementById('financeAmount').value = finance.amount;
                     document.getElementById('financeNotes').value = finance.notes || '';
-                } else { showNotification(`Transacción ID ${financeId} no encontrada.`, 'danger'); return; }
+                } else { showNotification(`Transacción ID ${financeId} no encontrada`, 'danger'); return; }
             } else { document.getElementById('financeDate').value = today; }
-
-            if (type === 'income') {
-                modalTitle.textContent = financeId ? 'Editar Ingreso' : 'Registrar Ingreso';
-                saveBtn.className = 'bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded btn-animated transition flex items-center'; // Añadir flex items-center
-                saveBtn.innerHTML = `<i class="fas fa-save mr-2"></i>${financeId ? 'Guardar Ingreso' : 'Registrar Ingreso'}`;
-            } else {
-                modalTitle.textContent = financeId ? 'Editar Gasto' : 'Registrar Gasto';
-                saveBtn.className = 'bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded btn-animated transition flex items-center'; // Añadir flex items-center
-                saveBtn.innerHTML = `<i class="fas fa-save mr-2"></i>${financeId ? 'Guardar Gasto' : 'Registrar Gasto'}`;
-            }
-
-            modal.classList.remove('hidden');
-            document.getElementById('financeConcept').focus();
+            modal.classList.remove('hidden'); document.getElementById('financeConcept').focus();
         }
-
         function saveFinance() {
-            const idInput = document.getElementById('financeId');
-            const isEditing = !!idInput.value;
+            const idInput = document.getElementById('financeId'); const isEditing = !!idInput.value;
             const id = idInput.value || 'f_' + Date.now() + Math.random().toString(16).slice(2);
-            const type = document.getElementById('financeTransactionType').value;
-            const date = document.getElementById('financeDate').value;
-            const concept = document.getElementById('financeConcept').value.trim();
-            const parkingId = document.getElementById('financeParking').value || null;
-            const amount = document.getElementById('financeAmount').value;
-            const notes = document.getElementById('financeNotes').value.trim();
-
-            if (!date || !concept || !amount || parseFloat(amount) <= 0) {
-                showNotification('Fecha, Concepto e Importe (mayor a 0) son requeridos.', 'warning'); return;
-            }
-
-            const financeData = {
-                id, type, date, concept, parkingId, amount: parseFloat(amount), notes,
-                createdAt: isEditing ? finances.find(f => f.id === id)?.createdAt : new Date().toISOString(),
-                updatedAt: new Date().toISOString()
-            };
-
+            const type = document.getElementById('financeTransactionType').value; const date = document.getElementById('financeDate').value;
+            const concept = document.getElementById('financeConcept').value; const parkingId = document.getElementById('financeParking').value || null;
+            const amount = document.getElementById('financeAmount').value; const notes = document.getElementById('financeNotes').value;
+            if (!date || !concept || !amount) { showNotification('Fecha, Concepto e Importe son requeridos.', 'warning'); return; }
+             if (parseFloat(amount) <= 0) { showNotification('Importe debe ser mayor que cero.', 'warning'); return; }
+            const financeData = { id, type, date, concept, parkingId, amount: parseFloat(amount), notes, createdAt: isEditing ? finances.find(f => f.id === id)?.createdAt : new Date().toISOString(), updatedAt: new Date().toISOString() };
             const existingIndex = finances.findIndex(f => f.id === id);
-            if (existingIndex >= 0) {
-                financeData.createdAt = finances[existingIndex].createdAt || financeData.createdAt;
-                finances[existingIndex] = financeData;
-                showNotification('Transacción actualizada (pendiente de guardar).', 'info');
-            } else {
-                finances.push(financeData);
-                showNotification(`${type === 'income' ? 'Ingreso' : 'Gasto'} registrado (pendiente de guardar).`, 'info');
-            }
-            updateUI();
-            document.getElementById('financeModal').classList.add('hidden');
+            if (existingIndex >= 0) { financeData.createdAt = finances[existingIndex].createdAt || financeData.createdAt; finances[existingIndex] = financeData; showNotification('Transacción actualizada (cambios pendientes).', 'info');
+            } else { finances.push(financeData); showNotification(type === 'income' ? 'Ingreso registrado (cambios pendientes).' : 'Gasto registrado (cambios pendientes).', 'info'); }
+            updateUI(); document.getElementById('financeModal').classList.add('hidden');
         }
-
         function editFinance(financeId) { openFinanceModal(null, financeId); }
-
         function deleteFinance(financeId) {
-            const finance = finances.find(f => f.id === financeId);
-            if (!finance) { showNotification(`Transacción ID ${financeId} no encontrada.`, 'warning'); return; }
-            if (!confirm(`¿Eliminar transacción "${finance.concept}" (${formatCurrency(finance.amount)})? Cambios pendientes de guardar.`)) return;
-            finances = finances.filter(f => f.id !== financeId);
-            updateUI();
-            showNotification('Transacción eliminada (pendiente de guardar).', 'info');
+             const finance = finances.find(f => f.id === financeId); if (!finance) { showNotification(`Transacción ID ${financeId} no encontrada.`, 'warning'); return; }
+             if (!confirm(`¿Seguro que quieres eliminar "${finance.concept}" (${formatCurrency(finance.amount)})? Solo se guarda al usar "Guardar Cambios".`)) return;
+            const initialLength = finances.length; finances = finances.filter(f => f.id !== financeId);
+             if (finances.length < initialLength) { updateUI(); showNotification('Transacción eliminada (cambios pendientes).', 'info'); }
         }
 
-
-        // ===== FUNCIONES DE PREVISIÓN (SIMPLE Y COMPUESTA) =====
-
-        // Variable global para la instancia del gráfico de previsión simple
-        window.forecastChartInstance = null;
-
-        function updateForecastData() { // Previsión Simple
-             if (parkings.length === 0) {
-                 showNotification('Carga datos para calcular previsiones.', 'warning');
-                 document.getElementById('forecastTable').innerHTML = `<tr><td colspan="5" class="py-4 px-4 text-center text-gray-500">Carga datos primero.</td></tr>`;
-                 if (window.forecastChartInstance) { window.forecastChartInstance.destroy(); window.forecastChartInstance = null; }
-                 return;
-             }
-             try {
-                 const forecastData = calculateSimpleForecastData(); // Usa la función auxiliar
-                 updateForecastTable(forecastData);
-                 updateForecastChart(forecastData);
-             } catch (error) {
-                  showNotification(`Error al calcular previsión simple: ${error.message}`, 'danger');
-                  console.error("Error en updateForecastData:", error);
-                  document.getElementById('forecastTable').innerHTML = `<tr><td colspan="5" class="py-4 px-4 text-center text-gray-500">Error al calcular. ${error.message}</td></tr>`;
-                  if (window.forecastChartInstance) { window.forecastChartInstance.destroy(); window.forecastChartInstance = null; }
-             }
-        }
-
-        function updateForecastTable(forecastData) { // Tabla Previsión Simple
-            const tableBody = document.getElementById('forecastTable');
-            tableBody.innerHTML = '';
-            if (!forecastData || forecastData.length === 0) {
-                 tableBody.innerHTML = `<tr><td colspan="5" class="py-4 px-4 text-center text-gray-500">No se generaron datos de previsión.</td></tr>`;
-                 return;
-            }
-            forecastData.forEach(yearData => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td class="py-3 px-4 border-b">${yearData.year}</td>
-                    <td class="py-3 px-4 border-b text-right text-green-600 dark:text-green-400 font-semibold">${formatCurrency(yearData.income)}</td>
-                    <td class="py-3 px-4 border-b text-right text-red-600 dark:text-red-400 font-semibold">${formatCurrency(yearData.expenses)}</td>
-                    <td class="py-3 px-4 border-b text-right font-bold ${yearData.balance >= 0 ? 'text-green-700 dark:text-green-300' : 'text-red-700 dark:text-red-300'}">${formatCurrency(yearData.balance)}</td>
-                    <td class="py-3 px-4 border-b text-right font-semibold">${yearData.roi.toFixed(2)}%</td>
-                `;
-                tableBody.appendChild(row);
-            });
-        }
-
-        function updateForecastChart(forecastData) { // Gráfico Previsión Simple
-            const canvas = document.getElementById('forecastChart');
-             if (!canvas) return;
-             const ctx = canvas.getContext('2d');
-            if (window.forecastChartInstance) { window.forecastChartInstance.destroy(); }
-             if (!forecastData || forecastData.length === 0) {
-                 ctx.clearRect(0, 0, canvas.width, canvas.height);
-                 ctx.textAlign = 'center'; ctx.fillStyle = document.body.classList.contains('dark') ? '#a0aec0' : '#4a5568';
-                 ctx.fillText('Calcula la previsión para ver el gráfico.', canvas.width/2, canvas.height/2);
-                 window.forecastChartInstance = null;
-                 return;
-             }
-            const labels = forecastData.map(data => data.year);
-            const options = { /* ... (opciones del gráfico, iguales que antes) ... */
-                 responsive: true, maintainAspectRatio: false,
-                 scales: { y: { beginAtZero: true, ticks: { callback: value => formatCurrency(value) } }, x: { grid: { display: false } } },
-                 plugins: { tooltip: { callbacks: { label: context => `${context.dataset.label || ''}: ${formatCurrency(context.parsed.y)}` } }, legend: { position: 'top' } },
-                 interaction: { mode: 'index', intersect: false }
-             };
-            window.forecastChartInstance = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: labels,
-                    datasets: [
-                        { label: 'Ingresos', data: forecastData.map(d => d.income), backgroundColor: 'rgba(72, 187, 120, 0.6)', borderColor: 'rgb(72, 187, 120)', borderWidth: 1, order: 2 },
-                        { label: 'Gastos', data: forecastData.map(d => d.expenses), backgroundColor: 'rgba(245, 101, 101, 0.6)', borderColor: 'rgb(245, 101, 101)', borderWidth: 1, order: 3 },
-                        { label: 'Balance', data: forecastData.map(d => d.balance), type: 'line', fill: false, borderColor: 'rgb(66, 153, 225)', borderWidth: 3, tension: 0.1, pointRadius: 4, order: 1 }
-                    ]
-                }, options: options
-            });
-        }
-
-        // --- Funciones para la Proyección Compuesta ---
-
-        function addFutureInvestmentRow() {
-            const container = document.getElementById('futureInvestmentsContainer');
-            const newRow = document.createElement('div');
-            newRow.className = 'flex items-center space-x-2 future-investment-row';
-            newRow.innerHTML = `
-                <input type="number" min="${new Date().getFullYear()}" placeholder="Año" class="shadow appearance-none border rounded w-1/3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 future-investment-year">
-                <input type="number" min="0" step="100" placeholder="Coste (€)" class="shadow appearance-none border rounded w-1/3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 future-investment-cost">
-                <button type="button" class="text-red-500 hover:text-red-700 remove-investment-btn p-2" title="Eliminar Inversión">
-                    <i class="fas fa-trash-alt"></i>
-                </button>
-            `;
-            container.appendChild(newRow);
-        }
-
-        function calculateCompoundForecast() {
-            try { // Envolver todo en try-catch
-                const profitGrowthRateInput = document.getElementById('compoundProfitGrowthRate');
-                const profitGrowthRate = (parseFloat(profitGrowthRateInput.value) || 0) / 100;
-
-                const futureInvestments = [];
-                document.querySelectorAll('.future-investment-row').forEach(row => {
-                    const year = parseInt(row.querySelector('.future-investment-year').value);
-                    const cost = parseFloat(row.querySelector('.future-investment-cost').value);
-                    if (year && cost > 0) futureInvestments.push({ year, cost });
-                });
-
-                // Opcional: Pre-rellenar Foment 156
-                const fomment156Year = 2025; const fomment156Cost = 7500;
-                let fomment156Exists = futureInvestments.some(inv => inv.year === fomment156Year && inv.cost === fomment156Cost);
-                const firstRow = document.querySelector('#futureInvestmentsContainer .future-investment-row');
-                if (!fomment156Exists && firstRow) {
-                    const firstYearInput = firstRow.querySelector('.future-investment-year');
-                    const firstCostInput = firstRow.querySelector('.future-investment-cost');
-                    if (!firstYearInput.value && !firstCostInput.value) {
-                        firstYearInput.value = fomment156Year; firstCostInput.value = fomment156Cost;
-                        futureInvestments.push({ year: fomment156Year, cost: fomment156Cost });
-                        // No mostrar notificación aquí, ya está en la UI
-                    }
-                }
-
-                const today = new Date();
-                const initialInvestment = parkings.reduce((sum, p) => (parseFloat(p.purchasePrice) || 0) > 0 && (!p.purchaseDate || new Date(p.purchaseDate) <= today) ? sum + parseFloat(p.purchasePrice) : sum, 0);
-                document.getElementById('compoundInitialInvestment').textContent = formatCurrency(initialInvestment);
-
-                const initialBalance = finances.reduce((bal, f) => bal + ((f.type === 'income' ? 1 : -1) * (parseFloat(f.amount) || 0)), 0);
-                document.getElementById('compoundInitialBalance').textContent = formatCurrency(initialBalance);
-
-                let baseAnnualNetProfit = 0;
-                const simpleForecastData = calculateSimpleForecastData(); // Puede lanzar error
-                if (simpleForecastData && simpleForecastData.length > 0) {
-                    baseAnnualNetProfit = simpleForecastData[0].balance;
-                } else if (initialInvestment > 0) {
-                     const roiTTMText = document.getElementById('annualROI').textContent || '0%';
-                     const roiTTMPercent = parseFloat(roiTTMText.replace('%','')) || 0;
-                     if (roiTTMPercent === 0 && isFinite(roiTTMPercent)) { // Solo error si es realmente 0 y no N/A
-                         showNotification('ROI TTM es cero. No se puede estimar beneficio base.', 'warning');
-                         // Permitir continuar si se quiere, baseAnnualNetProfit será 0
-                     } else if (!isFinite(roiTTMPercent)) {
-                         throw new Error("ROI TTM no es un número válido (N/A?).");
-                     }
-                     baseAnnualNetProfit = initialInvestment * (roiTTMPercent / 100);
-                     showNotification('Usando ROI TTM como base para beneficio anual. Revisa la pestaña Previsiones.', 'warning');
-                } else {
-                     throw new Error("No hay inversión inicial ni previsión simple para estimar beneficio base.");
-                }
-                document.getElementById('compoundBaseAnnualProfit').textContent = formatCurrency(baseAnnualNetProfit);
-
-                let cumulativeGain = initialBalance;
-                let currentInvestedCapital = initialInvestment;
-                let currentAnnualProfitEstimate = baseAnnualNetProfit;
-                const results = [];
-                const startYear = new Date().getFullYear();
-
-                for (let i = 0; i < 5; i++) {
-                    const currentYear = startYear + i;
-                    const profitThisYear = currentAnnualProfitEstimate;
-                    let investmentCostThisYear = futureInvestments.filter(inv => inv.year === currentYear).reduce((sum, inv) => sum + inv.cost, 0);
-
-                    currentInvestedCapital += investmentCostThisYear;
-                    cumulativeGain += profitThisYear - investmentCostThisYear;
-
-                    results.push({
-                        year: currentYear, investedCapitalEndOfYear: currentInvestedCapital,
-                        profitGeneratedThisYear: profitThisYear, investmentMadeThisYear: investmentCostThisYear,
-                        cumulativeNetGainEndOfYear: cumulativeGain
-                    });
-                    currentAnnualProfitEstimate = profitThisYear * (1 + profitGrowthRate);
-                }
-                renderCompoundForecastTable(results);
-
-             } catch (error) {
-                 console.error("Error al calcular proyección compuesta:", error);
-                 showNotification(`Error en Proy. Compuesta: ${error.message}`, 'danger');
-                 document.getElementById('compoundForecastTable').innerHTML = `<tr><td colspan="5" class="py-4 px-4 text-center text-gray-500">Error al calcular. ${error.message}</td></tr>`;
-             }
-        }
-
-        function calculateSimpleForecastData() {
-            const incrementRateInput = document.getElementById('forecastIncrementRate');
-            const expenseRateInput = document.getElementById('forecastExpenseRate');
-            const occupancyRateInput = document.getElementById('forecastOccupancyRate');
-            if (!incrementRateInput || !expenseRateInput || !occupancyRateInput) throw new Error("Faltan elementos de input.");
-
-            const incrementRate = (parseFloat(incrementRateInput.value) || 0) / 100;
-            const expenseRate = (parseFloat(expenseRateInput.value) || 0) / 100;
-            const occupancyRate = (parseFloat(occupancyRateInput.value) || 0) / 100;
-            if (isNaN(incrementRate) || isNaN(expenseRate) || isNaN(occupancyRate) || occupancyRate <= 0) throw new Error("Parámetros inválidos o tasa ocupación cero.");
-            if (parkings.length === 0) throw new Error("No hay parkings para calcular.");
-
-            let potentialAnnualIncome = parkings.reduce((sum, p) => sum + (parseFloat(p.price) || 0) * 12, 0);
-            let currentAnnualIncome = potentialAnnualIncome * occupancyRate;
-
-            const oneYearAgo = new Date(); oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1); oneYearAgo.setHours(0,0,0,0);
-            const expenseTx = finances.filter(f => f.type === 'expense' && f.date);
-            const firstExpDate = expenseTx.length > 0 ? new Date(Math.min.apply(null, expenseTx.map(f => new Date(f.date)))) : null;
-            const startAvgDate = firstExpDate && firstExpDate > oneYearAgo ? firstExpDate : oneYearAgo;
-            const relevantExp = expenseTx.filter(f => f.date && new Date(f.date) >= startAvgDate);
-            let totalRelevantExp = relevantExp.reduce((sum, f) => sum + (parseFloat(f.amount) || 0), 0);
-            let currentAnnualExpenses = 0;
-            if (relevantExp.length > 0) {
-                const months = Math.max(1, (new Date() - startAvgDate) / (1000 * 60 * 60 * 24 * (365.25 / 12))); // Evitar división por cero
-                currentAnnualExpenses = (totalRelevantExp / months) * 12;
-            }
-            if (currentAnnualExpenses === 0 && currentAnnualIncome > 0) currentAnnualExpenses = currentAnnualIncome * 0.3; // Fallback
-
-            const forecastData = [];
-            const currentInvestmentSimple = parkings.reduce((sum, p) => (parseFloat(p.purchasePrice) || 0) > 0 && (!p.purchaseDate || new Date(p.purchaseDate) <= new Date()) ? sum + parseFloat(p.purchasePrice) : sum, 0);
-            let predictedIncome = currentAnnualIncome, predictedExpenses = currentAnnualExpenses;
-            const startYear = new Date().getFullYear();
-
-            for (let year = 1; year <= 5; year++) {
-                if (year > 1) { predictedIncome *= (1 + incrementRate); predictedExpenses *= (1 + expenseRate); }
-                const balance = predictedIncome - predictedExpenses;
-                let roi = (currentInvestmentSimple > 0) ? (balance / currentInvestmentSimple) * 100 : 0;
-                forecastData.push({ year: startYear + year - 1, income: predictedIncome, expenses: predictedExpenses, balance: balance, roi: isFinite(roi) ? roi : 0 });
-            }
-            return forecastData;
-        }
-
-        function renderCompoundForecastTable(results) {
-            const tableBody = document.getElementById('compoundForecastTable');
-            tableBody.innerHTML = '';
-            if (!results || results.length === 0) {
-                tableBody.innerHTML = `<tr><td colspan="5" class="py-4 px-4 text-center text-gray-500">No se generaron resultados.</td></tr>`; return;
-            }
-            results.forEach(data => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td class="py-3 px-4 border-b text-center">${data.year}</td>
-                    <td class="py-3 px-4 border-b text-right">${formatCurrency(data.investedCapitalEndOfYear)}</td>
-                    <td class="py-3 px-4 border-b text-right text-green-600 dark:text-green-400">${formatCurrency(data.profitGeneratedThisYear)}</td>
-                    <td class="py-3 px-4 border-b text-right text-red-600 dark:text-red-400">${formatCurrency(data.investmentMadeThisYear)}</td>
-                    <td class="py-3 px-4 border-b text-right font-bold ${data.cumulativeNetGainEndOfYear >= 0 ? 'text-blue-700 dark:text-blue-300' : 'text-red-700 dark:text-red-300'}">${formatCurrency(data.cumulativeNetGainEndOfYear)}</td>
-                `;
-                tableBody.appendChild(row);
-            });
-        }
-
-        // ===== FUNCIONES UTILITARIAS =====
-
-        function showNotification(message, type = 'info', duration = 5000) {
+        // --- Funciones de Utilidad y Notificaciones ---
+        function showNotification(message, type = 'info') {
             const container = document.getElementById('notifications');
             const notification = document.createElement('div');
             let alertClass = 'alert-info';
             if (type === 'success') alertClass = 'alert-success';
             if (type === 'danger') alertClass = 'alert-danger';
             if (type === 'warning') alertClass = 'alert-warning';
-            notification.className = `alert ${alertClass} shadow-lg fade-in flex items-center`;
+            notification.className = `alert ${alertClass} shadow-lg fade-in flex items-center max-w-sm`;
             const iconClass = type === 'success' ? 'fa-check-circle' : type === 'danger' ? 'fa-exclamation-circle' : type === 'warning' ? 'fa-exclamation-triangle' : 'fa-info-circle';
-            notification.innerHTML = `
-                <i class="fas ${iconClass} mr-3 text-xl flex-shrink-0"></i>
-                <span class="flex-1 text-sm">${message}</span>
-                <button class="ml-3 text-gray-500 hover:text-gray-800 flex-shrink-0" onclick="this.parentElement.remove()" aria-label="Cerrar notificación">
-                    <i class="fas fa-times"></i>
-                </button>
-            `;
+            notification.innerHTML = `<i class="fas ${iconClass} mr-3 text-xl"></i><span class="flex-1">${message}</span><button class="ml-3 text-gray-500 hover:text-gray-800" onclick="this.parentElement.remove()" aria-label="Cerrar notificación"><i class="fas fa-times"></i></button>`;
             container.appendChild(notification);
-            if (duration > 0) {
-                 setTimeout(() => {
-                    notification.style.transition = 'opacity 0.5s ease';
-                    notification.style.opacity = '0';
-                    setTimeout(() => notification.remove(), 500);
-                 }, duration);
+            if (type !== 'danger') {
+                 setTimeout(() => { notification.style.transition = 'opacity 0.5s ease'; notification.style.opacity = '0'; setTimeout(() => { notification.remove(); }, 500); }, 5000);
             }
         }
-
         function formatDate(dateString) {
             if (!dateString) return '-';
             try {
-                const dateParts = dateString.split('-'); // Asume YYYY-MM-DD
+                const dateParts = dateString.split('-');
                 if (dateParts.length === 3) {
                     const date = new Date(Date.UTC(parseInt(dateParts[0]), parseInt(dateParts[1]) - 1, parseInt(dateParts[2])));
-                    if (!isNaN(date)) return date.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric', timeZone: 'UTC' });
+                    if (!isNaN(date)) return date.toLocaleDateString('es-ES', { timeZone: 'UTC' });
                 }
-                const date = new Date(dateString); // Fallback para otros formatos
-                if (!isNaN(date)) return date.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
-                return dateString;
-            } catch (e) { return dateString; }
+                 const date = new Date(dateString);
+                 if (!isNaN(date)) return date.toLocaleDateString('es-ES');
+                 return dateString;
+            } catch (e) { console.warn("Error formateando fecha:", dateString, e); return dateString; }
         }
-
         function formatCurrency(amount) {
              const num = parseFloat(amount);
              if (isNaN(num)) return '0,00 €';
             return new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR', minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(num);
         }
+
+        // --- Funciones para la Proyección Compuesta ---
+        function addFutureInvestmentRow() {
+            const container = document.getElementById('futureInvestmentsContainer');
+            const newRow = document.createElement('div');
+            newRow.className = 'flex items-center space-x-2 future-investment-row';
+            newRow.innerHTML = `
+                <input type="number" min="${new Date().getFullYear()}" placeholder="Año" class="shadow appearance-none border rounded w-1/3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline future-investment-year">
+                <input type="number" min="0" step="100" placeholder="Coste (€)" class="shadow appearance-none border rounded w-1/3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline future-investment-cost">
+                <button type="button" class="text-red-500 hover:text-red-700 remove-investment-btn" title="Eliminar Inversión">
+                    <i class="fas fa-trash-alt"></i>
+                </button>
+            `;
+            container.appendChild(newRow);
+        }
+        function calculateCompoundForecast() {
+            const profitGrowthRateInput = document.getElementById('compoundProfitGrowthRate');
+            const profitGrowthRate = (parseFloat(profitGrowthRateInput.value) || 0) / 100;
+            const futureInvestments = [];
+            document.querySelectorAll('.future-investment-row').forEach(row => {
+                const yearInput = row.querySelector('.future-investment-year'); const costInput = row.querySelector('.future-investment-cost');
+                const year = parseInt(yearInput.value); const cost = parseFloat(costInput.value);
+                if (year && cost > 0) futureInvestments.push({ year, cost });
+            });
+            const fomment156Year = 2025; const fomment156Cost = 7500;
+            let fomment156Exists = futureInvestments.some(inv => inv.year === fomment156Year && inv.cost === fomment156Cost);
+            const firstRow = document.querySelector('#futureInvestmentsContainer .future-investment-row');
+            if (!fomment156Exists && firstRow) {
+                const firstYearInput = firstRow.querySelector('.future-investment-year'); const firstCostInput = firstRow.querySelector('.future-investment-cost');
+                if (!firstYearInput.value && !firstCostInput.value) {
+                    firstYearInput.value = fomment156Year; firstCostInput.value = fomment156Cost;
+                    futureInvestments.push({ year: fomment156Year, cost: fomment156Cost });
+                    showNotification(`Inversión de ${fomment156Year} pre-rellenada.`, 'info');
+                }
+            }
+            const today = new Date();
+            const initialInvestment = parkings.reduce((sum, p) => { const price = parseFloat(p.purchasePrice) || 0; const date = p.purchaseDate ? new Date(p.purchaseDate) : null; return (price > 0 && (!date || date <= today)) ? sum + price : sum; }, 0);
+            document.getElementById('compoundInitialInvestment').textContent = formatCurrency(initialInvestment);
+            const initialBalance = finances.reduce((balance, f) => { const amount = parseFloat(f.amount) || 0; return balance + (f.type === 'income' ? amount : -amount); }, 0);
+            document.getElementById('compoundInitialBalance').textContent = formatCurrency(initialBalance);
+            let baseAnnualNetProfit = 0;
+            try {
+                 const simpleForecastData = calculateSimpleForecastData();
+                 if (simpleForecastData && simpleForecastData.length > 0) { baseAnnualNetProfit = simpleForecastData[0].balance; }
+                 else if (initialInvestment > 0) {
+                      const roiTTMText = document.getElementById('annualROI').textContent || '0%';
+                      const roiTTMPercent = parseFloat(roiTTMText.replace('%','')) || 0;
+                      if (roiTTMPercent === 0 && initialBalance === 0) throw new Error("ROI TTM es cero y no hay balance inicial."); // Evitar error si no hay datos
+                      baseAnnualNetProfit = initialInvestment * (roiTTMPercent / 100);
+                      showNotification('Usando ROI TTM como base para beneficio anual.', 'warning');
+                 } else { throw new Error("No hay inversión inicial ni previsión simple."); }
+            } catch (error) {
+                 console.error("Error al obtener beneficio base:", error);
+                 showNotification(`Error estimando beneficio base: ${error.message}. Verifica datos/previsión.`, 'danger');
+                 document.getElementById('compoundForecastTable').innerHTML = `<tr><td colspan="5" class="py-4 px-4 text-center text-gray-500">Error estimando beneficio base.</td></tr>`; return;
+            }
+            document.getElementById('compoundBaseAnnualProfit').textContent = formatCurrency(baseAnnualNetProfit);
+            let cumulativeGain = initialBalance; let currentInvestedCapital = initialInvestment; let currentAnnualProfitEstimate = baseAnnualNetProfit;
+            const results = []; const startYear = new Date().getFullYear();
+            for (let i = 0; i < 5; i++) {
+                const currentYear = startYear + i; const profitThisYear = currentAnnualProfitEstimate;
+                let investmentCostThisYear = futureInvestments.reduce((sum, inv) => (inv.year === currentYear ? sum + inv.cost : sum), 0);
+                currentInvestedCapital += investmentCostThisYear;
+                cumulativeGain = cumulativeGain + profitThisYear - investmentCostThisYear;
+                results.push({ year: currentYear, investedCapitalEndOfYear: currentInvestedCapital, profitGeneratedThisYear: profitThisYear, investmentMadeThisYear: investmentCostThisYear, cumulativeNetGainEndOfYear: cumulativeGain });
+                currentAnnualProfitEstimate = profitThisYear * (1 + profitGrowthRate);
+            }
+            renderCompoundForecastTable(results);
+        }
+        function calculateSimpleForecastData() {
+            const incrementRateInput = document.getElementById('forecastIncrementRate'); const expenseRateInput = document.getElementById('forecastExpenseRate'); const occupancyRateInput = document.getElementById('forecastOccupancyRate');
+             if (!incrementRateInput || !expenseRateInput || !occupancyRateInput) { throw new Error("Faltan elementos input para previsión simple."); }
+            const incrementRate = (parseFloat(incrementRateInput.value) || 0) / 100; const expenseRate = (parseFloat(expenseRateInput.value) || 0) / 100; const occupancyRate = (parseFloat(occupancyRateInput.value) || 90) / 100;
+            if (isNaN(incrementRate) || isNaN(expenseRate) || isNaN(occupancyRate) || occupancyRate <= 0) { throw new Error("Parámetros previsión simple inválidos/ocupación cero."); }
+             if (parkings.length === 0) { throw new Error("No hay parkings para calcular previsión simple."); }
+            let potentialAnnualIncome = parkings.reduce((sum, p) => sum + (parseFloat(p.price) || 0) * 12, 0); let currentAnnualIncome = potentialAnnualIncome * occupancyRate;
+            const oneYearAgo = new Date(); oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1); oneYearAgo.setHours(0,0,0,0); const expenseTransactions = finances.filter(f => f.type === 'expense' && f.date);
+            const firstExpenseDate = expenseTransactions.length > 0 ? new Date(Math.min.apply(null, expenseTransactions.map(f => new Date(f.date)))) : null;
+            const startDateForAvg = firstExpenseDate && firstExpenseDate > oneYearAgo ? firstExpenseDate : oneYearAgo; const relevantExpenses = expenseTransactions.filter(f => f.date && new Date(f.date) >= startDateForAvg);
+            let totalRelevantExpenses = relevantExpenses.reduce((sum, f) => sum + (parseFloat(f.amount) || 0), 0); let currentAnnualExpenses = 0;
+            if (relevantExpenses.length > 0) { const months = (new Date() - startDateForAvg) / (1000 * 60 * 60 * 24 * (365.25 / 12)); if (months > 0) currentAnnualExpenses = (totalRelevantExpenses / months) * 12; }
+            if (currentAnnualExpenses === 0 && currentAnnualIncome > 0) { currentAnnualExpenses = currentAnnualIncome * 0.3; }
+            const forecastData = [];
+            const currentInvestmentSimple = parkings.reduce((sum, p) => { const price = parseFloat(p.purchasePrice) || 0; const pDate = p.purchaseDate ? new Date(p.purchaseDate) : null; return (price > 0 && (!pDate || pDate <= new Date())) ? sum + price : sum; }, 0);
+            let predictedAnnualIncome = currentAnnualIncome; let predictedAnnualExpenses = currentAnnualExpenses; const startYear = new Date().getFullYear();
+            for (let year = 1; year <= 5; year++) {
+                if (year > 1) { predictedAnnualIncome *= (1 + incrementRate); predictedAnnualExpenses *= (1 + expenseRate); }
+                const balance = predictedAnnualIncome - predictedAnnualExpenses; let roi = (currentInvestmentSimple > 0) ? (balance / currentInvestmentSimple) * 100 : 0;
+                forecastData.push({ year: startYear + year -1, income: predictedAnnualIncome, expenses: predictedAnnualExpenses, balance: balance, roi: isFinite(roi) ? roi : 0 });
+            }
+             return forecastData;
+         }
+        function renderCompoundForecastTable(results) {
+            const tableBody = document.getElementById('compoundForecastTable'); tableBody.innerHTML = '';
+            if (!results || results.length === 0) { tableBody.innerHTML = `<tr><td colspan="5" class="py-4 px-4 text-center text-gray-500">No se generaron resultados.</td></tr>`; return; }
+            results.forEach(data => {
+                const row = document.createElement('tr'); row.className = 'hover:bg-gray-50';
+                row.innerHTML = `
+                    <td class="py-3 px-4 border-b">${data.year}</td>
+                    <td class="py-3 px-4 border-b text-right">${formatCurrency(data.investedCapitalEndOfYear)}</td>
+                    <td class="py-3 px-4 border-b text-right text-green-600">${formatCurrency(data.profitGeneratedThisYear)}</td>
+                    <td class="py-3 px-4 border-b text-right text-red-600">${formatCurrency(data.investmentMadeThisYear)}</td>
+                    <td class="py-3 px-4 border-b text-right font-bold ${data.cumulativeNetGainEndOfYear >= 0 ? 'text-blue-700' : 'text-red-700'}">${formatCurrency(data.cumulativeNetGainEndOfYear)}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+        // --- Fin Funciones para la Proyección Compuesta ---
 
     </script>
 </body>
