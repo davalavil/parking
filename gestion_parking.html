@@ -78,6 +78,70 @@
         .grid-cols-stats {
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
         }
+         /* Estilos para modo oscuro (básico - ejemplo) */
+        body.dark {
+            background-color: #1a202c; /* gray-900 */
+            color: #e2e8f0; /* gray-300 */
+        }
+        body.dark nav {
+            background-color: #2d3748; /* gray-800 */
+            color: #e2e8f0;
+        }
+        body.dark .bg-white {
+             background-color: #2d3748; /* gray-800 */
+        }
+         body.dark .bg-gray-100 {
+             background-color: #4a5568; /* gray-700 */
+         }
+        body.dark .bg-gray-50 {
+            background-color: #4a5568; /* gray-700 */
+        }
+        body.dark .text-gray-800 {
+            color: #e2e8f0; /* gray-300 */
+        }
+        body.dark .text-gray-700 {
+             color: #a0aec0; /* gray-500 */
+        }
+        body.dark .text-gray-500 {
+            color: #cbd5e0; /* gray-400 */
+        }
+         body.dark .border-b {
+             border-color: #4a5568; /* gray-700 */
+         }
+         body.dark .shadow-md {
+             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.15);
+         }
+         body.dark .shadow {
+             box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 1px 2px 0 rgba(0, 0, 0, 0.15);
+         }
+        body.dark input, body.dark select, body.dark textarea {
+             background-color: #4a5568; /* gray-700 */
+             border-color: #718096; /* gray-600 */
+             color: #e2e8f0; /* gray-300 */
+        }
+         body.dark input::placeholder, body.dark textarea::placeholder {
+             color: #a0aec0; /* gray-500 */
+         }
+         body.dark .table-hover tr:hover {
+            background-color: rgba(74, 85, 104, 0.8); /* gray-700 con opacidad */
+        }
+        body.dark .text-blue-600 { color: #63b3ed; /* blue-400 */}
+        body.dark .hover\:text-blue-800:hover { color: #90cdf4; /* blue-300 */}
+        body.dark .bg-blue-100 { background-color: #4a5568; } /* Ajustar para contraste */
+         body.dark .border-l-4 { border-left-width: 4px; }
+         body.dark .border-blue-500 { border-color: #4299e1; }
+         body.dark .border-green-500 { border-color: #48bb78; }
+         body.dark .border-yellow-500 { border-color: #ecc94b; }
+         body.dark .border-red-500 { border-color: #f56565; }
+         body.dark .text-green-600 { color: #68d391; /* green-400 */ }
+         body.dark .text-red-600 { color: #fc8181; /* red-400 */ }
+          body.dark .text-blue-700 { color: #63b3ed; /* blue-400 */ }
+         body.dark .text-red-700 { color: #fc8181; /* red-400 */ }
+         body.dark .bg-green-100 { background-color: rgba(72, 187, 120, 0.2); }
+         body.dark .text-green-800 { color: #9ae6b4; }
+         body.dark .bg-red-100 { background-color: rgba(245, 101, 101, 0.2); }
+         body.dark .text-red-800 { color: #feb2b2; }
+         body.dark #notifications .alert { border-width: 1px; }
     </style>
 </head>
 <body class="bg-gray-100">
@@ -89,8 +153,8 @@
                 Gestión de Parkings (Local)
             </h1>
             <div class="flex space-x-2 items-center">
-                <button id="darkModeToggle" class="p-2 rounded hover:bg-blue-700 transition" aria-label="Cambiar modo oscuro">
-                    <i class="fas fa-moon"></i>
+                <button id="darkModeToggle" class="p-2 rounded hover:bg-blue-700 transition" aria-label="Cambiar modo oscuro" title="Cambiar modo oscuro">
+                    <i class="fas fa-moon"></i> <span id="dark-mode-icon" class="ml-1 fas fa-toggle-off"></span>
                 </button>
                 <!-- Input oculto para seleccionar archivo -->
                 <input type="file" id="loadDataInput" accept=".json" style="display: none;">
@@ -135,11 +199,11 @@
                         <i class="fas fa-chart-line mr-2"></i>Previsiones
                     </a>
                 </li>
-                <li class="tab-btn mr-1" data-tab="compound">
-                     <a class="bg-white inline-block py-2 px-4 text-blue-600 hover:text-blue-800 font-semibold" href="#">
-                         <i class="fas fa-chart-pie mr-2"></i>Proyección Compuesta
-                     </a>
-                 </li>
+                 <li class="tab-btn mr-1" data-tab="compound">
+                    <a class="bg-white inline-block py-2 px-4 text-blue-600 hover:text-blue-800 font-semibold" href="#">
+                        <i class="fas fa-chart-pie mr-2"></i>Proyección Compuesta
+                    </a>
+                </li>
             </ul>
         </div>
 
@@ -148,7 +212,7 @@
             <!-- Dashboard Tab -->
             <div id="dashboard" class="tab-content active fade-in">
                 <h2 class="text-2xl font-bold mb-6 text-gray-800">Dashboard</h2>
-                <p id="dashboard-message" class="text-gray-600 mb-4">Carga un archivo de datos para ver el dashboard.</p>
+                <p id="dashboard-message" class="text-gray-600 mb-4">Carga un archivo de datos (`.json`) para ver el dashboard.</p>
 
                 <div class="grid grid-cols-1 md:grid-cols-stats gap-6 mb-6">
                     <!-- Estadísticas generales -->
@@ -182,7 +246,7 @@
                                 <i class="fas fa-euro-sign text-xl"></i>
                             </div>
                             <div>
-                                <p class="text-gray-500">Ingresos Mensuales</p>
+                                <p class="text-gray-500">Ingresos Mensuales (Est.)</p>
                                 <p class="text-2xl font-bold" id="monthlyIncome">0 €</p>
                             </div>
                         </div>
@@ -194,7 +258,7 @@
                                 <i class="fas fa-minus-circle text-xl"></i>
                             </div>
                             <div>
-                                <p class="text-gray-500">Gastos Mensuales</p>
+                                <p class="text-gray-500">Gastos (Mes Actual)</p>
                                 <p class="text-2xl font-bold" id="monthlyExpenses">0 €</p>
                             </div>
                         </div>
@@ -388,11 +452,11 @@
                         <p class="text-2xl font-bold" id="totalExpenses">0 €</p>
                     </div>
                     <div class="bg-white p-4 rounded-lg shadow border-l-4 border-blue-500">
-                        <h3 class="text-gray-500 text-sm">Balance</h3>
+                        <h3 class="text-gray-500 text-sm">Balance (Histórico)</h3>
                         <p class="text-2xl font-bold" id="totalBalance">0 €</p>
                     </div>
                     <div class="bg-white p-4 rounded-lg shadow border-l-4 border-yellow-500">
-                        <h3 class="text-gray-500 text-sm">ROI Anual</h3>
+                        <h3 class="text-gray-500 text-sm" id="roiLabel">ROI (12m)</h3>
                         <p class="text-2xl font-bold" id="annualROI">0%</p>
                     </div>
                 </div>
@@ -454,74 +518,73 @@
                 </div>
             </div>
 
-            <!-- Forecast Tab -->
+            <!-- Forecast Tab (Simple) -->
             <div id="forecast" class="tab-content fade-in">
-                <!-- Contenido de la Pestaña Previsiones -->
-                 <h2 class="text-2xl font-bold mb-6 text-gray-800">Previsiones Financieras</h2>
+                <h2 class="text-2xl font-bold mb-6 text-gray-800">Previsiones Financieras (Anual Simple)</h2>
 
-                 <!-- Parámetros de previsión -->
-                 <div class="bg-gray-50 p-4 rounded-lg shadow mb-6">
-                     <h3 class="text-lg font-semibold mb-4">Parámetros de Previsión</h3>
-                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                         <div>
-                             <label class="block text-gray-700 text-sm font-bold mb-2" for="forecastIncrementRate">
-                                 Incremento anual de alquiler (%):
-                             </label>
-                             <input id="forecastIncrementRate" type="number" min="0" max="100" step="0.5" value="2" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                         </div>
-                         <div>
-                             <label class="block text-gray-700 text-sm font-bold mb-2" for="forecastExpenseRate">
-                                 Incremento anual de gastos (%):
-                             </label>
-                             <input id="forecastExpenseRate" type="number" min="0" max="100" step="0.5" value="3" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                         </div>
-                         <div>
-                             <label class="block text-gray-700 text-sm font-bold mb-2" for="forecastOccupancyRate">
-                                 Tasa de ocupación (%):
-                             </label>
-                             <input id="forecastOccupancyRate" type="number" min="0" max="100" step="1" value="90" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                         </div>
-                     </div>
-                     <div class="mt-4">
-                         <button id="calculateForecastBtn" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded btn-animated transition">
-                             <i class="fas fa-calculator mr-2"></i> Calcular Previsión Simple
-                         </button>
-                     </div>
-                 </div>
+                <!-- Parámetros de previsión -->
+                <div class="bg-gray-50 p-4 rounded-lg shadow mb-6">
+                    <h3 class="text-lg font-semibold mb-4">Parámetros de Previsión Simple</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="forecastIncrementRate">
+                                Incremento anual de alquiler (%):
+                            </label>
+                            <input id="forecastIncrementRate" type="number" min="0" max="100" step="0.5" value="2" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="forecastExpenseRate">
+                                Incremento anual de gastos (%):
+                            </label>
+                            <input id="forecastExpenseRate" type="number" min="0" max="100" step="0.5" value="3" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="forecastOccupancyRate">
+                                Tasa de ocupación (%):
+                            </label>
+                            <input id="forecastOccupancyRate" type="number" min="0" max="100" step="1" value="90" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <button id="calculateForecastBtn" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded btn-animated transition">
+                            <i class="fas fa-calculator mr-2"></i> Calcular Previsión Simple
+                        </button>
+                    </div>
+                </div>
 
-                 <!-- Resultados de previsión -->
-                 <div class="bg-white p-6 rounded-lg shadow mb-6">
-                     <h3 class="text-lg font-semibold mb-4">Previsión Simple de Ingresos y Gastos - Próximos 5 años</h3>
-                     <div class="overflow-x-auto">
-                         <table class="min-w-full bg-white table-hover">
-                             <thead class="bg-gray-100">
-                                 <tr>
-                                     <th class="py-3 px-4 border-b text-left">Año</th>
-                                     <th class="py-3 px-4 border-b text-right">Ingresos</th>
-                                     <th class="py-3 px-4 border-b text-right">Gastos</th>
-                                     <th class="py-3 px-4 border-b text-right">Balance</th>
-                                     <th class="py-3 px-4 border-b text-right">ROI (s/ Inversión Actual)</th>
-                                 </tr>
-                             </thead>
-                             <tbody id="forecastTable">
-                                 <tr>
-                                     <td colspan="5" class="py-4 px-4 text-center text-gray-500">Carga datos y calcule la previsión para ver los resultados</td>
-                                 </tr>
-                             </tbody>
-                         </table>
-                     </div>
-                 </div>
+                <!-- Resultados de previsión -->
+                <div class="bg-white p-6 rounded-lg shadow mb-6">
+                    <h3 class="text-lg font-semibold mb-4">Previsión Simple - Próximos 5 años</h3>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full bg-white table-hover">
+                            <thead class="bg-gray-100">
+                                <tr>
+                                    <th class="py-3 px-4 border-b text-left">Año</th>
+                                    <th class="py-3 px-4 border-b text-right">Ingresos (Est.)</th>
+                                    <th class="py-3 px-4 border-b text-right">Gastos (Est.)</th>
+                                    <th class="py-3 px-4 border-b text-right">Balance (Est.)</th>
+                                    <th class="py-3 px-4 border-b text-right">ROI Simple (Est.)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="forecastTable">
+                                <tr>
+                                    <td colspan="5" class="py-4 px-4 text-center text-gray-500">Carga datos y calcule la previsión para ver los resultados</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
 
-                 <!-- Gráfico de previsión -->
-                 <div class="bg-white p-6 rounded-lg shadow">
-                     <h3 class="text-lg font-semibold mb-4">Gráfico de Previsión Simple</h3>
-                     <div class="chart-container">
-                         <canvas id="forecastChart"></canvas>
-                     </div>
-                 </div>
-            </div> <!-- Cierre de <div id="forecast"> -->
+                <!-- Gráfico de previsión -->
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="text-lg font-semibold mb-4">Gráfico de Previsión Simple</h3>
+                    <div class="chart-container">
+                        <canvas id="forecastChart"></canvas>
+                    </div>
+                </div>
+            </div>
 
-            <!-- Compound Growth Forecast Tab -->
+             <!-- Compound Growth Forecast Tab -->
             <div id="compound" class="tab-content fade-in">
                 <h2 class="text-2xl font-bold mb-6 text-gray-800">Proyección de Crecimiento Compuesto</h2>
 
@@ -531,7 +594,7 @@
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                         <div>
                             <label class="block text-gray-700 text-sm font-bold mb-2" for="compoundProfitGrowthRate">
-                                Crecimiento Anual del Beneficio Neto (%):
+                                Crecim. Anual Beneficio Neto (%):
                             </label>
                             <input id="compoundProfitGrowthRate" type="number" min="0" max="100" step="0.5" value="2" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" title="Estimación de cuánto crece el beneficio neto cada año (puede ser diferente al crecimiento de ingresos o gastos).">
                         </div>
@@ -544,24 +607,25 @@
                              <p id="compoundInitialBalance" class="text-lg font-semibold">0 €</p>
                          </div>
                          <div>
-                             <p class="text-gray-700 text-sm font-bold mb-2">Beneficio Neto Anual Base (Estimado):</p>
+                             <p class="text-gray-700 text-sm font-bold mb-2">Beneficio Neto Anual Base (Est.):</p>
                              <p id="compoundBaseAnnualProfit" class="text-lg font-semibold">0 €</p>
                          </div>
                     </div>
 
                     <h3 class="text-lg font-semibold mb-4 mt-6">Inversiones Futuras Planificadas</h3>
-                    <div id="futureInvestmentsContainer" class="space-y-2 mb-4">
-                        <!-- Filas de inversión se añadirán aquí dinámicamente o pre-rellenadas por JS -->
+                    <div id="futureInvestmentsContainer" class="space-y-3 mb-4"> <!-- Aumentar espacio si es necesario -->
+                        <!-- Filas de inversión se añadirán aquí -->
                         <div class="flex items-center space-x-2 future-investment-row">
-                            <input type="number" min="2025" placeholder="Año" class="shadow appearance-none border rounded w-1/3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline future-investment-year">
-                            <input type="number" min="0" step="100" placeholder="Coste (€)" class="shadow appearance-none border rounded w-1/3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline future-investment-cost">
-                            <button type="button" class="text-red-500 hover:text-red-700 remove-investment-btn" title="Eliminar Inversión">
+                            <input type="number" min="2025" placeholder="Año Compra" class="shadow appearance-none border rounded w-1/4 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline future-investment-year" title="Año en que se realiza la compra">
+                            <input type="number" min="0" step="100" placeholder="Coste (€)" class="shadow appearance-none border rounded w-1/4 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline future-investment-cost" title="Coste de adquisición del parking">
+                            <input type="number" min="0" step="50" placeholder="Beneficio Neto Anual Estimado (€)" class="shadow appearance-none border rounded w-2/5 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline future-investment-profit" title="Beneficio anual esperado (Ingresos - Gastos) de este parking una vez operativo">
+                            <button type="button" class="text-red-500 hover:text-red-700 remove-investment-btn ml-auto" title="Eliminar Inversión"> <!-- ml-auto para empujar a la derecha -->
                                 <i class="fas fa-trash-alt"></i>
                             </button>
                         </div>
                     </div>
                     <button id="addInvestmentRowBtn" type="button" class="bg-gray-300 hover:bg-gray-400 text-gray-800 text-sm font-bold py-1 px-3 rounded btn-animated transition">
-                        <i class="fas fa-plus mr-1"></i> Añadir Inversión Futura
+                        <i class="fas fa-plus mr-1"></i> Añadir Fila de Inversión
                     </button>
 
                     <div class="mt-6">
@@ -588,205 +652,205 @@
                             </thead>
                             <tbody id="compoundForecastTable">
                                 <tr>
-                                    <td colspan="5" class="py-4 px-4 text-center text-gray-500">Calcule la proyección para ver los resultados</td>
+                                    <td colspan="5" class="py-4 px-4 text-center text-gray-500">Define parámetros y calcula la proyección para ver los resultados</td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
-            </div> <!-- Cierre de <div id="compound"> -->
-
-        </div> <!-- Cierre del contenedor principal de pestañas -->
-    </div> <!-- Cierre del container -->
-
-    <!-- Modales (Parking, Tenant, Finance) -->
-    <!-- Modal para añadir/editar parking -->
-    <div id="parkingModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden flex items-center justify-center modal">
-        <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-xl">
-            <div class="flex justify-between items-center mb-4">
-                <h3 class="text-xl font-bold" id="parkingModalTitle">Añadir Nuevo Parking</h3>
-                <button class="text-gray-500 hover:text-gray-700" id="closeParkingModal" aria-label="Cerrar modal">
-                    <i class="fas fa-times"></i>
-                </button>
             </div>
-            <form id="parkingForm">
-                <input type="hidden" id="parkingId">
-                <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="parkingLocation">
-                        Ubicación:
-                    </label>
-                    <input id="parkingLocation" type="text" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Dirección completa del parking">
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                    <div>
-                        <label class="block text-gray-700 text-sm font-bold mb-2" for="parkingSize">
-                            Tamaño (m²):
-                        </label>
-                        <input id="parkingSize" type="number" min="1" step="0.1" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Tamaño en metros cuadrados">
-                    </div>
-                    <div>
-                        <label class="block text-gray-700 text-sm font-bold mb-2" for="parkingPrice">
-                            Precio Alquiler (€/mes):
-                        </label>
-                        <input id="parkingPrice" type="number" min="0" step="0.01" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Precio mensual">
-                    </div>
-                </div>
-                <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="parkingFeatures">
-                        Características:
-                    </label>
-                    <textarea id="parkingFeatures" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" rows="3" placeholder="Características del parking (seguridad, accesibilidad, etc.)"></textarea>
-                </div>
-                <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="parkingPurchasePrice">
-                        Precio de Compra (€):
-                    </label>
-                    <input id="parkingPurchasePrice" type="number" min="0" step="0.01" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Precio de adquisición del parking">
-                </div>
-                <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="parkingPurchaseDate">
-                        Fecha de Compra:
-                    </label>
-                    <input id="parkingPurchaseDate" type="date" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                </div>
-                <div class="flex justify-end">
-                    <button type="button" id="cancelParkingBtn" class="mr-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded btn-animated transition">
-                        Cancelar
-                    </button>
-                    <button type="submit" id="saveParkingBtn" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded btn-animated transition">
-                        Guardar
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
 
-    <!-- Modal para añadir/editar inquilino -->
-    <div id="tenantModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden flex items-center justify-center modal">
-        <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-xl">
-            <div class="flex justify-between items-center mb-4">
-                <h3 class="text-xl font-bold" id="tenantModalTitle">Añadir Nuevo Inquilino</h3>
-                <button class="text-gray-500 hover:text-gray-700" id="closeTenantModal" aria-label="Cerrar modal">
-                    <i class="fas fa-times"></i>
-                </button>
+            <!-- AQUÍ IRÍAN LOS MODALES (Parking, Tenant, Finance) SIN CAMBIOS -->
+             <!-- Modal para añadir/editar parking -->
+            <div id="parkingModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden flex items-center justify-center modal p-4">
+                <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-xl max-h-full overflow-y-auto">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-xl font-bold" id="parkingModalTitle">Añadir Nuevo Parking</h3>
+                        <button class="text-gray-500 hover:text-gray-700" id="closeParkingModal">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <form id="parkingForm">
+                        <input type="hidden" id="parkingId">
+                        <div class="mb-4">
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="parkingLocation">
+                                Ubicación:
+                            </label>
+                            <input id="parkingLocation" type="text" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Dirección completa del parking">
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                            <div>
+                                <label class="block text-gray-700 text-sm font-bold mb-2" for="parkingSize">
+                                    Tamaño (m²):
+                                </label>
+                                <input id="parkingSize" type="number" min="1" step="0.1" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Tamaño en metros cuadrados">
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 text-sm font-bold mb-2" for="parkingPrice">
+                                    Precio Alquiler (€/mes):
+                                </label>
+                                <input id="parkingPrice" type="number" min="0" step="0.01" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Precio mensual">
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="parkingFeatures">
+                                Características:
+                            </label>
+                            <textarea id="parkingFeatures" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" rows="3" placeholder="Características del parking (seguridad, accesibilidad, etc.)"></textarea>
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="parkingPurchasePrice">
+                                Precio de Compra (€):
+                            </label>
+                            <input id="parkingPurchasePrice" type="number" min="0" step="0.01" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Precio de adquisición del parking">
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="parkingPurchaseDate">
+                                Fecha de Compra:
+                            </label>
+                            <input id="parkingPurchaseDate" type="date" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                        </div>
+                        <div class="flex justify-end">
+                            <button type="button" id="cancelParkingBtn" class="mr-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded btn-animated transition">
+                                Cancelar
+                            </button>
+                            <button type="submit" id="saveParkingBtn" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded btn-animated transition">
+                                Guardar
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <form id="tenantForm">
-                <input type="hidden" id="tenantId">
-                <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="tenantName">
-                        Nombre completo:
-                    </label>
-                    <input id="tenantName" type="text" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Nombre y apellidos">
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                    <div>
-                        <label class="block text-gray-700 text-sm font-bold mb-2" for="tenantPhone">
-                            Teléfono:
-                        </label>
-                        <input id="tenantPhone" type="tel" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Número de teléfono">
-                    </div>
-                    <div>
-                        <label class="block text-gray-700 text-sm font-bold mb-2" for="tenantEmail">
-                            Email:
-                        </label>
-                        <input id="tenantEmail" type="email" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Correo electrónico">
-                    </div>
-                </div>
-                <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="tenantParking">
-                        Parking Asignado:
-                    </label>
-                    <select id="tenantParking" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"> <!-- required quitado para permitir desasignar -->
-                        <option value="">Seleccione un parking disponible...</option>
-                    </select>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                    <div>
-                        <label class="block text-gray-700 text-sm font-bold mb-2" for="tenantStartDate">
-                            Fecha de Inicio:
-                        </label>
-                        <input id="tenantStartDate" type="date" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                    </div>
-                    <div>
-                        <label class="block text-gray-700 text-sm font-bold mb-2" for="tenantEndDate">
-                            Fecha de Fin (opcional):
-                        </label>
-                        <input id="tenantEndDate" type="date" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                    </div>
-                </div>
-                <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="tenantNotes">
-                        Notas:
-                    </label>
-                    <textarea id="tenantNotes" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" rows="3" placeholder="Información adicional del inquilino"></textarea>
-                </div>
-                <div class="flex justify-end">
-                    <button type="button" id="cancelTenantBtn" class="mr-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded btn-animated transition">
-                        Cancelar
-                    </button>
-                    <button type="submit" id="saveTenantBtn" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded btn-animated transition">
-                        Guardar
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
 
-    <!-- Modal para añadir transacción financiera -->
-    <div id="financeModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden flex items-center justify-center modal">
-        <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-xl">
-            <div class="flex justify-between items-center mb-4">
-                <h3 class="text-xl font-bold" id="financeModalTitle">Registrar Ingreso</h3>
-                <button class="text-gray-500 hover:text-gray-700" id="closeFinanceModal" aria-label="Cerrar modal">
-                    <i class="fas fa-times"></i>
-                </button>
+            <!-- Modal para añadir/editar inquilino -->
+            <div id="tenantModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden flex items-center justify-center modal p-4">
+                <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-xl max-h-full overflow-y-auto">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-xl font-bold" id="tenantModalTitle">Añadir Nuevo Inquilino</h3>
+                        <button class="text-gray-500 hover:text-gray-700" id="closeTenantModal">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <form id="tenantForm">
+                        <input type="hidden" id="tenantId">
+                        <div class="mb-4">
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="tenantName">
+                                Nombre completo:
+                            </label>
+                            <input id="tenantName" type="text" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Nombre y apellidos">
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                            <div>
+                                <label class="block text-gray-700 text-sm font-bold mb-2" for="tenantPhone">
+                                    Teléfono:
+                                </label>
+                                <input id="tenantPhone" type="tel" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Número de teléfono">
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 text-sm font-bold mb-2" for="tenantEmail">
+                                    Email:
+                                </label>
+                                <input id="tenantEmail" type="email" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Correo electrónico">
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="tenantParking">
+                                Parking Asignado:
+                            </label>
+                            <select id="tenantParking" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                <option value="">Seleccione un parking disponible...</option>
+                            </select>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                            <div>
+                                <label class="block text-gray-700 text-sm font-bold mb-2" for="tenantStartDate">
+                                    Fecha de Inicio:
+                                </label>
+                                <input id="tenantStartDate" type="date" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 text-sm font-bold mb-2" for="tenantEndDate">
+                                    Fecha de Fin (opcional):
+                                </label>
+                                <input id="tenantEndDate" type="date" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="tenantNotes">
+                                Notas:
+                            </label>
+                            <textarea id="tenantNotes" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" rows="3" placeholder="Información adicional del inquilino"></textarea>
+                        </div>
+                        <div class="flex justify-end">
+                            <button type="button" id="cancelTenantBtn" class="mr-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded btn-animated transition">
+                                Cancelar
+                            </button>
+                            <button type="submit" id="saveTenantBtn" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded btn-animated transition">
+                                Guardar
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <form id="financeForm">
-                <input type="hidden" id="financeId">
-                <input type="hidden" id="financeTransactionType" value="income">
-                <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="financeDate">
-                        Fecha:
-                    </label>
-                    <input id="financeDate" type="date" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+
+            <!-- Modal para añadir transacción financiera -->
+            <div id="financeModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden flex items-center justify-center modal p-4">
+                <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-xl max-h-full overflow-y-auto">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-xl font-bold" id="financeModalTitle">Registrar Ingreso</h3>
+                        <button class="text-gray-500 hover:text-gray-700" id="closeFinanceModal">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <form id="financeForm">
+                        <input type="hidden" id="financeId">
+                        <input type="hidden" id="financeTransactionType" value="income">
+                        <div class="mb-4">
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="financeDate">
+                                Fecha:
+                            </label>
+                            <input id="financeDate" type="date" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="financeConcept">
+                                Concepto:
+                            </label>
+                            <input id="financeConcept" type="text" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Breve descripción de la transacción">
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="financeParking">
+                                Parking relacionado (opcional):
+                            </label>
+                            <select id="financeParking" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                <option value="">Ninguno (general)</option>
+                            </select>
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="financeAmount">
+                                Importe (€):
+                            </label>
+                            <input id="financeAmount" type="number" min="0" step="0.01" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Importe de la transacción">
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="financeNotes">
+                                Notas adicionales:
+                            </label>
+                            <textarea id="financeNotes" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" rows="3" placeholder="Detalles adicionales de la transacción"></textarea>
+                        </div>
+                        <div class="flex justify-end">
+                            <button type="button" id="cancelFinanceBtn" class="mr-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded btn-animated transition">
+                                Cancelar
+                            </button>
+                            <button type="submit" id="saveFinanceBtn" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded btn-animated transition">
+                                Guardar
+                            </button>
+                        </div>
+                    </form>
                 </div>
-                <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="financeConcept">
-                        Concepto:
-                    </label>
-                    <input id="financeConcept" type="text" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Breve descripción de la transacción">
-                </div>
-                <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="financeParking">
-                        Parking relacionado (opcional):
-                    </label>
-                    <select id="financeParking" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                        <option value="">Ninguno (general)</option>
-                    </select>
-                </div>
-                <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="financeAmount">
-                        Importe (€):
-                    </label>
-                    <input id="financeAmount" type="number" min="0" step="0.01" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Importe de la transacción">
-                </div>
-                <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="financeNotes">
-                        Notas adicionales:
-                    </label>
-                    <textarea id="financeNotes" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" rows="3" placeholder="Detalles adicionales de la transacción"></textarea>
-                </div>
-                <div class="flex justify-end">
-                    <button type="button" id="cancelFinanceBtn" class="mr-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded btn-animated transition">
-                        Cancelar
-                    </button>
-                    <button type="submit" id="saveFinanceBtn" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded btn-animated transition">
-                        Guardar
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
+            </div>
+
+        </div> <!-- Fin Tab Contents -->
+    </div> <!-- Fin Container -->
 
     <!-- Panel de notificaciones -->
     <div id="notifications" class="fixed bottom-5 right-5 w-80 z-50">
@@ -796,30 +860,29 @@
     <!-- Script para Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
 
+    <!-- Script Principal de la Aplicación -->
     <script>
         // Modelo de datos (en memoria)
         let parkings = [];
         let tenants = [];
         let finances = [];
 
+        // Variable global para la instancia del gráfico simple
+        window.forecastChartInstance = null;
+
         // --- Inicio: Funciones para Cargar/Guardar Archivo Local ---
 
-        // Función para manejar la selección de archivo y cargar los datos
         function handleFileSelect(event) {
             const file = event.target.files[0];
             if (!file) {
                 showNotification('No se seleccionó ningún archivo.', 'warning');
                 return;
             }
-
             const reader = new FileReader();
-
             reader.onload = function(e) {
                 try {
                     const content = e.target.result;
                     const loadedData = JSON.parse(content);
-
-                    // Validar que el JSON tiene la estructura esperada
                     if (loadedData && typeof loadedData === 'object' &&
                         Array.isArray(loadedData.parkings) &&
                         Array.isArray(loadedData.tenants) &&
@@ -828,686 +891,316 @@
                         parkings = loadedData.parkings || [];
                         tenants = loadedData.tenants || [];
                         finances = loadedData.finances || [];
-
-                        updateUI(); // Actualizar toda la interfaz con los nuevos datos
+                        updateUI();
                         showNotification(`Datos cargados desde ${file.name}`, 'success');
-                        // Ocultar mensaje inicial del dashboard
                         const dashMsg = document.getElementById('dashboard-message');
                         if (dashMsg) dashMsg.style.display = 'none';
-
+                        // Pre-rellenar inversión futura después de cargar datos
+                        prefillFutureInvestmentExample();
                     } else {
-                       showNotification('El archivo JSON no tiene el formato esperado (debe contener "parkings", "tenants", "finances").', 'danger');
-                       initializeEmptyData(); // Resetear a vacío
+                       showNotification('El archivo JSON no tiene el formato esperado (debe contener arrays "parkings", "tenants", "finances").', 'danger');
+                       initializeEmptyData();
                        updateUI();
                     }
                 } catch (error) {
                     console.error("Error al parsear el archivo JSON:", error);
                     showNotification('Error al leer o procesar el archivo JSON.', 'danger');
-                    initializeEmptyData(); // Resetear a vacío
+                    initializeEmptyData();
                     updateUI();
                 } finally {
-                    // Resetear el input de archivo para permitir cargar el mismo archivo de nuevo si es necesario
                      event.target.value = null;
                 }
             };
-
             reader.onerror = function() {
                  console.error("Error al leer el archivo:", reader.error);
                  showNotification('Error al leer el archivo.', 'danger');
             };
-
-            reader.readAsText(file); // Leer el archivo como texto
+            reader.readAsText(file);
         }
 
-        // Función para iniciar la descarga del archivo JSON actualizado
         function saveDataToFile() {
              if (parkings.length === 0 && tenants.length === 0 && finances.length === 0) {
                 showNotification('No hay datos para guardar.', 'info');
                 return;
             }
-            // Crear un objeto que contenga todos los datos actuales
-            const allData = {
-                parkings: parkings,
-                tenants: tenants,
-                finances: finances
-            };
-
-            // Convertir el objeto a una cadena JSON formateada
-            const dataStr = JSON.stringify(allData, null, 2); // null, 2 para formatear
-
-            // Crear un Blob con los datos JSON
+            const allData = { parkings, tenants, finances };
+            const dataStr = JSON.stringify(allData, null, 2);
             const dataBlob = new Blob([dataStr], { type: 'application/json' });
-
-            // Crear una URL temporal para el Blob
             const url = URL.createObjectURL(dataBlob);
-
-            // Crear un enlace temporal para iniciar la descarga
             const tempLink = document.createElement('a');
             tempLink.href = url;
-            // Sugerir el mismo nombre de archivo para facilitar la sobreescritura
             tempLink.setAttribute('download', 'gestion_parking_datos.json');
-            tempLink.style.display = 'none'; // Ocultar el enlace
-            document.body.appendChild(tempLink); // Añadir al DOM para que funcione en Firefox
-
-            tempLink.click(); // Simular clic para descargar
-
-            document.body.removeChild(tempLink); // Limpiar el DOM
-            // Limpiar la URL temporal
+            tempLink.style.display = 'none';
+            document.body.appendChild(tempLink);
+            tempLink.click();
+            document.body.removeChild(tempLink);
             URL.revokeObjectURL(url);
-
             showNotification('Guardando cambios... Por favor, guarda el archivo descargado (puedes sobrescribir el anterior).', 'success');
         }
 
-        // Función auxiliar para inicializar datos vacíos
         function initializeEmptyData() {
-            parkings = [];
-            tenants = [];
-            finances = [];
-             // Mostrar mensaje inicial del dashboard si existe
+            parkings = []; tenants = []; finances = [];
             const dashMsg = document.getElementById('dashboard-message');
             if (dashMsg) dashMsg.style.display = 'block';
-             // Limpiar tablas y estadísticas
-             updateUI(); // Asegura que la UI refleje el estado vacío
-        }
+             // Limpiar también las tablas de previsión
+             const forecastTableBody = document.getElementById('forecastTable');
+             if (forecastTableBody) forecastTableBody.innerHTML = `<tr><td colspan="5" class="py-4 px-4 text-center text-gray-500">Carga datos y calcula la previsión.</td></tr>`;
+             const compoundTableBody = document.getElementById('compoundForecastTable');
+             if (compoundTableBody) compoundTableBody.innerHTML = `<tr><td colspan="5" class="py-4 px-4 text-center text-gray-500">Define parámetros y calcula la proyección.</td></tr>`;
+              // Limpiar gráfico simple
+             if (window.forecastChartInstance) { window.forecastChartInstance.destroy(); window.forecastChartInstance = null;}
+              // Resetear valores calculados en UI
+             const compoundInitialInvestmentEl = document.getElementById('compoundInitialInvestment');
+             const compoundInitialBalanceEl = document.getElementById('compoundInitialBalance');
+             const compoundBaseAnnualProfitEl = document.getElementById('compoundBaseAnnualProfit');
+             if(compoundInitialInvestmentEl) compoundInitialInvestmentEl.textContent = '0 €';
+             if(compoundInitialBalanceEl) compoundInitialBalanceEl.textContent = '0 €';
+             if(compoundBaseAnnualProfitEl) compoundBaseAnnualProfitEl.textContent = '0 €';
 
+        }
         // --- Fin: Funciones para Cargar/Guardar Archivo Local ---
 
 
-        // Inicialización de la aplicación
-        document.addEventListener('DOMContentLoaded', function() {
-            // Inicializar los arrays vacíos al principio
-            initializeEmptyData();
+        // --- Inicio: Funciones para Proyección Compuesta ---
 
-            // Configurar pestañas, modales y botones
-            initTabs();
-            initModals();
-            initButtonEvents(); // Asegúrate de que los nuevos listeners estén aquí
-        });
+        function addFutureInvestmentRow() {
+            const container = document.getElementById('futureInvestmentsContainer');
+            const newRow = document.createElement('div');
+            newRow.className = 'flex items-center space-x-2 future-investment-row';
+            newRow.innerHTML = `
+                <input type="number" min="${new Date().getFullYear()}" placeholder="Año Compra" class="shadow appearance-none border rounded w-1/4 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline future-investment-year" title="Año en que se realiza la compra">
+                <input type="number" min="0" step="100" placeholder="Coste (€)" class="shadow appearance-none border rounded w-1/4 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline future-investment-cost" title="Coste de adquisición del parking">
+                <input type="number" min="0" step="50" placeholder="Beneficio Neto Anual Estimado (€)" class="shadow appearance-none border rounded w-2/5 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline future-investment-profit" title="Beneficio anual esperado (Ingresos - Gastos) de este parking una vez operativo">
+                <button type="button" class="text-red-500 hover:text-red-700 remove-investment-btn ml-auto" title="Eliminar Inversión">
+                    <i class="fas fa-trash-alt"></i>
+                </button>
+            `;
+            container.appendChild(newRow);
+        }
 
-
-        // Inicializar pestañas
-        function initTabs() {
-            const tabBtns = document.querySelectorAll('.tab-btn');
-            const tabContents = document.querySelectorAll('.tab-content');
-            const firstTabBtn = tabBtns[0]; // Activar la primera pestaña por defecto
-
-            // Ocultar todos los contenidos excepto el activo inicial (si se define)
-            tabContents.forEach(content => {
-                if (!content.classList.contains('active')) {
-                    content.style.display = 'none'; // Usar display none inicial
-                } else {
-                    content.style.display = 'block'; // Asegurar que el activo se muestre
+         function calculateCompoundForecast() {
+            // 1. Obtener Parámetros y Datos Base
+            const profitGrowthRate = (parseFloat(document.getElementById('compoundProfitGrowthRate').value) || 0) / 100;
+            const futureInvestments = [];
+            document.querySelectorAll('.future-investment-row').forEach(row => {
+                const year = parseInt(row.querySelector('.future-investment-year').value);
+                const cost = parseFloat(row.querySelector('.future-investment-cost').value);
+                const estimatedProfit = parseFloat(row.querySelector('.future-investment-profit').value) || 0;
+                if (year && cost > 0) { // Solo incluir si año y coste son válidos
+                    futureInvestments.push({ year, cost, estimatedProfit });
                 }
             });
+            futureInvestments.sort((a, b) => a.year - b.year); // Ordenar
 
-            // Activar la primera pestaña visualmente
-             if(firstTabBtn) {
-                const firstLink = firstTabBtn.querySelector('a');
-                firstLink.classList.add('bg-blue-100', 'border-l', 'border-t', 'border-r', 'rounded-t');
-                 // Asegurar que el contenido de la primera pestaña esté activo en la clase y visible
-                 const firstTabId = firstTabBtn.getAttribute('data-tab');
-                 const firstContent = document.getElementById(firstTabId);
-                 if (firstContent) {
-                     firstContent.classList.add('active');
-                     firstContent.style.display = 'block';
-                 }
-             }
-
-            tabBtns.forEach(btn => {
-                btn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const tabId = this.getAttribute('data-tab');
-                    const targetContent = document.getElementById(tabId);
-
-                    // Desactivar todas las pestañas visualmente
-                    tabBtns.forEach(b => b.querySelector('a').classList.remove('bg-blue-100', 'border-l', 'border-t', 'border-r', 'rounded-t'));
-                    // Ocultar todos los contenidos y quitar clase active
-                    tabContents.forEach(content => {
-                        content.classList.remove('active');
-                        content.style.display = 'none';
-                    });
-
-                    // Activar la pestaña seleccionada visualmente
-                    this.querySelector('a').classList.add('bg-blue-100', 'border-l', 'border-t', 'border-r', 'rounded-t');
-                    // Mostrar el contenido de la pestaña seleccionada y añadir clase active
-                     if(targetContent) {
-                        targetContent.classList.add('active');
-                        targetContent.style.display = 'block';
-                     }
-
-                    // Actualizar contenido específico de la pestaña si es necesario
-                    if (tabId === 'forecast' && parkings.length > 0) { // Solo calcular si hay datos
-                        updateForecastData();
-                    }
-                    // Añadido: Podrías inicializar la tabla compuesta si se selecciona esa pestaña
-                    if (tabId === 'compound' && document.getElementById('compoundForecastTable')) {
-                         document.getElementById('compoundForecastTable').innerHTML = `<tr><td colspan="5" class="py-4 px-4 text-center text-gray-500">Calcule la proyección para ver los resultados</td></tr>`;
-                         // Podrías llamar a calculateCompoundForecast() si quieres que se calcule al cambiar
-                    }
-                });
-            });
-        }
-
-        // Inicializar modales
-        function initModals() {
-            // Modal de parking
-            document.getElementById('addParkingBtn').addEventListener('click', function() {
-                openParkingModal();
-            });
-            document.getElementById('quickAddParking').addEventListener('click', function() {
-                openParkingModal();
-            });
-            document.getElementById('closeParkingModal').addEventListener('click', function() {
-                document.getElementById('parkingModal').classList.add('hidden');
-            });
-            document.getElementById('cancelParkingBtn').addEventListener('click', function() {
-                document.getElementById('parkingModal').classList.add('hidden');
-            });
-
-            // Modal de inquilino
-            document.getElementById('addTenantBtn').addEventListener('click', function() {
-                openTenantModal();
-            });
-            document.getElementById('quickAddTenant').addEventListener('click', function() {
-                openTenantModal();
-            });
-            document.getElementById('closeTenantModal').addEventListener('click', function() {
-                document.getElementById('tenantModal').classList.add('hidden');
-            });
-            document.getElementById('cancelTenantBtn').addEventListener('click', function() {
-                document.getElementById('tenantModal').classList.add('hidden');
-            });
-
-            // Modal de finanzas
-            document.getElementById('addIncomeBtn').addEventListener('click', function() {
-                openFinanceModal('income');
-            });
-            document.getElementById('quickAddIncome').addEventListener('click', function() {
-                openFinanceModal('income');
-            });
-            document.getElementById('addExpenseBtn').addEventListener('click', function() {
-                openFinanceModal('expense');
-            });
-            document.getElementById('quickAddExpense').addEventListener('click', function() {
-                openFinanceModal('expense');
-            });
-            document.getElementById('closeFinanceModal').addEventListener('click', function() {
-                document.getElementById('financeModal').classList.add('hidden');
-            });
-            document.getElementById('cancelFinanceBtn').addEventListener('click', function() {
-                document.getElementById('financeModal').classList.add('hidden');
-            });
-
-            // Inicializar formularios
-            initForms();
-        }
-
-        // Inicializar formularios
-        function initForms() {
-            // Formulario de parking
-            document.getElementById('parkingForm').addEventListener('submit', function(e) {
-                e.preventDefault();
-                saveParking();
-            });
-
-            // Formulario de inquilino
-            document.getElementById('tenantForm').addEventListener('submit', function(e) {
-                e.preventDefault();
-                saveTenant();
-            });
-
-            // Formulario de finanzas
-            document.getElementById('financeForm').addEventListener('submit', function(e) {
-                e.preventDefault();
-                saveFinance();
-            });
-        }
-
-        // Inicializar eventos de botones (incluye carga/guardado de archivo y proyección compuesta)
-        function initButtonEvents() {
-             // Listener para el botón de Cargar Datos (que activa el input oculto)
-            document.getElementById('loadDataBtn').addEventListener('click', function() {
-                document.getElementById('loadDataInput').click(); // Abre el diálogo de selección de archivo
-            });
-
-            // Listener para cuando se selecciona un archivo en el input oculto
-            document.getElementById('loadDataInput').addEventListener('change', handleFileSelect);
-
-            // Listener para el botón de Guardar Cambios (descargar archivo)
-            document.getElementById('saveDataToFileBtn').addEventListener('click', saveDataToFile);
+            const today = new Date();
+            const initialInvestment = parkings.reduce((sum, p) => {
+                const price = parseFloat(p.purchasePrice) || 0;
+                const date = p.purchaseDate ? new Date(p.purchaseDate) : null;
+                return sum + (price > 0 && (!date || date <= today) ? price : 0);
+            }, 0);
+             document.getElementById('compoundInitialInvestment').textContent = formatCurrency(initialInvestment);
 
 
-            // Botón de cálculo de previsión simple
-            document.getElementById('calculateForecastBtn').addEventListener('click', function() {
-                 if (parkings.length > 0) {
-                     updateForecastData();
+            const initialBalance = finances.reduce((bal, f) => bal + ((f.type === 'income' ? 1 : -1) * (parseFloat(f.amount) || 0)), 0);
+            document.getElementById('compoundInitialBalance').textContent = formatCurrency(initialBalance);
+
+
+            // 2. Estimar Beneficio Neto Anual Base (de parkings actuales)
+            let baseAnnualProfit = 0;
+             try {
+                 const simpleForecastData = calculateSimpleForecastData(); // Llama a la función que calcula la previsión simple
+                 if (simpleForecastData && simpleForecastData.length > 0) {
+                     baseAnnualProfit = simpleForecastData[0].balance;
+                 } else if (initialInvestment > 0) {
+                      const roiTTMText = document.getElementById('annualROI').textContent || '0%';
+                      const roiTTMPercent = parseFloat(roiTTMText.replace('%', '')) || 0;
+                      baseAnnualProfit = initialInvestment * (roiTTMPercent / 100);
+                      if (baseAnnualProfit <= 0 && parkings.length > 0) throw new Error("ROI TTM es cero o negativo, no se puede estimar beneficio base.");
+                      showNotification('Usando ROI TTM como base para beneficio anual inicial.', 'warning');
                  } else {
-                     showNotification('Carga datos primero para calcular previsiones.', 'warning');
+                      baseAnnualProfit = 0; // No hay inversión inicial, no hay beneficio base inicial
                  }
-            });
-
-            // Filtros de búsqueda de parkings
-            document.getElementById('searchParking').addEventListener('input', updateParkingsTable);
-            document.getElementById('filterParkingStatus').addEventListener('change', updateParkingsTable);
-            document.getElementById('sortParkings').addEventListener('change', updateParkingsTable);
-
-            // Filtros de búsqueda de inquilinos
-            document.getElementById('searchTenant').addEventListener('input', updateTenantsTable);
-            document.getElementById('sortTenants').addEventListener('change', updateTenantsTable);
-
-            // Filtros de finanzas
-            document.getElementById('financesPeriod').addEventListener('change', updateFinancesTable);
-            document.getElementById('financesParkingFilter').addEventListener('change', updateFinancesTable);
-            document.getElementById('financeType').addEventListener('change', updateFinancesTable);
-
-            // Inicializar acciones rápidas
-            document.getElementById('quickAddParking').addEventListener('click', function() {
-                openParkingModal();
-            });
-            document.getElementById('quickAddTenant').addEventListener('click', function() {
-                openTenantModal();
-            });
-            document.getElementById('quickAddExpense').addEventListener('click', function() {
-                openFinanceModal('expense');
-            });
-            document.getElementById('quickAddIncome').addEventListener('click', function() {
-                openFinanceModal('income');
-            });
-
-            // Botón para calcular proyección compuesta
-            document.getElementById('calculateCompoundForecastBtn').addEventListener('click', calculateCompoundForecast);
-
-            // Botón para añadir fila de inversión futura
-            document.getElementById('addInvestmentRowBtn').addEventListener('click', addFutureInvestmentRow);
-
-            // Delegación de eventos para botones de eliminar inversión (en el contenedor)
-            document.getElementById('futureInvestmentsContainer').addEventListener('click', function(event) {
-                if (event.target.closest('.remove-investment-btn')) {
-                    // Asegurarse de no eliminar la última fila si queremos mantenerla como plantilla
-                    const container = document.getElementById('futureInvestmentsContainer');
-                    if (container.querySelectorAll('.future-investment-row').length > 1) {
-                         event.target.closest('.future-investment-row').remove();
-                    } else {
-                        // Si es la última fila, simplemente limpiarla
-                        const row = event.target.closest('.future-investment-row');
-                        row.querySelector('.future-investment-year').value = '';
-                        row.querySelector('.future-investment-cost').value = '';
-                        showNotification('Fila limpiada. Añade otra si necesitas más.', 'info');
-                    }
-                }
-            });
-
-            // Botón modo oscuro
-            document.getElementById('darkModeToggle').addEventListener('click', function() {
-                document.body.classList.toggle('dark');
-                 showNotification('Modo oscuro no implementado visualmente.', 'info');
-            });
-        }
-
-        // Actualizar toda la UI
-        function updateUI() {
-            updateParkingsTable();
-            updateTenantsTable();
-            updateFinancesTable(); // Esta llama internamente a updateDashboardStats (indirectamente vía cálculo ROI) y updateParkingDropdowns
-            updateDashboardStats(); // Asegura que el dashboard se actualice siempre
-            updateParkingDropdowns(); // Asegura que los desplegables estén al día
-            // No actualizamos previsiones aquí
-        }
-
-        // --- Funciones de Actualización de Tablas y Componentes ---
-        // (updateParkingsTable, updateRecentParkings, updateTenantsTable, updateFinancesTable, updateParkingDropdowns, updateDashboardStats)
-        // ... (Estas funciones ya las tienes y parecen correctas) ...
-        // (Incluyo las versiones corregidas para Gastos Mensuales y ROI TTM)
-
-        function updateParkingsTable() {
-            const tableBody = document.getElementById('parkingsTable');
-            const searchTerm = document.getElementById('searchParking').value.toLowerCase();
-            const statusFilter = document.getElementById('filterParkingStatus').value;
-            const sortBy = document.getElementById('sortParkings').value;
-
-            let filteredParkings = [...parkings];
-
-            if (searchTerm) {
-                filteredParkings = filteredParkings.filter(parking =>
-                    parking.location.toLowerCase().includes(searchTerm)
-                );
-            }
-
-            if (statusFilter !== 'all') {
-                const isOccupied = statusFilter === 'occupied';
-                filteredParkings = filteredParkings.filter(parking => {
-                    const tenant = tenants.find(t => t.parkingId === parking.id);
-                    return isOccupied ? !!tenant : !tenant;
-                });
-            }
-
-            filteredParkings.sort((a, b) => {
-                switch (sortBy) {
-                    case 'location': return a.location.localeCompare(b.location);
-                    case 'price': return (parseFloat(a.price) || 0) - (parseFloat(b.price) || 0);
-                    case 'size': return (parseFloat(a.size) || 0) - (parseFloat(b.size) || 0);
-                    default: return 0;
-                }
-            });
-
-            tableBody.innerHTML = '';
-
-            if (filteredParkings.length === 0 && parkings.length > 0) {
-                 tableBody.innerHTML = `<tr><td colspan="8" class="py-4 px-4 text-center text-gray-500">No hay parkings que coincidan con los criterios.</td></tr>`;
-            } else if (parkings.length === 0) {
-                tableBody.innerHTML = `<tr><td colspan="8" class="py-4 px-4 text-center text-gray-500">Carga datos o añade un parking.</td></tr>`;
-            } else {
-                filteredParkings.forEach(parking => {
-                    const tenant = tenants.find(t => t.parkingId === parking.id);
-                    const status = tenant ? 'Ocupado' : 'Disponible';
-                    const statusClass = tenant ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800';
-                    const row = document.createElement('tr');
-                    row.className = 'hover:bg-gray-50';
-                    row.innerHTML = `
-                        <td class="py-3 px-4 border-b">${parking.id}</td>
-                        <td class="py-3 px-4 border-b">${parking.location}</td>
-                        <td class="py-3 px-4 border-b">${parking.size || '-'} m²</td>
-                        <td class="py-3 px-4 border-b">${parking.features || '-'}</td>
-                        <td class="py-3 px-4 border-b">${formatCurrency(parking.price)}</td>
-                        <td class="py-3 px-4 border-b"><span class="px-2 py-1 rounded-full text-xs font-semibold ${statusClass}">${status}</span></td>
-                        <td class="py-3 px-4 border-b">${tenant ? tenant.name : '-'}</td>
-                        <td class="py-3 px-4 border-b">
-                            <div class="flex space-x-2">
-                                <button class="text-blue-500 hover:text-blue-700" onclick="editParking('${parking.id}')" title="Editar"><i class="fas fa-edit"></i></button>
-                                <button class="text-red-500 hover:text-red-700" onclick="deleteParking('${parking.id}')" title="Eliminar"><i class="fas fa-trash-alt"></i></button>
-                                ${!tenant ? `<button class="text-green-500 hover:text-green-700" onclick="assignTenant('${parking.id}')" title="Asignar Inquilino"><i class="fas fa-user-plus"></i></button>` : ''}
-                            </div>
-                        </td>
-                    `;
-                    tableBody.appendChild(row);
-                });
-            }
-            updateRecentParkings();
-        }
-
-        function updateRecentParkings() {
-            const recentTable = document.getElementById('recentParkingsTable');
-            recentTable.innerHTML = '';
-            if (parkings.length === 0) {
-                recentTable.innerHTML = `<tr><td colspan="3" class="py-4 px-4 text-center text-gray-500">Carga datos para ver parkings</td></tr>`;
-                return;
-            }
-            const recentParkings = [...parkings].sort((a, b) => (b.createdAt || '') < (a.createdAt || '') ? -1 : 1).slice(0, 5);
-            if (recentParkings.length === 0) {
-                 recentTable.innerHTML = `<tr><td colspan="3" class="py-4 px-4 text-center text-gray-500">No hay parkings registrados</td></tr>`;
+            } catch (error) {
+                 console.error("Error al obtener beneficio base para proyección compuesta:", error);
+                 showNotification(`Error estimando beneficio anual base: ${error.message}.`, 'danger');
+                 document.getElementById('compoundForecastTable').innerHTML = `<tr><td colspan="5" class="py-4 px-4 text-center text-gray-500">Error al estimar beneficio base.</td></tr>`;
                  return;
             }
-            recentParkings.forEach(parking => {
-                const tenant = tenants.find(t => t.parkingId === parking.id);
-                const status = tenant ? 'Ocupado' : 'Disponible';
-                const statusClass = tenant ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800';
+            document.getElementById('compoundBaseAnnualProfit').textContent = formatCurrency(baseAnnualProfit);
+
+            // 3. Calcular Proyección Compuesta
+            let cumulativeGain = initialBalance;
+            let currentInvestedCapital = initialInvestment;
+            let currentProfitFromInitialParkings = baseAnnualProfit;
+            let currentProfitFromNewParkings = 0;
+            const addedAnnualProfitSources = {};
+
+            const results = [];
+            const startYear = new Date().getFullYear();
+
+            for (let i = 0; i < 5; i++) {
+                const currentYear = startYear + i;
+
+                // a. Procesar inversiones
+                let investmentCostThisYear = 0;
+                let profitToAddNextYear = 0;
+                futureInvestments.forEach(inv => {
+                    if (inv.year === currentYear) {
+                        investmentCostThisYear += inv.cost;
+                        currentInvestedCapital += inv.cost;
+                        profitToAddNextYear += inv.estimatedProfit;
+                    }
+                });
+                if (profitToAddNextYear > 0) { addedAnnualProfitSources[currentYear] = profitToAddNextYear; }
+
+                // b. Calcular beneficio
+                const profitAddedFromLastYearPurchase = addedAnnualProfitSources[currentYear - 1] || 0;
+                currentProfitFromNewParkings += profitAddedFromLastYearPurchase; // Añadir nuevas fuentes de beneficio
+
+                if (i > 0) { // Aplicar crecimiento excepto el primer año
+                    currentProfitFromInitialParkings *= (1 + profitGrowthRate);
+                    currentProfitFromNewParkings *= (1 + profitGrowthRate);
+                }
+                const profitThisYear = currentProfitFromInitialParkings + currentProfitFromNewParkings;
+
+                // c. Actualizar ganancia acumulada
+                cumulativeGain = cumulativeGain + profitThisYear - investmentCostThisYear;
+
+                // d. Guardar resultados
+                results.push({
+                    year: currentYear,
+                    investedCapitalEndOfYear: currentInvestedCapital,
+                    profitGeneratedThisYear: profitThisYear,
+                    investmentMadeThisYear: investmentCostThisYear,
+                    cumulativeNetGainEndOfYear: cumulativeGain
+                });
+            }
+
+            // 4. Mostrar Resultados
+            renderCompoundForecastTable(results);
+        }
+
+         function renderCompoundForecastTable(results) {
+            const tableBody = document.getElementById('compoundForecastTable');
+            tableBody.innerHTML = '';
+            if (!results || results.length === 0) {
+                tableBody.innerHTML = `<tr><td colspan="5" class="py-4 px-4 text-center text-gray-500">No se generaron resultados.</td></tr>`;
+                return;
+            }
+            results.forEach(data => {
                 const row = document.createElement('tr');
                 row.className = 'hover:bg-gray-50';
                 row.innerHTML = `
-                    <td class="py-2 px-4 border-b">${parking.location}</td>
-                    <td class="py-2 px-4 border-b"><span class="px-2 py-1 rounded-full text-xs font-semibold ${statusClass}">${status}</span></td>
-                    <td class="py-2 px-4 border-b">${formatCurrency(parking.price)}</td>
+                    <td class="py-3 px-4 border-b">${data.year}</td>
+                    <td class="py-3 px-4 border-b text-right">${formatCurrency(data.investedCapitalEndOfYear)}</td>
+                    <td class="py-3 px-4 border-b text-right text-green-600">${formatCurrency(data.profitGeneratedThisYear)}</td>
+                    <td class="py-3 px-4 border-b text-right text-red-600">${formatCurrency(data.investmentMadeThisYear)}</td>
+                    <td class="py-3 px-4 border-b text-right font-bold ${data.cumulativeNetGainEndOfYear >= 0 ? 'text-blue-700' : 'text-red-700'}">${formatCurrency(data.cumulativeNetGainEndOfYear)}</td>
                 `;
-                recentTable.appendChild(row);
+                tableBody.appendChild(row);
             });
         }
 
-        function updateTenantsTable() {
-            const tableBody = document.getElementById('tenantsTable');
-            const searchTerm = document.getElementById('searchTenant').value.toLowerCase();
-            const sortBy = document.getElementById('sortTenants').value;
-            let filteredTenants = [...tenants];
-            if (searchTerm) {
-                filteredTenants = filteredTenants.filter(tenant =>
-                    (tenant.name || '').toLowerCase().includes(searchTerm)
-                );
-            }
-            filteredTenants.sort((a, b) => {
-                switch (sortBy) {
-                    case 'name': return (a.name || '').localeCompare(b.name || '');
-                    case 'startDate':
-                        const dateA = a.startDate ? new Date(a.startDate) : 0;
-                        const dateB = b.startDate ? new Date(b.startDate) : 0;
-                        return dateA - dateB;
-                    default: return 0;
+         // Pre-rellenar ejemplo Foment 156
+        function prefillFutureInvestmentExample() {
+            const container = document.getElementById('futureInvestmentsContainer');
+            if (!container) return;
+
+            const fomment156Year = 2025;
+            const fomment156Cost = 7500;
+            const fomment156EstimatedProfit = 623; // Calculado: (60*12) - 97
+
+            // Comprobar si ya existe una fila para ese año (evitar duplicados al recargar)
+            let exists = false;
+            container.querySelectorAll('.future-investment-year').forEach(input => {
+                if (parseInt(input.value) === fomment156Year) {
+                    exists = true;
                 }
             });
-            tableBody.innerHTML = '';
-             if (filteredTenants.length === 0 && tenants.length > 0) {
-                 tableBody.innerHTML = `<tr><td colspan="8" class="py-4 px-4 text-center text-gray-500">No hay inquilinos que coincidan.</td></tr>`;
-             } else if (tenants.length === 0) {
-                 tableBody.innerHTML = `<tr><td colspan="8" class="py-4 px-4 text-center text-gray-500">Carga datos o añade un inquilino.</td></tr>`;
-            } else {
-                filteredTenants.forEach(tenant => {
-                    const parking = parkings.find(p => p.id === tenant.parkingId);
-                    const row = document.createElement('tr');
-                    row.className = 'hover:bg-gray-50';
-                    row.innerHTML = `
-                        <td class="py-3 px-4 border-b">${tenant.id}</td>
-                        <td class="py-3 px-4 border-b">${tenant.name}</td>
-                        <td class="py-3 px-4 border-b">${tenant.phone || '-'}</td>
-                        <td class="py-3 px-4 border-b">${tenant.email || '-'}</td>
-                        <td class="py-3 px-4 border-b">${parking ? parking.location : (tenant.parkingId ? 'N/A' : '-')}</td>
-                        <td class="py-3 px-4 border-b">${formatDate(tenant.startDate)}</td>
-                        <td class="py-3 px-4 border-b">${tenant.endDate ? formatDate(tenant.endDate) : '-'}</td>
-                        <td class="py-3 px-4 border-b">
-                            <div class="flex space-x-2">
-                                <button class="text-blue-500 hover:text-blue-700" onclick="editTenant('${tenant.id}')" title="Editar"><i class="fas fa-edit"></i></button>
-                                <button class="text-red-500 hover:text-red-700" onclick="deleteTenant('${tenant.id}')" title="Eliminar"><i class="fas fa-trash-alt"></i></button>
-                            </div>
-                        </td>
-                    `;
-                    tableBody.appendChild(row);
-                });
-            }
-        }
 
-        function updateFinancesTable() {
-            const tableBody = document.getElementById('financesTable');
-            const periodFilter = document.getElementById('financesPeriod').value;
-            const parkingFilter = document.getElementById('financesParkingFilter').value;
-            const typeFilter = document.getElementById('financeType').value;
-
-            let filteredFinances = [...finances];
-            if (periodFilter !== 'all') {
-                const today = new Date();
-                const startDate = new Date(today);
-                switch (periodFilter) {
-                    case 'month': startDate.setMonth(today.getMonth() - 1); break;
-                    case 'quarter': startDate.setMonth(today.getMonth() - 3); break;
-                    case 'year': startDate.setFullYear(today.getFullYear() - 1); break;
-                }
-                 startDate.setHours(0, 0, 0, 0);
-                filteredFinances = filteredFinances.filter(f => f.date && new Date(f.date) >= startDate);
-            }
-            if (parkingFilter !== 'all') {
-                filteredFinances = filteredFinances.filter(f => f.parkingId === parkingFilter);
-            }
-            if (typeFilter !== 'all') {
-                filteredFinances = filteredFinances.filter(f => f.type === typeFilter);
-            }
-            filteredFinances.sort((a, b) => (b.date ? new Date(b.date) : 0) - (a.date ? new Date(a.date) : 0));
-
-            tableBody.innerHTML = '';
-            if (filteredFinances.length === 0 && finances.length > 0) {
-                tableBody.innerHTML = `<tr><td colspan="6" class="py-4 px-4 text-center text-gray-500">No hay movimientos que coincidan.</td></tr>`;
-            } else if (finances.length === 0) {
-                tableBody.innerHTML = `<tr><td colspan="6" class="py-4 px-4 text-center text-gray-500">Carga datos o registra movimientos.</td></tr>`;
-             } else {
-                filteredFinances.forEach(finance => {
-                    const parking = parkings.find(p => p.id === finance.parkingId);
-                    const typeClass = finance.type === 'income' ? 'text-green-600' : 'text-red-600';
-                    const typeIcon = finance.type === 'income' ? 'fa-plus-circle' : 'fa-minus-circle';
-                    const typeText = finance.type === 'income' ? 'Ingreso' : 'Gasto';
-                    const row = document.createElement('tr');
-                    row.className = 'hover:bg-gray-50';
-                    row.innerHTML = `
-                        <td class="py-3 px-4 border-b">${formatDate(finance.date)}</td>
-                        <td class="py-3 px-4 border-b ${typeClass}"><i class="fas ${typeIcon} mr-1"></i> ${typeText}</td>
-                        <td class="py-3 px-4 border-b">${finance.concept}</td>
-                        <td class="py-3 px-4 border-b">${parking ? parking.location : (finance.parkingId ? 'General' : '-')}</td>
-                        <td class="py-3 px-4 border-b ${typeClass} font-semibold">${formatCurrency(finance.amount)}</td>
-                        <td class="py-3 px-4 border-b">
-                            <div class="flex space-x-2">
-                                <button class="text-blue-500 hover:text-blue-700" onclick="editFinance('${finance.id}')" title="Editar"><i class="fas fa-edit"></i></button>
-                                <button class="text-red-500 hover:text-red-700" onclick="deleteFinance('${finance.id}')" title="Eliminar"><i class="fas fa-trash-alt"></i></button>
-                            </div>
-                        </td>
-                    `;
-                    tableBody.appendChild(row);
-                });
-             }
-
-            // --- Actualizar Resumen Financiero con ROI TTM ---
-            let totalIncome = 0;
-            let totalExpenses = 0;
-            finances.forEach(f => {
-                const amount = parseFloat(f.amount) || 0;
-                if (f.type === 'income') totalIncome += amount;
-                else totalExpenses += amount;
-            });
-            const totalBalance = totalIncome - totalExpenses;
-
-            let roiTTM = 0;
-            const todayForROI = new Date();
-            const currentInvestment = parkings.reduce((sum, p) => {
-                const price = parseFloat(p.purchasePrice) || 0;
-                const date = p.purchaseDate ? new Date(p.purchaseDate) : null;
-                return (price > 0 && (!date || date <= todayForROI)) ? sum + price : sum;
-            }, 0);
-
-            const twelveMonthsAgo = new Date(todayForROI);
-            twelveMonthsAgo.setFullYear(todayForROI.getFullYear() - 1);
-            twelveMonthsAgo.setHours(0, 0, 0, 0);
-            let incomeLast12Months = 0;
-            let expensesLast12Months = 0;
-            finances.forEach(f => {
-                if (!f.date) return;
-                try {
-                    const transactionDate = new Date(f.date);
-                    if (!isNaN(transactionDate) && transactionDate >= twelveMonthsAgo && transactionDate <= todayForROI) {
-                        const amount = parseFloat(f.amount) || 0;
-                        if (f.type === 'income') incomeLast12Months += amount;
-                        else if (f.type === 'expense') expensesLast12Months += amount;
+            if (!exists) {
+                 // Intentar rellenar la primera fila si está vacía
+                 const firstRow = container.querySelector('.future-investment-row');
+                 let rowToFill = null;
+                 if (firstRow) {
+                    const yearInput = firstRow.querySelector('.future-investment-year');
+                    const costInput = firstRow.querySelector('.future-investment-cost');
+                    const profitInput = firstRow.querySelector('.future-investment-profit');
+                     // Verificar que TODOS estén vacíos antes de rellenar
+                    if (!yearInput.value && !costInput.value && !profitInput.value) {
+                        rowToFill = firstRow;
                     }
-                } catch (e) { console.warn("Fecha inválida en ROI TTM:", f.date); }
-            });
-            const balanceLast12Months = incomeLast12Months - expensesLast12Months;
-            if (currentInvestment > 0) {
-                roiTTM = (balanceLast12Months / currentInvestment) * 100;
+                 }
+
+                 if (!rowToFill) {
+                    // Si la primera fila no está vacía, añadir una nueva
+                     addFutureInvestmentRow();
+                     rowToFill = container.lastElementChild;
+                 }
+
+                // Rellenar la fila
+                 if(rowToFill) {
+                    rowToFill.querySelector('.future-investment-year').value = fomment156Year;
+                    rowToFill.querySelector('.future-investment-cost').value = fomment156Cost;
+                    rowToFill.querySelector('.future-investment-profit').value = fomment156EstimatedProfit;
+                 }
             }
-
-            document.getElementById('totalIncome').textContent = formatCurrency(totalIncome);
-            document.getElementById('totalExpenses').textContent = formatCurrency(totalExpenses);
-            document.getElementById('totalBalance').textContent = formatCurrency(totalBalance);
-            document.getElementById('annualROI').textContent = isFinite(roiTTM) ? `${roiTTM.toFixed(2)}%` : 'N/A';
         }
 
-        function updateParkingDropdowns() {
-            const tenantParkingSelect = document.getElementById('tenantParking');
-            const financeParkingSelect = document.getElementById('financeParking');
-            const financesParkingFilter = document.getElementById('financesParkingFilter');
-            const currentFinanceFilterValue = financesParkingFilter.value;
+        // --- Fin: Funciones para Proyección Compuesta ---
 
-            [tenantParkingSelect, financeParkingSelect, financesParkingFilter].forEach(select => {
-                const firstOption = select.options[0].cloneNode(true);
-                select.innerHTML = '';
-                select.appendChild(firstOption);
-                [...parkings].sort((a, b) => a.location.localeCompare(b.location)).forEach(parking => {
-                    const isOccupied = tenants.some(t => t.parkingId === parking.id);
-                    const currentTenantId = document.getElementById('tenantId').value;
-                    const isAssignedToCurrentTenant = currentTenantId && tenants.find(t => t.id === currentTenantId)?.parkingId === parking.id;
-                    if (select === tenantParkingSelect) {
-                        if (!isOccupied || isAssignedToCurrentTenant) {
-                            const option = document.createElement('option');
-                            option.value = parking.id;
-                            option.textContent = `${parking.location} (${formatCurrency(parking.price)}/mes)`;
-                            select.appendChild(option);
-                        }
-                    } else {
-                        const option = document.createElement('option');
-                        option.value = parking.id;
-                        option.textContent = parking.location;
-                        select.appendChild(option);
-                    }
-                });
-            });
-            financesParkingFilter.value = currentFinanceFilterValue;
-        }
 
-        function updateDashboardStats() {
-            document.getElementById('totalParkings').textContent = parkings.length;
-            const occupiedCount = tenants.filter(t => parkings.some(p => p.id === t.parkingId)).length;
-            document.getElementById('occupiedParkings').textContent = occupiedCount;
-            let monthlyIncome = 0;
-            tenants.forEach(tenant => {
-                const parking = parkings.find(p => p.id === tenant.parkingId);
-                if (parking) monthlyIncome += parseFloat(parking.price || 0);
-            });
-            document.getElementById('monthlyIncome').textContent = formatCurrency(monthlyIncome);
-
-            // --- Cálculo Gastos del Mes Actual ---
-            const today = new Date();
-            const currentYear = today.getFullYear();
-            const currentMonth = today.getMonth();
-            const currentMonthExpenses = finances.filter(f => {
-                if (f.type !== 'expense' || !f.date) return false;
-                try {
-                    const transactionDate = new Date(f.date);
-                    return !isNaN(transactionDate) &&
-                           transactionDate.getFullYear() === currentYear &&
-                           transactionDate.getMonth() === currentMonth;
-                } catch (e) { return false; }
-            });
-            let totalCurrentMonthExpenses = currentMonthExpenses.reduce((sum, exp) => sum + (parseFloat(exp.amount) || 0), 0);
-            document.getElementById('monthlyExpenses').textContent = formatCurrency(totalCurrentMonthExpenses);
-        }
-
-        // --- Funciones de Previsión Simple ---
-        function updateForecastData() {
-            // ... (código idéntico al proporcionado anteriormente) ...
-             if (parkings.length === 0) {
-                 showNotification('No hay datos de parkings cargados para calcular la previsión.', 'warning');
-                 document.getElementById('forecastTable').innerHTML = `<tr><td colspan="5" class="py-4 px-4 text-center text-gray-500">Carga datos primero.</td></tr>`;
-                 if (window.forecastChartInstance) window.forecastChartInstance.destroy();
-                 return;
-             }
+         // --- Inicio: Funciones Previsión Simple (Usadas por Proyección Compuesta también) ---
+         function calculateSimpleForecastData() {
             const incrementRate = (parseFloat(document.getElementById('forecastIncrementRate').value) || 0) / 100;
             const expenseRate = (parseFloat(document.getElementById('forecastExpenseRate').value) || 0) / 100;
-            const occupancyRate = (parseFloat(document.getElementById('forecastOccupancyRate').value) || 90) / 100; // Default 90
+            const occupancyRate = (parseFloat(document.getElementById('forecastOccupancyRate').value) || 0) / 100;
+
+             if (isNaN(incrementRate) || isNaN(expenseRate) || isNaN(occupancyRate)) {
+                 throw new Error("Parámetros de previsión simple inválidos.");
+             }
+             if (parkings.length === 0) {
+                 //throw new Error("No hay parkings cargados para la previsión simple.");
+                 return []; // Devolver array vacío si no hay parkings
+             }
+
+
             let potentialAnnualIncome = parkings.reduce((sum, p) => sum + (parseFloat(p.price) || 0) * 12, 0);
             let currentAnnualIncome = potentialAnnualIncome * occupancyRate;
+
+            // Gastos anuales actuales (basado en promedio TTM del dashboard)
             const oneYearAgo = new Date(); oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1); oneYearAgo.setHours(0,0,0,0);
             const expenseTransactions = finances.filter(f => f.type === 'expense' && f.date);
             const firstExpenseDate = expenseTransactions.length > 0 ? new Date(Math.min.apply(null, expenseTransactions.map(f => new Date(f.date)))) : null;
             const startDateForAvg = firstExpenseDate && firstExpenseDate > oneYearAgo ? firstExpenseDate : oneYearAgo;
-            const relevantExpenses = expenseTransactions.filter(f => f.date && new Date(f.date) >= startDateForAvg);
+            const relevantExpenses = expenseTransactions.filter(f => { try { return new Date(f.date) >= startDateForAvg; } catch(e){ return false;} });
             let totalRelevantExpenses = relevantExpenses.reduce((sum, f) => sum + (parseFloat(f.amount) || 0), 0);
             let currentAnnualExpenses = 0;
             if (relevantExpenses.length > 0) {
-                const months = (new Date() - startDateForAvg) / (1000 * 60 * 60 * 24 * (365.25 / 12));
-                if (months > 0) currentAnnualExpenses = (totalRelevantExpenses / months) * 12;
+                const months = Math.max(1, (new Date() - startDateForAvg) / (1000 * 60 * 60 * 24 * (365.25 / 12))); // Evitar división por cero
+                currentAnnualExpenses = (totalRelevantExpenses / months) * 12;
             }
-            if (currentAnnualExpenses === 0 && currentAnnualIncome > 0) {
-                currentAnnualExpenses = currentAnnualIncome * 0.3;
-                showNotification('No hay gastos registrados, estimando gastos como 30% de ingresos para la previsión.', 'info');
+            if (currentAnnualExpenses === 0 && currentAnnualIncome > 0 && finances.length === 0) {
+                currentAnnualExpenses = currentAnnualIncome * 0.3; // Estimación fallback solo si NO hay finanzas
             }
+
             const forecastData = [];
-            const currentInvestmentSimple = parkings.reduce((sum, p) => {
-                const price = parseFloat(p.purchasePrice) || 0;
-                const pDate = p.purchaseDate ? new Date(p.purchaseDate) : null;
-                return (price > 0 && (!pDate || pDate <= new Date())) ? sum + price : sum;
-            }, 0);
+             // Usamos inversión actual para ROI simple, como estaba antes
+            const totalInvestment = parkings.reduce((sum, p) => sum + (parseFloat(p.purchasePrice) || 0), 0);
+
             let predictedAnnualIncome = currentAnnualIncome;
             let predictedAnnualExpenses = currentAnnualExpenses;
             const startYear = new Date().getFullYear();
+
+
             for (let year = 1; year <= 5; year++) {
                 if (year > 1) {
                     predictedAnnualIncome *= (1 + incrementRate);
                     predictedAnnualExpenses *= (1 + expenseRate);
                 }
                 const balance = predictedAnnualIncome - predictedAnnualExpenses;
-                let roi = (currentInvestmentSimple > 0) ? (balance / currentInvestmentSimple) * 100 : 0;
+                let roi = (totalInvestment > 0) ? (balance / totalInvestment) * 100 : 0;
+
                 forecastData.push({
                     year: startYear + year -1,
                     income: predictedAnnualIncome,
@@ -1516,18 +1209,29 @@
                     roi: isFinite(roi) ? roi : 0
                 });
             }
-            updateForecastTable(forecastData);
-            updateForecastChart(forecastData);
-        }
+             return forecastData;
+         }
+
+         function updateForecastData() {
+             try {
+                 const forecastData = calculateSimpleForecastData();
+                 updateForecastTable(forecastData);
+                 updateForecastChart(forecastData);
+             } catch (error) {
+                  console.error("Error al calcular previsión simple:", error);
+                  showNotification(`Error al calcular previsión simple: ${error.message}`, 'danger');
+                  document.getElementById('forecastTable').innerHTML = `<tr><td colspan="5" class="py-4 px-4 text-center text-gray-500">Error al calcular.</td></tr>`;
+                  if (window.forecastChartInstance) { window.forecastChartInstance.destroy(); window.forecastChartInstance = null; }
+             }
+         }
 
         function updateForecastTable(forecastData) {
-            // ... (código idéntico al proporcionado anteriormente) ...
             const tableBody = document.getElementById('forecastTable');
             tableBody.innerHTML = '';
-            if (forecastData.length === 0) {
-                 tableBody.innerHTML = `<tr><td colspan="5" class="py-4 px-4 text-center text-gray-500">No se pudo generar la previsión.</td></tr>`;
+             if (!forecastData || forecastData.length === 0) {
+                 tableBody.innerHTML = `<tr><td colspan="5" class="py-4 px-4 text-center text-gray-500">No se pudo generar la previsión. Carga datos.</td></tr>`;
                  return;
-            }
+             }
             forecastData.forEach(yearData => {
                 const row = document.createElement('tr');
                 row.className = 'hover:bg-gray-50';
@@ -1542,338 +1246,333 @@
             });
         }
 
-        window.forecastChartInstance = null;
         function updateForecastChart(forecastData) {
-            // ... (código idéntico al proporcionado anteriormente) ...
             const canvas = document.getElementById('forecastChart');
-             if (!canvas) return;
-             const ctx = canvas.getContext('2d');
-            if (window.forecastChartInstance) window.forecastChartInstance.destroy();
-             if (forecastData.length === 0) {
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            if (window.forecastChartInstance) { window.forecastChartInstance.destroy(); }
+             if (!forecastData || forecastData.length === 0) {
                  ctx.clearRect(0, 0, canvas.width, canvas.height);
                  ctx.textAlign = 'center';
+                 ctx.fillStyle = document.body.classList.contains('dark') ? '#e2e8f0' : '#1a202c'; // Adaptar color texto
                  ctx.fillText('Calcula la previsión para ver el gráfico.', canvas.width/2, canvas.height/2);
+                 window.forecastChartInstance = null; // Asegurar que no hay instancia
                  return;
              }
             const labels = forecastData.map(data => data.year);
             const incomeData = forecastData.map(data => data.income);
             const expensesData = forecastData.map(data => data.expenses);
             const balanceData = forecastData.map(data => data.balance);
-            window.forecastChartInstance = new Chart(ctx, {
-                type: 'bar',
+            window.forecastChartInstance = new Chart(ctx, { /* ... configuración del gráfico como estaba antes ... */
+                 type: 'bar',
                 data: {
                     labels: labels,
-                    datasets: [
-                        {label: 'Ingresos', data: incomeData, backgroundColor: 'rgba(72, 187, 120, 0.6)', borderColor: 'rgb(72, 187, 120)', borderWidth: 1, order: 2},
-                        {label: 'Gastos', data: expensesData, backgroundColor: 'rgba(245, 101, 101, 0.6)', borderColor: 'rgb(245, 101, 101)', borderWidth: 1, order: 3},
-                        {label: 'Balance', data: balanceData, type: 'line', fill: false, borderColor: 'rgb(66, 153, 225)', borderWidth: 3, tension: 0.1, pointBackgroundColor: 'rgb(66, 153, 225)', pointRadius: 4, order: 1}
-                    ]
+                    datasets: [ { label: 'Ingresos', data: incomeData, backgroundColor: 'rgba(72, 187, 120, 0.6)', borderColor: 'rgb(72, 187, 120)', borderWidth: 1, order: 2 }, { label: 'Gastos', data: expensesData, backgroundColor: 'rgba(245, 101, 101, 0.6)', borderColor: 'rgb(245, 101, 101)', borderWidth: 1, order: 3 }, { label: 'Balance', data: balanceData, type: 'line', fill: false, borderColor: 'rgb(66, 153, 225)', borderWidth: 3, tension: 0.1, pointBackgroundColor: 'rgb(66, 153, 225)', pointRadius: 4, order: 1 } ]
                 },
-                options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true, ticks: { callback: value => formatCurrency(value) } }, x: { grid: { display: false } } }, plugins: { tooltip: { callbacks: { label: context => { let l = context.dataset.label || ''; if(l) l+=': '; if(context.parsed.y !== null) l += formatCurrency(context.parsed.y); return l; } } }, legend: { position: 'top', } }, interaction: { mode: 'index', intersect: false, }, }
+                options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true, ticks: { callback: value => formatCurrency(value) } }, x: { grid: { display: false } } }, plugins: { tooltip: { callbacks: { label: context => { let l = context.dataset.label || ''; if(l) l+=': '; if(context.parsed.y !== null) l+=formatCurrency(context.parsed.y); return l; } } }, legend: { position: 'top' } }, interaction: { mode: 'index', intersect: false } }
+             });
+        }
+         // --- Fin: Funciones Previsión Simple ---
+
+
+        // --- Inicio: Lógica Principal y Resto de Funciones (CRUD, UI, etc.) ---
+
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeEmptyData();
+            updateUI(); // Llamada inicial para mostrar estado vacío
+            initTabs();
+            initModals();
+            initButtonEvents();
+             // Cargar estado modo oscuro si existe
+             if (localStorage.getItem('darkMode') === 'true') {
+                 document.body.classList.add('dark');
+                 document.getElementById('dark-mode-icon').classList.replace('fa-toggle-off', 'fa-toggle-on');
+             }
+        });
+
+        function initTabs() {
+             const tabBtns = document.querySelectorAll('.tab-btn');
+             const tabContents = document.querySelectorAll('.tab-content');
+             const firstTabBtn = tabBtns[0];
+              // Activar la primera pestaña por defecto
+             if (firstTabBtn) {
+                 firstTabBtn.querySelector('a').classList.add('bg-blue-100', 'border-l', 'border-t', 'border-r', 'rounded-t');
+                 const firstTabId = firstTabBtn.getAttribute('data-tab');
+                 const firstTabContent = document.getElementById(firstTabId);
+                 if (firstTabContent) firstTabContent.classList.add('active');
+             } else if (tabContents.length > 0) {
+                 tabContents[0].classList.add('active'); // Fallback si no hay botones
+             }
+
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const tabId = this.getAttribute('data-tab');
+                    tabBtns.forEach(b => b.querySelector('a').classList.remove('bg-blue-100', 'border-l', 'border-t', 'border-r', 'rounded-t'));
+                    tabContents.forEach(content => content.classList.remove('active'));
+                    this.querySelector('a').classList.add('bg-blue-100', 'border-l', 'border-t', 'border-r', 'rounded-t');
+                    const activeContent = document.getElementById(tabId);
+                    if (activeContent) activeContent.classList.add('active');
+                    // Calcular previsiones solo al cambiar a esas pestañas y si hay datos
+                    if (tabId === 'forecast' && parkings.length > 0) updateForecastData();
+                    if (tabId === 'compound' && parkings.length > 0) calculateCompoundForecast(); // Calcular al entrar
+                });
             });
         }
 
-        // --- Funciones CRUD (Parking, Tenant, Finance) ---
-        // (openParkingModal, saveParking, editParking, assignTenant, deleteParking)
-        // (openTenantModal, saveTenant, editTenant, deleteTenant)
-        // (openFinanceModal, saveFinance, editFinance, deleteFinance)
-        // ... (Estas funciones ya las tienes y parecen correctas) ...
-         function openParkingModal(parkingId = null) {
-            const modal = document.getElementById('parkingModal');
-            const modalTitle = document.getElementById('parkingModalTitle');
-            const form = document.getElementById('parkingForm');
-            form.reset();
-             document.getElementById('parkingId').value = '';
-            if (parkingId) {
-                const parking = parkings.find(p => p.id === parkingId);
-                if (parking) {
-                    modalTitle.textContent = 'Editar Parking';
-                    document.getElementById('parkingId').value = parking.id;
-                    document.getElementById('parkingLocation').value = parking.location;
-                    document.getElementById('parkingSize').value = parking.size;
-                    document.getElementById('parkingPrice').value = parking.price;
-                    document.getElementById('parkingFeatures').value = parking.features || '';
-                    document.getElementById('parkingPurchasePrice').value = parking.purchasePrice || '';
-                    document.getElementById('parkingPurchaseDate').value = parking.purchaseDate || '';
-                } else { showNotification(`No se encontró el parking con ID ${parkingId}`, 'danger'); return; }
-            } else { modalTitle.textContent = 'Añadir Nuevo Parking'; }
-            modal.classList.remove('hidden');
-            document.getElementById('parkingLocation').focus();
+        function initModals() {
+            // Setup para cerrar modales con click fuera o tecla Esc
+             const modals = document.querySelectorAll('.modal');
+             modals.forEach(modal => {
+                 modal.addEventListener('click', (event) => {
+                    // Si el click es directamente sobre el fondo oscuro (modal)
+                     if (event.target === modal) {
+                         modal.classList.add('hidden');
+                     }
+                 });
+             });
+             document.addEventListener('keydown', (event) => {
+                 if (event.key === "Escape") {
+                     modals.forEach(modal => modal.classList.add('hidden'));
+                 }
+             });
+
+             // Listeners botones abrir/cerrar específicos
+            document.getElementById('addParkingBtn').addEventListener('click', () => openParkingModal());
+            document.getElementById('quickAddParking').addEventListener('click', () => openParkingModal());
+            document.getElementById('closeParkingModal').addEventListener('click', () => document.getElementById('parkingModal').classList.add('hidden'));
+            document.getElementById('cancelParkingBtn').addEventListener('click', () => document.getElementById('parkingModal').classList.add('hidden'));
+
+            document.getElementById('addTenantBtn').addEventListener('click', () => openTenantModal());
+            document.getElementById('quickAddTenant').addEventListener('click', () => openTenantModal());
+            document.getElementById('closeTenantModal').addEventListener('click', () => document.getElementById('tenantModal').classList.add('hidden'));
+            document.getElementById('cancelTenantBtn').addEventListener('click', () => document.getElementById('tenantModal').classList.add('hidden'));
+
+            document.getElementById('addIncomeBtn').addEventListener('click', () => openFinanceModal('income'));
+            document.getElementById('quickAddIncome').addEventListener('click', () => openFinanceModal('income'));
+            document.getElementById('addExpenseBtn').addEventListener('click', () => openFinanceModal('expense'));
+            document.getElementById('quickAddExpense').addEventListener('click', () => openFinanceModal('expense'));
+            document.getElementById('closeFinanceModal').addEventListener('click', () => document.getElementById('financeModal').classList.add('hidden'));
+            document.getElementById('cancelFinanceBtn').addEventListener('click', () => document.getElementById('financeModal').classList.add('hidden'));
+
+            initForms();
         }
-        function saveParking() {
-            const idInput = document.getElementById('parkingId'); const isEditing = !!idInput.value;
-            const id = idInput.value || 'p_' + Date.now() + Math.random().toString(16).slice(2);
-            const location = document.getElementById('parkingLocation').value; const size = document.getElementById('parkingSize').value;
-            const price = document.getElementById('parkingPrice').value; const features = document.getElementById('parkingFeatures').value;
-            const purchasePrice = document.getElementById('parkingPurchasePrice').value; const purchaseDate = document.getElementById('parkingPurchaseDate').value;
-            if (!location || !size || !price) { showNotification('Ubicación, Tamaño y Precio son requeridos.', 'warning'); return; }
+
+        function initForms() {
+            document.getElementById('parkingForm').addEventListener('submit', e => { e.preventDefault(); saveParking(); });
+            document.getElementById('tenantForm').addEventListener('submit', e => { e.preventDefault(); saveTenant(); });
+            document.getElementById('financeForm').addEventListener('submit', e => { e.preventDefault(); saveFinance(); });
+        }
+
+        function initButtonEvents() {
+            // Carga/Guardado Archivo
+            document.getElementById('loadDataBtn').addEventListener('click', () => document.getElementById('loadDataInput').click());
+            document.getElementById('loadDataInput').addEventListener('change', handleFileSelect);
+            document.getElementById('saveDataToFileBtn').addEventListener('click', saveDataToFile);
+
+            // Previsiones
+            document.getElementById('calculateForecastBtn').addEventListener('click', () => { if (parkings.length > 0) updateForecastData(); else showNotification('Carga datos primero.', 'warning'); });
+            document.getElementById('calculateCompoundForecastBtn').addEventListener('click', calculateCompoundForecast);
+            document.getElementById('addInvestmentRowBtn').addEventListener('click', addFutureInvestmentRow);
+            document.getElementById('futureInvestmentsContainer').addEventListener('click', e => { if (e.target.closest('.remove-investment-btn')) e.target.closest('.future-investment-row').remove(); });
+
+
+            // Filtros Parkings
+            document.getElementById('searchParking').addEventListener('input', updateParkingsTable);
+            document.getElementById('filterParkingStatus').addEventListener('change', updateParkingsTable);
+            document.getElementById('sortParkings').addEventListener('change', updateParkingsTable);
+
+            // Filtros Inquilinos
+            document.getElementById('searchTenant').addEventListener('input', updateTenantsTable);
+            document.getElementById('sortTenants').addEventListener('change', updateTenantsTable);
+
+            // Filtros Finanzas
+            document.getElementById('financesPeriod').addEventListener('change', updateFinancesTable);
+            document.getElementById('financesParkingFilter').addEventListener('change', updateFinancesTable);
+            document.getElementById('financeType').addEventListener('change', updateFinancesTable);
+
+            // Acciones Rápidas (ya en initModals)
+
+             // Modo Oscuro
+            document.getElementById('darkModeToggle').addEventListener('click', () => {
+                const body = document.body;
+                const icon = document.getElementById('dark-mode-icon');
+                body.classList.toggle('dark');
+                 if (body.classList.contains('dark')) {
+                     localStorage.setItem('darkMode', 'true');
+                     icon.classList.replace('fa-toggle-off', 'fa-toggle-on');
+                 } else {
+                     localStorage.setItem('darkMode', 'false');
+                      icon.classList.replace('fa-toggle-on', 'fa-toggle-off');
+                 }
+                 // Redibujar gráfico si está visible y existe, para adaptar colores
+                 if (window.forecastChartInstance && document.getElementById('forecast').classList.contains('active')) {
+                     updateForecastChart(calculateSimpleForecastData()); // Asume que los datos ya están calculados
+                 }
+            });
+        }
+
+        function updateUI() {
+            updateParkingsTable();
+            updateTenantsTable();
+            updateFinancesTable(); // Esto calcula y actualiza el ROI TTM y otros totales
+            updateParkingDropdowns();
+            updateDashboardStats(); // Esto usa los datos actualizados de finanzas
+             // No recalcular previsiones aquí, solo bajo demanda o al cambiar de pestaña
+        }
+
+        // --- Funciones CRUD (saveParking, saveTenant, etc.) ---
+        // --- (Incluyen validación y actualización de UI, pero NO guardan en archivo) ---
+
+        function saveParking() { /* ... como estaba antes, sin llamar a saveData() ... */
+            const idInput = document.getElementById('parkingId'); const isEditing = !!idInput.value; const id = idInput.value || 'p_' + Date.now() + Math.random().toString(16).slice(2); const location = document.getElementById('parkingLocation').value; const size = document.getElementById('parkingSize').value; const price = document.getElementById('parkingPrice').value; const features = document.getElementById('parkingFeatures').value; const purchasePrice = document.getElementById('parkingPurchasePrice').value; const purchaseDate = document.getElementById('parkingPurchaseDate').value;
+            if (!location || !size || !price) { showNotification('Ubicación, Tamaño y Precio son campos requeridos.', 'warning'); return; }
             const parkingData = { id, location, size: parseFloat(size), price: parseFloat(price), features, purchasePrice: purchasePrice ? parseFloat(purchasePrice) : null, purchaseDate: purchaseDate || null, createdAt: isEditing ? parkings.find(p => p.id === id)?.createdAt : new Date().toISOString(), updatedAt: new Date().toISOString() };
             const existingIndex = parkings.findIndex(p => p.id === id);
-            if (existingIndex >= 0) { parkingData.createdAt = parkings[existingIndex].createdAt || parkingData.createdAt; parkings[existingIndex] = parkingData; showNotification('Parking actualizado (cambios pendientes).', 'info');
-            } else { parkings.push(parkingData); showNotification('Nuevo parking añadido (cambios pendientes).', 'info'); }
+            if (existingIndex >= 0) { parkingData.createdAt = parkings[existingIndex].createdAt || parkingData.createdAt; parkings[existingIndex] = parkingData; showNotification('Parking actualizado (cambios pendientes de guardar).', 'info'); } else { parkings.push(parkingData); showNotification('Nuevo parking añadido (cambios pendientes de guardar).', 'info'); }
             updateUI(); document.getElementById('parkingModal').classList.add('hidden');
-        }
+         }
         function editParking(parkingId) { openParkingModal(parkingId); }
         function assignTenant(parkingId) { openTenantModal(null, parkingId); }
-        function deleteParking(parkingId) {
-             if (!confirm(`¿Seguro que quieres eliminar el parking ID ${parkingId}? Esto desvinculará inquilinos/finanzas.\nSolo se guarda permanentemente al usar "Guardar Cambios".`)) return;
-            const associatedTenant = tenants.find(t => t.parkingId === parkingId);
-            if (associatedTenant) {
-                 if (confirm(`Parking asignado a "${associatedTenant.name}". Al eliminar el parking, quedará sin asignar. ¿Continuar?`)) {
-                     const tenantIndex = tenants.findIndex(t => t.id === associatedTenant.id);
-                     if (tenantIndex > -1) { tenants[tenantIndex].parkingId = null; tenants[tenantIndex].updatedAt = new Date().toISOString(); }
-                 } else { showNotification('Eliminación cancelada.', 'info'); return; }
-            }
-            const initialLength = parkings.length; parkings = parkings.filter(p => p.id !== parkingId);
-            if (parkings.length < initialLength) { updateUI(); showNotification(`Parking ID ${parkingId} eliminado (cambios pendientes). Inquilino desvinculado si existía.`, 'info');
-            } else { showNotification(`No se encontró parking ID ${parkingId}.`, 'warning'); }
+        function deleteParking(parkingId) { /* ... como estaba antes, sin llamar a saveData(), desvinculando inquilino ... */
+             const parkingIndex = parkings.findIndex(p => p.id === parkingId); if(parkingIndex < 0) { showNotification('Parking no encontrado.', 'warning'); return; }
+             const parkingName = parkings[parkingIndex].location;
+             if (!confirm(`¿Eliminar parking "${parkingName}" (ID: ${parkingId})? El inquilino asociado (si existe) será desvinculado. Cambios pendientes de guardar.`)) return;
+             const associatedTenantIndex = tenants.findIndex(t => t.parkingId === parkingId);
+             if (associatedTenantIndex > -1) { tenants[associatedTenantIndex].parkingId = null; tenants[associatedTenantIndex].updatedAt = new Date().toISOString(); showNotification(`Inquilino "${tenants[associatedTenantIndex].name}" desvinculado.`, 'info'); }
+             parkings.splice(parkingIndex, 1); updateUI(); showNotification(`Parking "${parkingName}" eliminado (cambios pendientes de guardar).`, 'info');
         }
-         function openTenantModal(tenantId = null, preSelectedParkingId = null) {
-            const modal = document.getElementById('tenantModal'); const modalTitle = document.getElementById('tenantModalTitle');
-            const form = document.getElementById('tenantForm'); const tenantParkingSelect = document.getElementById('tenantParking');
-            form.reset(); document.getElementById('tenantId').value = '';
-            updateParkingDropdowns(); // Actualizar lista ANTES
-            const today = new Date().toISOString().split('T')[0];
-            if (tenantId) {
-                const tenant = tenants.find(t => t.id === tenantId);
-                if (tenant) {
-                    modalTitle.textContent = 'Editar Inquilino'; document.getElementById('tenantId').value = tenant.id;
-                    document.getElementById('tenantName').value = tenant.name; document.getElementById('tenantPhone').value = tenant.phone;
-                    document.getElementById('tenantEmail').value = tenant.email || ''; tenantParkingSelect.value = tenant.parkingId || "";
-                    document.getElementById('tenantStartDate').value = tenant.startDate || today; document.getElementById('tenantEndDate').value = tenant.endDate || '';
-                    document.getElementById('tenantNotes').value = tenant.notes || '';
-                } else { showNotification(`No se encontró inquilino ID ${tenantId}`, 'danger'); return; }
-            } else {
-                modalTitle.textContent = 'Añadir Nuevo Inquilino'; document.getElementById('tenantStartDate').value = today;
-                if (preSelectedParkingId) {
-                    const parkingExists = parkings.some(p => p.id === preSelectedParkingId);
-                    const parkingAvailable = !tenants.some(t => t.parkingId === preSelectedParkingId);
-                    if (parkingExists && parkingAvailable) { tenantParkingSelect.value = preSelectedParkingId; }
-                    else if (parkingExists) { showNotification(`Parking seleccionado ya ocupado. Elija otro.`, 'warning'); }
-                    else { showNotification(`Parking de origen ya no existe.`, 'warning'); }
-                }
-            }
-            modal.classList.remove('hidden'); document.getElementById('tenantName').focus();
-        }
-        function saveTenant() {
-            const idInput = document.getElementById('tenantId'); const isEditing = !!idInput.value;
-            const id = idInput.value || 't_' + Date.now() + Math.random().toString(16).slice(2);
-            const name = document.getElementById('tenantName').value; const phone = document.getElementById('tenantPhone').value;
-            const email = document.getElementById('tenantEmail').value; const parkingId = document.getElementById('tenantParking').value || null;
-            const startDate = document.getElementById('tenantStartDate').value; const endDate = document.getElementById('tenantEndDate').value || null;
-            const notes = document.getElementById('tenantNotes').value;
-            if (!name || !phone || !startDate) { showNotification('Nombre, Teléfono y Fecha Inicio son requeridos.', 'warning'); return; }
-            if (endDate && startDate && new Date(endDate) < new Date(startDate)) { showNotification('Fecha Fin no puede ser anterior a Fecha Inicio.', 'warning'); return; }
-            if (parkingId) {
-                 const existingTenant = tenants.find(t => t.parkingId === parkingId && t.id !== id);
-                 if (existingTenant) { showNotification(`Parking ya asignado a "${existingTenant.name}". Elija otro.`, 'danger'); return; }
-             }
-            const tenantData = { id, name, phone, email: email || null, parkingId, startDate, endDate, notes, createdAt: isEditing ? tenants.find(t => t.id === id)?.createdAt : new Date().toISOString(), updatedAt: new Date().toISOString() };
-            let autoGeneratedIncome = false; const existingIndex = tenants.findIndex(t => t.id === id);
-            if (existingIndex >= 0) { tenantData.createdAt = tenants[existingIndex].createdAt || tenantData.createdAt; tenants[existingIndex] = tenantData; showNotification('Inquilino actualizado (cambios pendientes).', 'info');
-            } else { tenants.push(tenantData); showNotification('Nuevo inquilino añadido (cambios pendientes).', 'info');
-                const parking = parkings.find(p => p.id === parkingId);
-                if (parking && parking.price > 0) {
-                    const financeData = { id: 'f_' + Date.now() + Math.random().toString(16).slice(2), date: startDate, type: 'income', concept: `Alquiler inicial - ${name}`, parkingId: parkingId, amount: parking.price, notes: `Pago inicial automático.`, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() };
-                    finances.push(financeData); autoGeneratedIncome = true;
-                }
-            }
-            updateUI(); document.getElementById('tenantModal').classList.add('hidden');
-             if (autoGeneratedIncome) showNotification('Ingreso por primer alquiler registrado automáticamente (cambios pendientes).', 'success');
+
+        function saveTenant() { /* ... como estaba antes, sin llamar a saveData(), con validación de parking y registro de primer alquiler ... */
+             const idInput = document.getElementById('tenantId'); const isEditing = !!idInput.value; const id = idInput.value || 't_' + Date.now() + Math.random().toString(16).slice(2); const name = document.getElementById('tenantName').value; const phone = document.getElementById('tenantPhone').value; const email = document.getElementById('tenantEmail').value; const parkingId = document.getElementById('tenantParking').value || null; const startDate = document.getElementById('tenantStartDate').value; const endDate = document.getElementById('tenantEndDate').value || null; const notes = document.getElementById('tenantNotes').value;
+             if (!name || !phone || !startDate) { showNotification('Nombre, Teléfono y Fecha de Inicio son requeridos.', 'warning'); return; }
+             if (endDate && startDate && new Date(endDate) < new Date(startDate)) { showNotification('La Fecha de Fin no puede ser anterior a la Fecha de Inicio.', 'warning'); return; }
+             if (parkingId) { const existingTenant = tenants.find(t => t.parkingId === parkingId && t.id !== id); if (existingTenant) { showNotification(`Este parking ya está asignado a "${existingTenant.name}". Elija otro.`, 'danger'); return; } }
+             const tenantData = { id, name, phone, email: email || null, parkingId, startDate, endDate, notes, createdAt: isEditing ? tenants.find(t => t.id === id)?.createdAt : new Date().toISOString(), updatedAt: new Date().toISOString() };
+             let autoGeneratedIncome = false; const existingIndex = tenants.findIndex(t => t.id === id);
+             if (existingIndex >= 0) { tenantData.createdAt = tenants[existingIndex].createdAt || tenantData.createdAt; tenants[existingIndex] = tenantData; showNotification('Inquilino actualizado (cambios pendientes de guardar).', 'info'); } else { tenants.push(tenantData); showNotification('Nuevo inquilino añadido (cambios pendientes de guardar).', 'info'); const parking = parkings.find(p => p.id === parkingId); if (parking && parking.price > 0) { const financeData = { id: 'f_' + Date.now() + Math.random().toString(16).slice(2), date: startDate, type: 'income', concept: `Alquiler inicial - ${name}`, parkingId: parkingId, amount: parking.price, notes: `Pago inicial automático al añadir inquilino ${name}.`, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() }; finances.push(financeData); autoGeneratedIncome = true; } }
+             updateUI(); document.getElementById('tenantModal').classList.add('hidden'); if (autoGeneratedIncome) { showNotification('Ingreso por primer alquiler registrado automáticamente (cambios pendientes de guardar).', 'success'); }
         }
         function editTenant(tenantId) { openTenantModal(tenantId); }
-        function deleteTenant(tenantId) {
-            const tenant = tenants.find(t => t.id === tenantId); if (!tenant) { showNotification(`Inquilino ID ${tenantId} no encontrado.`, 'warning'); return; }
-             if (!confirm(`¿Seguro que quieres eliminar a "${tenant.name}"? Solo se guarda al usar "Guardar Cambios".`)) return;
-            const initialLength = tenants.length; tenants = tenants.filter(t => t.id !== tenantId);
-             if (tenants.length < initialLength) { updateUI(); showNotification(`Inquilino "${tenant.name}" eliminado (cambios pendientes).`, 'info'); }
+        function deleteTenant(tenantId) { /* ... como estaba antes, sin llamar a saveData() ... */
+            const tenantIndex = tenants.findIndex(t => t.id === tenantId); if(tenantIndex < 0) { showNotification('Inquilino no encontrado.', 'warning'); return; }
+            const tenantName = tenants[tenantIndex].name;
+            if (!confirm(`¿Eliminar inquilino "${tenantName}"? Cambios pendientes de guardar.`)) return;
+            tenants.splice(tenantIndex, 1); updateUI(); showNotification(`Inquilino "${tenantName}" eliminado (cambios pendientes de guardar).`, 'info');
         }
-         function openFinanceModal(type, financeId = null) {
-            const modal = document.getElementById('financeModal'); const modalTitle = document.getElementById('financeModalTitle');
-            const form = document.getElementById('financeForm'); const saveBtn = document.getElementById('saveFinanceBtn');
-            form.reset(); document.getElementById('financeId').value = ''; document.getElementById('financeTransactionType').value = type;
-            updateParkingDropdowns(); const today = new Date().toISOString().split('T')[0];
-            if (type === 'income') { modalTitle.textContent = 'Registrar Ingreso'; saveBtn.className = saveBtn.className.replace(/bg-red-\d+|hover:bg-red-\d+/g, '') + ' bg-green-500 hover:bg-green-600'; }
-            else { modalTitle.textContent = 'Registrar Gasto'; saveBtn.className = saveBtn.className.replace(/bg-green-\d+|hover:bg-green-\d+/g, '') + ' bg-red-500 hover:bg-red-600'; }
-            if (financeId) {
-                const finance = finances.find(f => f.id === financeId);
-                if (finance) {
-                    modalTitle.textContent = finance.type === 'income' ? 'Editar Ingreso' : 'Editar Gasto';
-                     if (finance.type === 'income') saveBtn.className = saveBtn.className.replace(/bg-red-\d+|hover:bg-red-\d+/g, '') + ' bg-green-500 hover:bg-green-600';
-                     else saveBtn.className = saveBtn.className.replace(/bg-green-\d+|hover:bg-green-\d+/g, '') + ' bg-red-500 hover:bg-red-600';
-                    document.getElementById('financeId').value = finance.id; document.getElementById('financeTransactionType').value = finance.type;
-                    document.getElementById('financeDate').value = finance.date || today; document.getElementById('financeConcept').value = finance.concept;
-                    document.getElementById('financeParking').value = finance.parkingId || ''; document.getElementById('financeAmount').value = finance.amount;
-                    document.getElementById('financeNotes').value = finance.notes || '';
-                } else { showNotification(`Transacción ID ${financeId} no encontrada`, 'danger'); return; }
-            } else { document.getElementById('financeDate').value = today; }
-            modal.classList.remove('hidden'); document.getElementById('financeConcept').focus();
-        }
-        function saveFinance() {
-            const idInput = document.getElementById('financeId'); const isEditing = !!idInput.value;
-            const id = idInput.value || 'f_' + Date.now() + Math.random().toString(16).slice(2);
-            const type = document.getElementById('financeTransactionType').value; const date = document.getElementById('financeDate').value;
-            const concept = document.getElementById('financeConcept').value; const parkingId = document.getElementById('financeParking').value || null;
-            const amount = document.getElementById('financeAmount').value; const notes = document.getElementById('financeNotes').value;
-            if (!date || !concept || !amount) { showNotification('Fecha, Concepto e Importe son requeridos.', 'warning'); return; }
-             if (parseFloat(amount) <= 0) { showNotification('Importe debe ser mayor que cero.', 'warning'); return; }
-            const financeData = { id, type, date, concept, parkingId, amount: parseFloat(amount), notes, createdAt: isEditing ? finances.find(f => f.id === id)?.createdAt : new Date().toISOString(), updatedAt: new Date().toISOString() };
+
+        function saveFinance() { /* ... como estaba antes, sin llamar a saveData() ... */
+            const idInput = document.getElementById('financeId'); const isEditing = !!idInput.value; const id = idInput.value || 'f_' + Date.now() + Math.random().toString(16).slice(2); const type = document.getElementById('financeTransactionType').value; const date = document.getElementById('financeDate').value; const concept = document.getElementById('financeConcept').value; const parkingId = document.getElementById('financeParking').value || null; const amount = document.getElementById('financeAmount').value; const notes = document.getElementById('financeNotes').value;
+            if (!date || !concept || !amount) { showNotification('Fecha, Concepto e Importe son requeridos.', 'warning'); return; } const numAmount = parseFloat(amount); if (isNaN(numAmount) || numAmount <= 0) { showNotification('El importe debe ser un número positivo.', 'warning'); return; }
+            const financeData = { id, type, date, concept, parkingId, amount: numAmount, notes, createdAt: isEditing ? finances.find(f => f.id === id)?.createdAt : new Date().toISOString(), updatedAt: new Date().toISOString() };
             const existingIndex = finances.findIndex(f => f.id === id);
-            if (existingIndex >= 0) { financeData.createdAt = finances[existingIndex].createdAt || financeData.createdAt; finances[existingIndex] = financeData; showNotification('Transacción actualizada (cambios pendientes).', 'info');
-            } else { finances.push(financeData); showNotification(type === 'income' ? 'Ingreso registrado (cambios pendientes).' : 'Gasto registrado (cambios pendientes).', 'info'); }
+            if (existingIndex >= 0) { financeData.createdAt = finances[existingIndex].createdAt || financeData.createdAt; finances[existingIndex] = financeData; showNotification('Transacción actualizada (cambios pendientes de guardar).', 'info'); } else { finances.push(financeData); showNotification(type === 'income' ? 'Nuevo ingreso registrado (cambios pendientes de guardar).' : 'Nuevo gasto registrado (cambios pendientes de guardar).', 'info'); }
             updateUI(); document.getElementById('financeModal').classList.add('hidden');
         }
         function editFinance(financeId) { openFinanceModal(null, financeId); }
-        function deleteFinance(financeId) {
-             const finance = finances.find(f => f.id === financeId); if (!finance) { showNotification(`Transacción ID ${financeId} no encontrada.`, 'warning'); return; }
-             if (!confirm(`¿Seguro que quieres eliminar "${finance.concept}" (${formatCurrency(finance.amount)})? Solo se guarda al usar "Guardar Cambios".`)) return;
-            const initialLength = finances.length; finances = finances.filter(f => f.id !== financeId);
-             if (finances.length < initialLength) { updateUI(); showNotification('Transacción eliminada (cambios pendientes).', 'info'); }
+        function deleteFinance(financeId) { /* ... como estaba antes, sin llamar a saveData() ... */
+            const financeIndex = finances.findIndex(f => f.id === financeId); if(financeIndex < 0) { showNotification('Transacción no encontrada.', 'warning'); return; }
+            const financeDesc = finances[financeIndex].concept;
+            if (!confirm(`¿Eliminar transacción "${financeDesc}"? Cambios pendientes de guardar.`)) return;
+            finances.splice(financeIndex, 1); updateUI(); showNotification('Transacción eliminada (cambios pendientes de guardar).', 'info');
         }
 
-        // --- Funciones de Utilidad y Notificaciones ---
-        function showNotification(message, type = 'info') {
-            const container = document.getElementById('notifications');
-            const notification = document.createElement('div');
-            let alertClass = 'alert-info';
-            if (type === 'success') alertClass = 'alert-success';
-            if (type === 'danger') alertClass = 'alert-danger';
-            if (type === 'warning') alertClass = 'alert-warning';
-            notification.className = `alert ${alertClass} shadow-lg fade-in flex items-center max-w-sm`;
-            const iconClass = type === 'success' ? 'fa-check-circle' : type === 'danger' ? 'fa-exclamation-circle' : type === 'warning' ? 'fa-exclamation-triangle' : 'fa-info-circle';
-            notification.innerHTML = `<i class="fas ${iconClass} mr-3 text-xl"></i><span class="flex-1">${message}</span><button class="ml-3 text-gray-500 hover:text-gray-800" onclick="this.parentElement.remove()" aria-label="Cerrar notificación"><i class="fas fa-times"></i></button>`;
-            container.appendChild(notification);
-            if (type !== 'danger') {
-                 setTimeout(() => { notification.style.transition = 'opacity 0.5s ease'; notification.style.opacity = '0'; setTimeout(() => { notification.remove(); }, 500); }, 5000);
-            }
+        // --- Funciones de Actualización de Tablas y UI (updateParkingsTable, updateTenantsTable, etc.) ---
+        // --- (Mayormente sin cambios, excepto las llamadas a updateUI y mensajes iniciales) ---
+
+        function updateParkingsTable() { /* ... como antes, ajustando mensajes si parkings.length es 0 ... */
+            const tableBody = document.getElementById('parkingsTable'); const searchTerm = document.getElementById('searchParking').value.toLowerCase(); const statusFilter = document.getElementById('filterParkingStatus').value; const sortBy = document.getElementById('sortParkings').value;
+            let filteredParkings = [...parkings];
+            if (searchTerm) { filteredParkings = filteredParkings.filter(p => p.location.toLowerCase().includes(searchTerm)); }
+            if (statusFilter !== 'all') { const isOccupied = statusFilter === 'occupied'; filteredParkings = filteredParkings.filter(p => { const tenant = tenants.find(t => t.parkingId === p.id); return isOccupied ? !!tenant : !tenant; }); }
+            filteredParkings.sort((a, b) => { switch (sortBy) { case 'location': return a.location.localeCompare(b.location); case 'price': return (parseFloat(a.price)||0) - (parseFloat(b.price)||0); case 'size': return (parseFloat(a.size)||0) - (parseFloat(b.size)||0); default: return 0; } });
+            tableBody.innerHTML = '';
+            if (filteredParkings.length === 0 && parkings.length > 0) { tableBody.innerHTML = `<tr><td colspan="8" class="py-4 px-4 text-center text-gray-500">No hay parkings que coincidan.</td></tr>`; }
+            else if (parkings.length === 0) { tableBody.innerHTML = `<tr><td colspan="8" class="py-4 px-4 text-center text-gray-500">Carga datos o añade un parking.</td></tr>`; }
+            else { filteredParkings.forEach(p => { const tenant = tenants.find(t => t.parkingId === p.id); const status = tenant ? 'Ocupado' : 'Disponible'; const statusClass = tenant ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800'; const row = document.createElement('tr'); row.className = 'hover:bg-gray-50';
+                row.innerHTML = `<td class="py-3 px-4 border-b">${p.id}</td><td class="py-3 px-4 border-b">${p.location}</td><td class="py-3 px-4 border-b">${p.size || '-'} m²</td><td class="py-3 px-4 border-b">${p.features || '-'}</td><td class="py-3 px-4 border-b">${formatCurrency(p.price)}</td><td class="py-3 px-4 border-b"><span class="px-2 py-1 rounded-full text-xs font-semibold ${statusClass}">${status}</span></td><td class="py-3 px-4 border-b">${tenant ? tenant.name : '-'}</td><td class="py-3 px-4 border-b"><div class="flex space-x-2"><button class="text-blue-500 hover:text-blue-700" onclick="editParking('${p.id}')" title="Editar"><i class="fas fa-edit"></i></button><button class="text-red-500 hover:text-red-700" onclick="deleteParking('${p.id}')" title="Eliminar"><i class="fas fa-trash-alt"></i></button>${!tenant ? `<button class="text-green-500 hover:text-green-700" onclick="assignTenant('${p.id}')" title="Asignar Inquilino"><i class="fas fa-user-plus"></i></button>` : ''}</div></td>`;
+                tableBody.appendChild(row); }); }
+            updateRecentParkings();
         }
-        function formatDate(dateString) {
-            if (!dateString) return '-';
-            try {
-                const dateParts = dateString.split('-');
-                if (dateParts.length === 3) {
-                    const date = new Date(Date.UTC(parseInt(dateParts[0]), parseInt(dateParts[1]) - 1, parseInt(dateParts[2])));
-                    if (!isNaN(date)) return date.toLocaleDateString('es-ES', { timeZone: 'UTC' });
-                }
-                 const date = new Date(dateString);
-                 if (!isNaN(date)) return date.toLocaleDateString('es-ES');
-                 return dateString;
-            } catch (e) { console.warn("Error formateando fecha:", dateString, e); return dateString; }
+        function updateRecentParkings() { /* ... como antes, ajustando mensaje si parkings.length es 0 ... */
+            const recentTable = document.getElementById('recentParkingsTable'); recentTable.innerHTML = '';
+            if (parkings.length === 0) { recentTable.innerHTML = `<tr><td colspan="3" class="py-4 px-4 text-center text-gray-500">Carga datos para ver parkings</td></tr>`; return; }
+            const recentParkings = [...parkings].sort((a,b) => (b.createdAt || 0) < (a.createdAt || 0) ? -1 : 1).slice(0, 5);
+            if (recentParkings.length === 0) { recentTable.innerHTML = `<tr><td colspan="3" class="py-4 px-4 text-center text-gray-500">No hay parkings registrados.</td></tr>`; return; }
+            recentParkings.forEach(p => { const tenant = tenants.find(t => t.parkingId === p.id); const status = tenant ? 'Ocupado' : 'Disponible'; const statusClass = tenant ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800'; const row = document.createElement('tr'); row.className = 'hover:bg-gray-50'; row.innerHTML = `<td class="py-2 px-4 border-b">${p.location}</td><td class="py-2 px-4 border-b"><span class="px-2 py-1 rounded-full text-xs font-semibold ${statusClass}">${status}</span></td><td class="py-2 px-4 border-b">${formatCurrency(p.price)}</td>`; recentTable.appendChild(row); });
         }
-        function formatCurrency(amount) {
-             const num = parseFloat(amount);
-             if (isNaN(num)) return '0,00 €';
-            return new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR', minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(num);
+        function updateTenantsTable() { /* ... como antes, ajustando mensajes si tenants.length es 0 ... */
+            const tableBody = document.getElementById('tenantsTable'); const searchTerm = document.getElementById('searchTenant').value.toLowerCase(); const sortBy = document.getElementById('sortTenants').value; let filteredTenants = [...tenants];
+            if (searchTerm) { filteredTenants = filteredTenants.filter(t => t.name.toLowerCase().includes(searchTerm)); }
+            filteredTenants.sort((a, b) => { switch (sortBy) { case 'name': return a.name.localeCompare(b.name); case 'startDate': const dateA = a.startDate ? new Date(a.startDate) : 0; const dateB = b.startDate ? new Date(b.startDate) : 0; return dateA - dateB; default: return 0; } });
+            tableBody.innerHTML = '';
+            if (filteredTenants.length === 0 && tenants.length > 0) { tableBody.innerHTML = `<tr><td colspan="8" class="py-4 px-4 text-center text-gray-500">No hay inquilinos que coincidan.</td></tr>`; }
+            else if (tenants.length === 0) { tableBody.innerHTML = `<tr><td colspan="8" class="py-4 px-4 text-center text-gray-500">Carga datos o añade un inquilino.</td></tr>`; }
+            else { filteredTenants.forEach(t => { const p = parkings.find(pk => pk.id === t.parkingId); const row = document.createElement('tr'); row.className = 'hover:bg-gray-50'; row.innerHTML = `<td class="py-3 px-4 border-b">${t.id}</td><td class="py-3 px-4 border-b">${t.name}</td><td class="py-3 px-4 border-b">${t.phone}</td><td class="py-3 px-4 border-b">${t.email || '-'}</td><td class="py-3 px-4 border-b">${p ? p.location : (t.parkingId ? 'ID:'+t.parkingId+' (No encontrado)' : '-')}</td><td class="py-3 px-4 border-b">${formatDate(t.startDate)}</td><td class="py-3 px-4 border-b">${t.endDate ? formatDate(t.endDate) : '-'}</td><td class="py-3 px-4 border-b"><div class="flex space-x-2"><button class="text-blue-500 hover:text-blue-700" onclick="editTenant('${t.id}')" title="Editar"><i class="fas fa-edit"></i></button><button class="text-red-500 hover:text-red-700" onclick="deleteTenant('${t.id}')" title="Eliminar"><i class="fas fa-trash-alt"></i></button></div></td>`; tableBody.appendChild(row); }); }
+        }
+        function updateFinancesTable() { /* ... como antes, con cálculo de ROI TTM y mensajes ajustados ... */
+            const tableBody = document.getElementById('financesTable'); const periodFilter = document.getElementById('financesPeriod').value; const parkingFilter = document.getElementById('financesParkingFilter').value; const typeFilter = document.getElementById('financeType').value; let filteredFinances = [...finances];
+            if (periodFilter !== 'all') { const today = new Date(); const startDate = new Date(today); switch (periodFilter) { case 'month': startDate.setMonth(today.getMonth() - 1); break; case 'quarter': startDate.setMonth(today.getMonth() - 3); break; case 'year': startDate.setFullYear(today.getFullYear() - 1); break; } startDate.setHours(0, 0, 0, 0); filteredFinances = filteredFinances.filter(f => f.date && new Date(f.date) >= startDate); }
+            if (parkingFilter !== 'all') { filteredFinances = filteredFinances.filter(f => f.parkingId === parkingFilter); }
+            if (typeFilter !== 'all') { filteredFinances = filteredFinances.filter(f => f.type === typeFilter); }
+            filteredFinances.sort((a, b) => (b.date ? new Date(b.date) : 0) - (a.date ? new Date(a.date) : 0));
+            tableBody.innerHTML = '';
+            if (filteredFinances.length === 0 && finances.length > 0) { tableBody.innerHTML = `<tr><td colspan="6" class="py-4 px-4 text-center text-gray-500">No hay movimientos que coincidan.</td></tr>`; }
+            else if (finances.length === 0) { tableBody.innerHTML = `<tr><td colspan="6" class="py-4 px-4 text-center text-gray-500">Carga datos o registra movimientos.</td></tr>`; }
+            else { filteredFinances.forEach(f => { const p = parkings.find(pk => pk.id === f.parkingId); const typeClass = f.type === 'income' ? 'text-green-600' : 'text-red-600'; const typeIcon = f.type === 'income' ? 'fa-plus-circle' : 'fa-minus-circle'; const typeText = f.type === 'income' ? 'Ingreso' : 'Gasto'; const row = document.createElement('tr'); row.className = 'hover:bg-gray-50'; row.innerHTML = `<td class="py-3 px-4 border-b">${formatDate(f.date)}</td><td class="py-3 px-4 border-b ${typeClass}"><i class="fas ${typeIcon} mr-1"></i> ${typeText}</td><td class="py-3 px-4 border-b">${f.concept}</td><td class="py-3 px-4 border-b">${p ? p.location : (f.parkingId ? 'ID:'+f.parkingId : '-')}</td><td class="py-3 px-4 border-b ${typeClass} font-semibold">${formatCurrency(f.amount)}</td><td class="py-3 px-4 border-b"><div class="flex space-x-2"><button class="text-blue-500 hover:text-blue-700" onclick="editFinance('${f.id}')" title="Editar"><i class="fas fa-edit"></i></button><button class="text-red-500 hover:text-red-700" onclick="deleteFinance('${f.id}')" title="Eliminar"><i class="fas fa-trash-alt"></i></button></div></td>`; tableBody.appendChild(row); }); }
+            // Calcular totales y ROI TTM
+            let totalIncome = 0, totalExpenses = 0; finances.forEach(f => { const amount = parseFloat(f.amount) || 0; if (f.type === 'income') totalIncome += amount; else totalExpenses += amount; }); const totalBalance = totalIncome - totalExpenses; let roiTTM = 0; const todayForROI = new Date(); const currentInvestment = parkings.reduce((sum, p) => sum + ((parseFloat(p.purchasePrice) || 0) > 0 && (!p.purchaseDate || new Date(p.purchaseDate) <= todayForROI) ? (parseFloat(p.purchasePrice) || 0) : 0), 0); const twelveMonthsAgo = new Date(todayForROI); twelveMonthsAgo.setFullYear(todayForROI.getFullYear() - 1); twelveMonthsAgo.setHours(0, 0, 0, 0); let incomeLast12Months = 0, expensesLast12Months = 0;
+            finances.forEach(f => { if (!f.date) return; try { const transactionDate = new Date(f.date); if (!isNaN(transactionDate) && transactionDate >= twelveMonthsAgo && transactionDate <= todayForROI) { const amount = parseFloat(f.amount) || 0; if (f.type === 'income') incomeLast12Months += amount; else if (f.type === 'expense') expensesLast12Months += amount; } } catch (e) {} }); const balanceLast12Months = incomeLast12Months - expensesLast12Months; if (currentInvestment > 0) { roiTTM = (balanceLast12Months / currentInvestment) * 100; }
+            document.getElementById('totalIncome').textContent = formatCurrency(totalIncome); document.getElementById('totalExpenses').textContent = formatCurrency(totalExpenses); document.getElementById('totalBalance').textContent = formatCurrency(totalBalance); document.getElementById('annualROI').textContent = isFinite(roiTTM) ? `${roiTTM.toFixed(2)}%` : 'N/A'; document.getElementById('roiLabel').textContent = 'ROI (12m)';
+        }
+        function updateParkingDropdowns() { /* ... como antes, sin cambios funcionales ... */
+            const tenantParkingSelect = document.getElementById('tenantParking'); const financeParkingSelect = document.getElementById('financeParking'); const financesParkingFilter = document.getElementById('financesParkingFilter'); const currentFinanceFilterValue = financesParkingFilter.value;
+            [tenantParkingSelect, financeParkingSelect, financesParkingFilter].forEach(select => { const firstOption = select.options[0].cloneNode(true); select.innerHTML = ''; select.appendChild(firstOption);
+            [...parkings].sort((a, b) => a.location.localeCompare(b.location)).forEach(p => { const isOccupied = tenants.some(t => t.parkingId === p.id); const currentTenantId = document.getElementById('tenantId').value; const isAssignedToCurrentTenant = currentTenantId && tenants.find(t => t.id === currentTenantId)?.parkingId === p.id;
+            if (select === tenantParkingSelect) { if (!isOccupied || isAssignedToCurrentTenant) { const option = document.createElement('option'); option.value = p.id; option.textContent = `${p.location} (${formatCurrency(p.price)}/mes)`; select.appendChild(option); } } else { const option = document.createElement('option'); option.value = p.id; option.textContent = p.location; select.appendChild(option); } }); }); financesParkingFilter.value = currentFinanceFilterValue;
+        }
+        function updateDashboardStats() { /* ... como antes, usando gasto mes actual ... */
+             if (parkings.length === 0 && tenants.length === 0 && finances.length === 0) { document.getElementById('totalParkings').textContent = '0'; document.getElementById('occupiedParkings').textContent = '0'; document.getElementById('monthlyIncome').textContent = '0 €'; document.getElementById('monthlyExpenses').textContent = '0 €'; return; }
+             document.getElementById('totalParkings').textContent = parkings.length;
+             const occupiedCount = tenants.filter(t => parkings.some(p => p.id === t.parkingId)).length; document.getElementById('occupiedParkings').textContent = occupiedCount;
+             let monthlyIncome = 0; tenants.forEach(t => { const p = parkings.find(pk => pk.id === t.parkingId); if (p) { monthlyIncome += parseFloat(p.price || 0); } }); document.getElementById('monthlyIncome').textContent = formatCurrency(monthlyIncome);
+             const today = new Date(); const currentYear = today.getFullYear(); const currentMonth = today.getMonth(); let totalCurrentMonthExpenses = 0;
+             finances.filter(f => f.type === 'expense' && f.date).forEach(f => { try { const transactionDate = new Date(f.date); if (!isNaN(transactionDate) && transactionDate.getFullYear() === currentYear && transactionDate.getMonth() === currentMonth) { totalCurrentMonthExpenses += parseFloat(f.amount || 0); } } catch(e){} }); document.getElementById('monthlyExpenses').textContent = formatCurrency(totalCurrentMonthExpenses);
         }
 
-        // --- Funciones para la Proyección Compuesta ---
-        function addFutureInvestmentRow() {
-            const container = document.getElementById('futureInvestmentsContainer');
-            const newRow = document.createElement('div');
-            newRow.className = 'flex items-center space-x-2 future-investment-row';
-            newRow.innerHTML = `
-                <input type="number" min="${new Date().getFullYear()}" placeholder="Año" class="shadow appearance-none border rounded w-1/3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline future-investment-year">
-                <input type="number" min="0" step="100" placeholder="Coste (€)" class="shadow appearance-none border rounded w-1/3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline future-investment-cost">
-                <button type="button" class="text-red-500 hover:text-red-700 remove-investment-btn" title="Eliminar Inversión">
-                    <i class="fas fa-trash-alt"></i>
-                </button>
-            `;
-            container.appendChild(newRow);
-        }
-        function calculateCompoundForecast() {
-            const profitGrowthRateInput = document.getElementById('compoundProfitGrowthRate');
-            const profitGrowthRate = (parseFloat(profitGrowthRateInput.value) || 0) / 100;
-            const futureInvestments = [];
-            document.querySelectorAll('.future-investment-row').forEach(row => {
-                const yearInput = row.querySelector('.future-investment-year'); const costInput = row.querySelector('.future-investment-cost');
-                const year = parseInt(yearInput.value); const cost = parseFloat(costInput.value);
-                if (year && cost > 0) futureInvestments.push({ year, cost });
-            });
-            const fomment156Year = 2025; const fomment156Cost = 7500;
-            let fomment156Exists = futureInvestments.some(inv => inv.year === fomment156Year && inv.cost === fomment156Cost);
-            const firstRow = document.querySelector('#futureInvestmentsContainer .future-investment-row');
-            if (!fomment156Exists && firstRow) {
-                const firstYearInput = firstRow.querySelector('.future-investment-year'); const firstCostInput = firstRow.querySelector('.future-investment-cost');
-                if (!firstYearInput.value && !firstCostInput.value) {
-                    firstYearInput.value = fomment156Year; firstCostInput.value = fomment156Cost;
-                    futureInvestments.push({ year: fomment156Year, cost: fomment156Cost });
-                    showNotification(`Inversión de ${fomment156Year} pre-rellenada.`, 'info');
-                }
-            }
-            const today = new Date();
-            const initialInvestment = parkings.reduce((sum, p) => { const price = parseFloat(p.purchasePrice) || 0; const date = p.purchaseDate ? new Date(p.purchaseDate) : null; return (price > 0 && (!date || date <= today)) ? sum + price : sum; }, 0);
-            document.getElementById('compoundInitialInvestment').textContent = formatCurrency(initialInvestment);
-            const initialBalance = finances.reduce((balance, f) => { const amount = parseFloat(f.amount) || 0; return balance + (f.type === 'income' ? amount : -amount); }, 0);
-            document.getElementById('compoundInitialBalance').textContent = formatCurrency(initialBalance);
-            let baseAnnualNetProfit = 0;
-            try {
-                 const simpleForecastData = calculateSimpleForecastData();
-                 if (simpleForecastData && simpleForecastData.length > 0) { baseAnnualNetProfit = simpleForecastData[0].balance; }
-                 else if (initialInvestment > 0) {
-                      const roiTTMText = document.getElementById('annualROI').textContent || '0%';
-                      const roiTTMPercent = parseFloat(roiTTMText.replace('%','')) || 0;
-                      if (roiTTMPercent === 0 && initialBalance === 0) throw new Error("ROI TTM es cero y no hay balance inicial."); // Evitar error si no hay datos
-                      baseAnnualNetProfit = initialInvestment * (roiTTMPercent / 100);
-                      showNotification('Usando ROI TTM como base para beneficio anual.', 'warning');
-                 } else { throw new Error("No hay inversión inicial ni previsión simple."); }
-            } catch (error) {
-                 console.error("Error al obtener beneficio base:", error);
-                 showNotification(`Error estimando beneficio base: ${error.message}. Verifica datos/previsión.`, 'danger');
-                 document.getElementById('compoundForecastTable').innerHTML = `<tr><td colspan="5" class="py-4 px-4 text-center text-gray-500">Error estimando beneficio base.</td></tr>`; return;
-            }
-            document.getElementById('compoundBaseAnnualProfit').textContent = formatCurrency(baseAnnualNetProfit);
-            let cumulativeGain = initialBalance; let currentInvestedCapital = initialInvestment; let currentAnnualProfitEstimate = baseAnnualNetProfit;
-            const results = []; const startYear = new Date().getFullYear();
-            for (let i = 0; i < 5; i++) {
-                const currentYear = startYear + i; const profitThisYear = currentAnnualProfitEstimate;
-                let investmentCostThisYear = futureInvestments.reduce((sum, inv) => (inv.year === currentYear ? sum + inv.cost : sum), 0);
-                currentInvestedCapital += investmentCostThisYear;
-                cumulativeGain = cumulativeGain + profitThisYear - investmentCostThisYear;
-                results.push({ year: currentYear, investedCapitalEndOfYear: currentInvestedCapital, profitGeneratedThisYear: profitThisYear, investmentMadeThisYear: investmentCostThisYear, cumulativeNetGainEndOfYear: cumulativeGain });
-                currentAnnualProfitEstimate = profitThisYear * (1 + profitGrowthRate);
-            }
-            renderCompoundForecastTable(results);
-        }
-        function calculateSimpleForecastData() {
-            const incrementRateInput = document.getElementById('forecastIncrementRate'); const expenseRateInput = document.getElementById('forecastExpenseRate'); const occupancyRateInput = document.getElementById('forecastOccupancyRate');
-             if (!incrementRateInput || !expenseRateInput || !occupancyRateInput) { throw new Error("Faltan elementos input para previsión simple."); }
-            const incrementRate = (parseFloat(incrementRateInput.value) || 0) / 100; const expenseRate = (parseFloat(expenseRateInput.value) || 0) / 100; const occupancyRate = (parseFloat(occupancyRateInput.value) || 90) / 100;
-            if (isNaN(incrementRate) || isNaN(expenseRate) || isNaN(occupancyRate) || occupancyRate <= 0) { throw new Error("Parámetros previsión simple inválidos/ocupación cero."); }
-             if (parkings.length === 0) { throw new Error("No hay parkings para calcular previsión simple."); }
-            let potentialAnnualIncome = parkings.reduce((sum, p) => sum + (parseFloat(p.price) || 0) * 12, 0); let currentAnnualIncome = potentialAnnualIncome * occupancyRate;
-            const oneYearAgo = new Date(); oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1); oneYearAgo.setHours(0,0,0,0); const expenseTransactions = finances.filter(f => f.type === 'expense' && f.date);
-            const firstExpenseDate = expenseTransactions.length > 0 ? new Date(Math.min.apply(null, expenseTransactions.map(f => new Date(f.date)))) : null;
-            const startDateForAvg = firstExpenseDate && firstExpenseDate > oneYearAgo ? firstExpenseDate : oneYearAgo; const relevantExpenses = expenseTransactions.filter(f => f.date && new Date(f.date) >= startDateForAvg);
-            let totalRelevantExpenses = relevantExpenses.reduce((sum, f) => sum + (parseFloat(f.amount) || 0), 0); let currentAnnualExpenses = 0;
-            if (relevantExpenses.length > 0) { const months = (new Date() - startDateForAvg) / (1000 * 60 * 60 * 24 * (365.25 / 12)); if (months > 0) currentAnnualExpenses = (totalRelevantExpenses / months) * 12; }
-            if (currentAnnualExpenses === 0 && currentAnnualIncome > 0) { currentAnnualExpenses = currentAnnualIncome * 0.3; }
-            const forecastData = [];
-            const currentInvestmentSimple = parkings.reduce((sum, p) => { const price = parseFloat(p.purchasePrice) || 0; const pDate = p.purchaseDate ? new Date(p.purchaseDate) : null; return (price > 0 && (!pDate || pDate <= new Date())) ? sum + price : sum; }, 0);
-            let predictedAnnualIncome = currentAnnualIncome; let predictedAnnualExpenses = currentAnnualExpenses; const startYear = new Date().getFullYear();
-            for (let year = 1; year <= 5; year++) {
-                if (year > 1) { predictedAnnualIncome *= (1 + incrementRate); predictedAnnualExpenses *= (1 + expenseRate); }
-                const balance = predictedAnnualIncome - predictedAnnualExpenses; let roi = (currentInvestmentSimple > 0) ? (balance / currentInvestmentSimple) * 100 : 0;
-                forecastData.push({ year: startYear + year -1, income: predictedAnnualIncome, expenses: predictedAnnualExpenses, balance: balance, roi: isFinite(roi) ? roi : 0 });
-            }
-             return forecastData;
+         // --- Funciones de Apertura de Modales (openParkingModal, etc.) ---
+         // --- (Mayormente sin cambios) ---
+         function openParkingModal(parkingId = null) { /* ... como antes ... */
+             const modal = document.getElementById('parkingModal'); const modalTitle = document.getElementById('parkingModalTitle'); const form = document.getElementById('parkingForm'); form.reset(); document.getElementById('parkingId').value = '';
+             if (parkingId) { const p = parkings.find(pk => pk.id === parkingId); if (p) { modalTitle.textContent = 'Editar Parking'; document.getElementById('parkingId').value = p.id; document.getElementById('parkingLocation').value = p.location; document.getElementById('parkingSize').value = p.size; document.getElementById('parkingPrice').value = p.price; document.getElementById('parkingFeatures').value = p.features || ''; document.getElementById('parkingPurchasePrice').value = p.purchasePrice || ''; document.getElementById('parkingPurchaseDate').value = p.purchaseDate || ''; } else { showNotification(`Parking ID ${parkingId} no encontrado.`, 'danger'); return; } } else { modalTitle.textContent = 'Añadir Nuevo Parking'; }
+             modal.classList.remove('hidden'); document.getElementById('parkingLocation').focus();
          }
-        function renderCompoundForecastTable(results) {
-            const tableBody = document.getElementById('compoundForecastTable'); tableBody.innerHTML = '';
-            if (!results || results.length === 0) { tableBody.innerHTML = `<tr><td colspan="5" class="py-4 px-4 text-center text-gray-500">No se generaron resultados.</td></tr>`; return; }
-            results.forEach(data => {
-                const row = document.createElement('tr'); row.className = 'hover:bg-gray-50';
-                row.innerHTML = `
-                    <td class="py-3 px-4 border-b">${data.year}</td>
-                    <td class="py-3 px-4 border-b text-right">${formatCurrency(data.investedCapitalEndOfYear)}</td>
-                    <td class="py-3 px-4 border-b text-right text-green-600">${formatCurrency(data.profitGeneratedThisYear)}</td>
-                    <td class="py-3 px-4 border-b text-right text-red-600">${formatCurrency(data.investmentMadeThisYear)}</td>
-                    <td class="py-3 px-4 border-b text-right font-bold ${data.cumulativeNetGainEndOfYear >= 0 ? 'text-blue-700' : 'text-red-700'}">${formatCurrency(data.cumulativeNetGainEndOfYear)}</td>
-                `;
-                tableBody.appendChild(row);
-            });
+         function openTenantModal(tenantId = null, preSelectedParkingId = null) { /* ... como antes ... */
+            const modal = document.getElementById('tenantModal'); const modalTitle = document.getElementById('tenantModalTitle'); const form = document.getElementById('tenantForm'); const tenantParkingSelect = document.getElementById('tenantParking'); form.reset(); document.getElementById('tenantId').value = ''; updateParkingDropdowns(); const today = new Date().toISOString().split('T')[0];
+            if (tenantId) { const t = tenants.find(tn => tn.id === tenantId); if (t) { modalTitle.textContent = 'Editar Inquilino'; document.getElementById('tenantId').value = t.id; document.getElementById('tenantName').value = t.name; document.getElementById('tenantPhone').value = t.phone; document.getElementById('tenantEmail').value = t.email || ''; tenantParkingSelect.value = t.parkingId || ""; document.getElementById('tenantStartDate').value = t.startDate || today; document.getElementById('tenantEndDate').value = t.endDate || ''; document.getElementById('tenantNotes').value = t.notes || ''; } else { showNotification(`Inquilino ID ${tenantId} no encontrado.`, 'danger'); return; } } else { modalTitle.textContent = 'Añadir Nuevo Inquilino'; document.getElementById('tenantStartDate').value = today; if (preSelectedParkingId) { const pExists = parkings.some(p => p.id === preSelectedParkingId); const pAvailable = !tenants.some(t => t.parkingId === preSelectedParkingId); if (pExists && pAvailable) { tenantParkingSelect.value = preSelectedParkingId; } else if (pExists) { showNotification(`Parking ya ocupado.`, 'warning'); } else { showNotification(`Parking origen no existe.`, 'warning'); } } }
+            modal.classList.remove('hidden'); document.getElementById('tenantName').focus();
+         }
+         function openFinanceModal(type, financeId = null) { /* ... como antes ... */
+            const modal = document.getElementById('financeModal'); const modalTitle = document.getElementById('financeModalTitle'); const form = document.getElementById('financeForm'); const saveBtn = document.getElementById('saveFinanceBtn'); form.reset(); document.getElementById('financeId').value = ''; document.getElementById('financeTransactionType').value = type; updateParkingDropdowns(); const today = new Date().toISOString().split('T')[0]; let actualType = type;
+            if (financeId) { const f = finances.find(fin => fin.id === financeId); if (f) { actualType = f.type; modalTitle.textContent = f.type === 'income' ? 'Editar Ingreso' : 'Editar Gasto'; document.getElementById('financeId').value = f.id; document.getElementById('financeTransactionType').value = f.type; document.getElementById('financeDate').value = f.date || today; document.getElementById('financeConcept').value = f.concept; document.getElementById('financeParking').value = f.parkingId || ''; document.getElementById('financeAmount').value = f.amount; document.getElementById('financeNotes').value = f.notes || ''; } else { showNotification(`Transacción ID ${financeId} no encontrada.`, 'danger'); return; } } else { modalTitle.textContent = type === 'income' ? 'Registrar Ingreso' : 'Registrar Gasto'; document.getElementById('financeDate').value = today; }
+            if (actualType === 'income') { saveBtn.classList.remove('bg-red-500', 'hover:bg-red-600'); saveBtn.classList.add('bg-green-500', 'hover:bg-green-600'); } else { saveBtn.classList.remove('bg-green-500', 'hover:bg-green-600'); saveBtn.classList.add('bg-red-500', 'hover:bg-red-600'); }
+            modal.classList.remove('hidden'); document.getElementById('financeConcept').focus();
+         }
+
+        // --- Utilidades (formatDate, formatCurrency, showNotification) ---
+        function formatDate(dateString) { /* ... como antes, con manejo UTC ... */
+            if (!dateString) return '-'; try { const dateParts = dateString.split('-'); if (dateParts.length === 3) { const date = new Date(Date.UTC(parseInt(dateParts[0]), parseInt(dateParts[1]) - 1, parseInt(dateParts[2]))); if (!isNaN(date)) { return date.toLocaleDateString('es-ES', { timeZone: 'UTC' }); } } const date = new Date(dateString); if (!isNaN(date)) { return date.toLocaleDateString('es-ES'); } return dateString; } catch (e) { console.warn("Error formateando fecha:", dateString, e); return dateString; }
         }
-        // --- Fin Funciones para la Proyección Compuesta ---
+        function formatCurrency(amount) { /* ... como antes ... */
+             const num = parseFloat(amount); if (isNaN(num)) { return '0,00 €'; } return new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR', minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(num);
+        }
+        function showNotification(message, type = 'info') { /* ... como antes ... */
+            const container = document.getElementById('notifications'); const notification = document.createElement('div'); let alertClass = 'alert-info'; if (type === 'success') alertClass = 'alert-success'; if (type === 'danger') alertClass = 'alert-danger'; if (type === 'warning') alertClass = 'alert-warning'; notification.className = `alert ${alertClass} shadow-lg fade-in flex items-center max-w-sm`; const iconClass = type === 'success' ? 'fa-check-circle' : type === 'danger' ? 'fa-exclamation-circle' : type === 'warning' ? 'fa-exclamation-triangle' : 'fa-info-circle';
+            notification.innerHTML = `<i class="fas ${iconClass} mr-3 text-xl"></i><span class="flex-1">${message}</span><button class="ml-3 text-gray-500 hover:text-gray-800" onclick="this.parentElement.remove()" aria-label="Cerrar notificación"><i class="fas fa-times"></i></button>`; container.appendChild(notification);
+             if (type !== 'danger') { setTimeout(() => { notification.style.transition = 'opacity 0.5s ease'; notification.style.opacity = '0'; setTimeout(() => { notification.remove(); }, 500); }, 5000); }
+        }
 
     </script>
+
 </body>
 </html>
