@@ -1383,30 +1383,69 @@
 
             const totalBalance = totalIncome - totalExpenses;
 
-            // Calcular ROI anual promedio (simplificado)
-            let roi = 0;
-            const totalInvestment = parkings.reduce((sum, parking) => sum + (parseFloat(parking.purchasePrice) || 0), 0);
-            if (totalInvestment > 0 && finances.length > 0) {
-                 // Encuentra la fecha más antigua y la más reciente para calcular años
-                 const dates = finances.map(f => new Date(f.date)).filter(d => !isNaN(d));
-                 if (dates.length > 0) {
-                     const minDate = new Date(Math.min.apply(null, dates));
-                     const maxDate = new Date(Math.max.apply(null, dates));
-                     const years = (maxDate - minDate) / (1000 * 60 * 60 * 24 * 365.25); // Años con decimales
-                     if (years > 0) {
-                         const averageAnnualBalance = totalBalance / years;
-                         roi = (averageAnnualBalance / totalInvestment) * 100;
-                     } else if (totalBalance > 0) { // Si todas las transacciones son del mismo día
-                        roi = Infinity; // O manejar como caso especial
-                     }
-                 }
+//----------------------------------------------------------------------------------------------------------
+            
+// --- INICIO: Nuevo Cálculo para ROI (Últimos 12 Meses) ---
+            let roiTTM = 0; // TTM = Trailing Twelve Months
+
+            // 1. Calcular inversión activa actual (excluyendo compras futuras)
+            const todayForROI = new Date();
+            const currentInvestment = parkings.reduce((sum, parking) => {
+                const purchasePrice = parseFloat(parking.purchasePrice) || 0;
+                const purchaseDate = parking.purchaseDate ? new Date(parking.purchaseDate) : null;
+                // Incluir solo si tiene precio y la fecha de compra es hoy o antes (si existe fecha)
+                if (purchasePrice > 0 && (!purchaseDate || purchaseDate <= todayForROI)) {
+                    return sum + purchasePrice;
+                }
+                return sum;
+            }, 0);
+
+            // 2. Calcular balance de los últimos 12 meses
+            const twelveMonthsAgo = new Date(todayForROI);
+            twelveMonthsAgo.setFullYear(todayForROI.getFullYear() - 1);
+            twelveMonthsAgo.setHours(0, 0, 0, 0); // Inicio del día hace 12 meses
+
+            let incomeLast12Months = 0;
+            let expensesLast12Months = 0;
+
+            finances.forEach(finance => {
+                if (!finance.date) return; // Saltar si no hay fecha
+                try {
+                    const transactionDate = new Date(finance.date);
+                    if (!isNaN(transactionDate) && transactionDate >= twelveMonthsAgo && transactionDate <= todayForROI) {
+                        const amount = parseFloat(finance.amount) || 0;
+                        if (finance.type === 'income') {
+                            incomeLast12Months += amount;
+                        } else if (finance.type === 'expense') {
+                            expensesLast12Months += amount;
+                        }
+                    }
+                } catch (e) {
+                    console.warn("Fecha inválida en cálculo TTM ROI:", finance.date);
+                }
+            });
+
+            const balanceLast12Months = incomeLast12Months - expensesLast12Months;
+
+            // 3. Calcular ROI TTM si hay inversión
+            if (currentInvestment > 0) {
+                roiTTM = (balanceLast12Months / currentInvestment) * 100;
             }
 
-            // Actualizar resumen financiero
-            document.getElementById('totalIncome').textContent = formatCurrency(totalIncome);
-            document.getElementById('totalExpenses').textContent = formatCurrency(totalExpenses);
-            document.getElementById('totalBalance').textContent = formatCurrency(totalBalance);
-            document.getElementById('annualROI').textContent = isFinite(roi) ? `${roi.toFixed(2)}%` : 'N/A';
+            // Actualizar resumen financiero (Balance sigue siendo el total histórico)
+            document.getElementById('totalIncome').textContent = formatCurrency(totalIncome); // Total histórico
+            document.getElementById('totalExpenses').textContent = formatCurrency(totalExpenses); // Total histórico
+            document.getElementById('totalBalance').textContent = formatCurrency(totalBalance); // Total histórico
+            // Actualizar ROI con el cálculo TTM
+            document.getElementById('annualROI').textContent = isFinite(roiTTM) ? `${roiTTM.toFixed(2)}%` : 'N/A';
+            // Opcional: Cambiar la etiqueta en el HTML de "ROI Anual" a "ROI (12m)" o similar
+            // document.querySelector('#annualROI').previousElementSibling.textContent = 'ROI (12m)'; // Ejemplo
+            // --- FIN: Nuevo Cálculo para ROI (Últimos 12 Meses) ---
+
+            
+//-------------------------------------------------------------------------
+
+            
         }
 
         // Actualizar desplegables de parkings
