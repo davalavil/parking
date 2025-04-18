@@ -2399,6 +2399,265 @@
             }).format(num);
         }
 
+//-----------------------------------
+    // **********************************************************
+    // **** COPIAR Y PEGAR TODO EL SIGUIENTE BLOQUE AQUÍ: ****
+    // **** (Justo antes de </script>)                     ****
+    // **********************************************************
+
+    // --- Funciones para la Proyección Compuesta ---
+
+    // Función para añadir una fila para inversión futura
+    function addFutureInvestmentRow() {
+        const container = document.getElementById('futureInvestmentsContainer');
+        const newRow = document.createElement('div');
+        newRow.className = 'flex items-center space-x-2 future-investment-row';
+        newRow.innerHTML = `
+            <input type="number" min="${new Date().getFullYear()}" placeholder="Año" class="shadow appearance-none border rounded w-1/3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline future-investment-year">
+            <input type="number" min="0" step="100" placeholder="Coste (€)" class="shadow appearance-none border rounded w-1/3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline future-investment-cost">
+            <button type="button" class="text-red-500 hover:text-red-700 remove-investment-btn" title="Eliminar Inversión">
+                <i class="fas fa-trash-alt"></i>
+            </button>
+        `;
+        container.appendChild(newRow);
+    }
+
+    // Función principal para calcular la proyección compuesta
+    function calculateCompoundForecast() {
+        // --- 1. Obtener Parámetros y Datos Base ---
+        const profitGrowthRateInput = document.getElementById('compoundProfitGrowthRate');
+        const profitGrowthRate = (parseFloat(profitGrowthRateInput.value) || 0) / 100; // Convertir a decimal
+
+        // Obtener inversiones futuras planificadas
+        const futureInvestments = [];
+        document.querySelectorAll('.future-investment-row').forEach(row => {
+            const yearInput = row.querySelector('.future-investment-year');
+            const costInput = row.querySelector('.future-investment-cost');
+            const year = parseInt(yearInput.value);
+            const cost = parseFloat(costInput.value);
+            if (year && cost > 0) {
+                futureInvestments.push({ year, cost });
+            }
+        });
+
+        // Opcional: Pre-rellenar la inversión de Foment 156 si no está y el primer campo está vacío
+        const fomment156Year = 2025;
+        const fomment156Cost = 7500;
+        let fomment156Exists = futureInvestments.some(inv => inv.year === fomment156Year && inv.cost === fomment156Cost);
+        const firstRow = document.querySelector('#futureInvestmentsContainer .future-investment-row');
+        if (!fomment156Exists && firstRow) {
+            const firstYearInput = firstRow.querySelector('.future-investment-year');
+            const firstCostInput = firstRow.querySelector('.future-investment-cost');
+            if (!firstYearInput.value && !firstCostInput.value) { // Solo si la primera fila está vacía
+                firstYearInput.value = fomment156Year;
+                firstCostInput.value = fomment156Cost;
+                futureInvestments.push({ year: fomment156Year, cost: fomment156Cost }); // Añadirla a la lista para el cálculo
+                showNotification(`Inversión de ${fomment156Year} pre-rellenada.`, 'info');
+            }
+        }
+
+
+        // Calcular capital invertido inicial (parkings ya comprados)
+        const today = new Date();
+        const initialInvestment = parkings.reduce((sum, parking) => {
+            const price = parseFloat(parking.purchasePrice) || 0;
+            const date = parking.purchaseDate ? new Date(parking.purchaseDate) : null;
+            if (price > 0 && (!date || date <= today)) {
+                return sum + price;
+            }
+            return sum;
+        }, 0);
+        document.getElementById('compoundInitialInvestment').textContent = formatCurrency(initialInvestment);
+
+
+        // Calcular balance acumulado inicial (total histórico)
+        const initialBalance = finances.reduce((balance, f) => {
+             const amount = parseFloat(f.amount) || 0;
+             return balance + (f.type === 'income' ? amount : -amount);
+        }, 0);
+        document.getElementById('compoundInitialBalance').textContent = formatCurrency(initialBalance);
+
+
+        // --- 2. Estimar Beneficio Neto Anual Base ---
+        let baseAnnualNetProfit = 0;
+        try {
+             const simpleForecastData = calculateSimpleForecastData(); // Llama a la función extractada
+             if (simpleForecastData && simpleForecastData.length > 0) {
+                 baseAnnualNetProfit = simpleForecastData[0].balance;
+             } else if (initialInvestment > 0) {
+                  const roiTTMText = document.getElementById('annualROI').textContent || '0%';
+                  const roiTTMPercent = parseFloat(roiTTMText.replace('%','')) || 0;
+                  if (roiTTMPercent === 0) throw new Error("ROI TTM es cero o inválido");
+                  baseAnnualNetProfit = initialInvestment * (roiTTMPercent / 100);
+                  showNotification('Usando ROI TTM como base para beneficio anual. Revisa la pestaña Previsiones.', 'warning');
+             } else {
+                  throw new Error("No hay inversión inicial ni previsión simple para estimar beneficio base.");
+             }
+        } catch (error) {
+             console.error("Error al obtener beneficio base:", error);
+             showNotification(`Error estimando beneficio anual base: ${error.message}. Verifica datos y previsión simple.`, 'danger');
+             document.getElementById('compoundForecastTable').innerHTML = `<tr><td colspan="5" class="py-4 px-4 text-center text-gray-500">Error al estimar beneficio base.</td></tr>`;
+             return; // Detener cálculo
+        }
+         document.getElementById('compoundBaseAnnualProfit').textContent = formatCurrency(baseAnnualNetProfit);
+
+
+        // --- 3. Calcular Proyección Compuesta Año por Año ---
+        let cumulativeGain = initialBalance;
+        let currentInvestedCapital = initialInvestment;
+        let currentAnnualProfitEstimate = baseAnnualNetProfit;
+
+        const results = [];
+        const startYear = new Date().getFullYear();
+
+        for (let i = 0; i < 5; i++) {
+            const currentYear = startYear + i;
+
+            const profitThisYear = currentAnnualProfitEstimate;
+
+            let investmentCostThisYear = 0;
+            futureInvestments.forEach(inv => {
+                if (inv.year === currentYear) {
+                    investmentCostThisYear += inv.cost;
+                }
+            });
+
+            // Actualizar capital invertido AL FINAL del año
+            currentInvestedCapital += investmentCostThisYear;
+
+            // Actualizar ganancia neta acumulada AL FINAL del año
+            cumulativeGain = cumulativeGain + profitThisYear - investmentCostThisYear;
+
+            results.push({
+                year: currentYear,
+                investedCapitalEndOfYear: currentInvestedCapital,
+                profitGeneratedThisYear: profitThisYear,
+                investmentMadeThisYear: investmentCostThisYear,
+                cumulativeNetGainEndOfYear: cumulativeGain
+            });
+
+            // Preparar estimación de beneficio para el SIGUIENTE año
+            currentAnnualProfitEstimate = profitThisYear * (1 + profitGrowthRate);
+        }
+
+        // --- 4. Mostrar Resultados ---
+        renderCompoundForecastTable(results);
+    }
+
+     // Función auxiliar para obtener los datos de la previsión simple (para el beneficio base)
+     function calculateSimpleForecastData() {
+        const incrementRateInput = document.getElementById('forecastIncrementRate');
+        const expenseRateInput = document.getElementById('forecastExpenseRate');
+        const occupancyRateInput = document.getElementById('forecastOccupancyRate');
+
+         // Validar que los elementos existen antes de leerlos
+         if (!incrementRateInput || !expenseRateInput || !occupancyRateInput) {
+             console.error("Elementos de input para previsión simple no encontrados.");
+             throw new Error("Faltan elementos de input para previsión simple.");
+         }
+
+
+        const incrementRate = (parseFloat(incrementRateInput.value) || 0) / 100;
+        const expenseRate = (parseFloat(expenseRateInput.value) || 0) / 100;
+        const occupancyRate = (parseFloat(occupancyRateInput.value) || 0) / 100;
+
+        if (isNaN(incrementRate) || isNaN(expenseRate) || isNaN(occupancyRate) || occupancyRate <= 0) {
+             console.error("Valores inválidos para parámetros de previsión simple:", { incrementRate, expenseRate, occupancyRate });
+             throw new Error("Parámetros de previsión simple inválidos o tasa de ocupación cero.");
+        }
+         if (parkings.length === 0) {
+              throw new Error("No hay parkings para calcular la previsión simple.");
+         }
+
+
+        let potentialAnnualIncome = 0;
+        parkings.forEach(parking => {
+            potentialAnnualIncome += (parseFloat(parking.price) || 0) * 12;
+        });
+        let currentAnnualIncome = potentialAnnualIncome * occupancyRate;
+
+        // Gastos anuales actuales (basado en promedio TTM)
+        const oneYearAgo = new Date(); oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1); oneYearAgo.setHours(0,0,0,0);
+        const expenseTransactions = finances.filter(f => f.type === 'expense' && f.date);
+        const firstExpenseDate = expenseTransactions.length > 0 ? new Date(Math.min.apply(null, expenseTransactions.map(f => new Date(f.date)))) : null;
+        const startDateForAvg = firstExpenseDate && firstExpenseDate > oneYearAgo ? firstExpenseDate : oneYearAgo;
+        const relevantExpenses = expenseTransactions.filter(f => f.date && new Date(f.date) >= startDateForAvg); // Asegurar que date existe
+        let totalRelevantExpenses = relevantExpenses.reduce((sum, f) => sum + (parseFloat(f.amount) || 0), 0);
+        let currentAnnualExpenses = 0;
+        if (relevantExpenses.length > 0) {
+            const months = (new Date() - startDateForAvg) / (1000 * 60 * 60 * 24 * (365.25 / 12));
+            if (months > 0) currentAnnualExpenses = (totalRelevantExpenses / months) * 12;
+        }
+        if (currentAnnualExpenses === 0 && currentAnnualIncome > 0) {
+            currentAnnualExpenses = currentAnnualIncome * 0.3; // Estimación fallback
+        }
+
+        const forecastData = [];
+        // Calcular la inversión total *actualmente* realizada para el ROI de la previsión simple
+        const currentInvestmentSimple = parkings.reduce((sum, parking) => {
+            const price = parseFloat(parking.purchasePrice) || 0;
+            const pDate = parking.purchaseDate ? new Date(parking.purchaseDate) : null;
+            if (price > 0 && (!pDate || pDate <= new Date())) {
+                 return sum + price;
+            }
+            return sum;
+        }, 0);
+
+        let predictedAnnualIncome = currentAnnualIncome;
+        let predictedAnnualExpenses = currentAnnualExpenses;
+        const startYear = new Date().getFullYear();
+
+
+        for (let year = 1; year <= 5; year++) {
+            if (year > 1) {
+                predictedAnnualIncome *= (1 + incrementRate);
+                predictedAnnualExpenses *= (1 + expenseRate);
+            }
+            const balance = predictedAnnualIncome - predictedAnnualExpenses;
+            // Usar la inversión actual para el ROI de la previsión simple
+            let roi = (currentInvestmentSimple > 0) ? (balance / currentInvestmentSimple) * 100 : 0;
+
+            forecastData.push({
+                year: startYear + year -1,
+                income: predictedAnnualIncome,
+                expenses: predictedAnnualExpenses,
+                balance: balance,
+                roi: isFinite(roi) ? roi : 0
+            });
+        }
+         return forecastData; // Devolver los datos calculados
+     }
+
+
+    // Función para renderizar la tabla de proyección compuesta
+    function renderCompoundForecastTable(results) {
+        const tableBody = document.getElementById('compoundForecastTable');
+        tableBody.innerHTML = ''; // Limpiar tabla
+
+        if (!results || results.length === 0) {
+            tableBody.innerHTML = `<tr><td colspan="5" class="py-4 px-4 text-center text-gray-500">No se generaron resultados. Revisa los parámetros y datos base.</td></tr>`;
+            return;
+        }
+
+        results.forEach(data => {
+            const row = document.createElement('tr');
+            row.className = 'hover:bg-gray-50';
+            row.innerHTML = `
+                <td class="py-3 px-4 border-b">${data.year}</td>
+                <td class="py-3 px-4 border-b text-right">${formatCurrency(data.investedCapitalEndOfYear)}</td>
+                <td class="py-3 px-4 border-b text-right text-green-600">${formatCurrency(data.profitGeneratedThisYear)}</td>
+                <td class="py-3 px-4 border-b text-right text-red-600">${formatCurrency(data.investmentMadeThisYear)}</td>
+                <td class="py-3 px-4 border-b text-right font-bold ${data.cumulativeNetGainEndOfYear >= 0 ? 'text-blue-700' : 'text-red-700'}">${formatCurrency(data.cumulativeNetGainEndOfYear)}</td>
+            `;
+            tableBody.appendChild(row);
+        });
+    }
+
+    // --- Fin Funciones para la Proyección Compuesta ---
+        
+
+        
+//------------------------------------        
     </script>
 </body>
 </html>
